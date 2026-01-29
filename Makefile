@@ -8,7 +8,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 all: $(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) $(MLX_INC) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(MY_OBJECTS)
 	$(CC) $(CFLAGS) $(MY_OBJECTS) -lreadline -o $(NAME)
