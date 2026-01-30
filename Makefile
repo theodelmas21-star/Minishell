@@ -1,6 +1,7 @@
 NAME = minishell
 CC = cc
-MY_SOURCES = main.c
+MY_SOURCES = src/main.c \
+	src/input/readline.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

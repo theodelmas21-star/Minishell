@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/01/28 16:15:58 by tdelmas2         ###   ########.fr       */
+/*   Created: 2025/11/12 15:03:02 by ssivilay          #+#    #+#             */
+/*   Updated: 2025/11/13 10:02:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libraries.h"
+#include "libft.h"
 
-int main()
+void	ft_bzero(void *s, size_t n)
 {
-    char *buffer;
+	size_t			i;
+	unsigned char	*str;
 
-    while (1)
-    {
-        buffer = readline("minishell> ");
-        printf("%s n", buffer);
-    }
+	i = 0;
+	str = (unsigned char *)s;
+	while (i < n && n != 0)
+	{
+		str[i] = 0;
+		i++;
+	}
 }
