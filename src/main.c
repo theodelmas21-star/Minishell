@@ -6,14 +6,17 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/01/30 14:13:19 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/01/30 19:02:23 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(int ac, char **av, char **envp)
+int	main(void)
 {
-	ft_readline();
+	t_list	*tokens;
+
+	tokens = NULL;
+	ft_readline(tokens);
 	return (0);
 }

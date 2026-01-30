@@ -1,24 +1,35 @@
 NAME = minishell
 CC = cc
 MY_SOURCES = src/main.c \
-	src/input/readline.c
+	src/parser/lexer.c \
+	src/input/readline.c \
+	src/utils/utils_free.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
+
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+
 
 all: $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(MY_OBJECTS)
-	$(CC) $(CFLAGS) $(MY_OBJECTS) -lreadline -o $(NAME)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+$(NAME): $(MY_OBJECTS) $(LIBFT)
+	$(CC) $(CFLAGS) $(MY_OBJECTS) $(LIBFT) -lreadline -o $(NAME)
 
 clean:
 	rm -f $(MY_OBJECTS)
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
