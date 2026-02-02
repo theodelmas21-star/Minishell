@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/01/30 18:42:49 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:34:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ typedef enum e_token_type
 	PIPE,
 	STRING
 }					t_token_type;
+
+typedef enum e_state
+{
+	STATE_GENERAL,
+	STATE_IN_WORD,
+	STATE_IN_SQUOTE,
+	STATE_IN_DQUOTE
+}					t_state;
 
 typedef struct s_token
 {

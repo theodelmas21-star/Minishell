@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/01/30 18:55:05 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/02 14:21:37 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 void	ft_readline(t_list *tokens);
 
 // parser
-void	arg_to_token(char *buffer, t_list *tokens);
+void	state_machine(char *buffer, t_list *tokens);
 
 // utils
 void	free_tab(char **tab);
