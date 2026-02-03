@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/03 15:12:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/03 20:50:52 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 typedef enum e_token_type
 {
 	WORD,
-	PIPE,         // |
+	PIPE,
 	HEREDOC,      //<<
 	REDIR_APPEND, //>>
 	REDIR_IN,     // <
@@ -32,13 +32,6 @@ typedef enum e_state
 	STATE_IN_SQUOTE,
 	STATE_IN_DQUOTE
 }					t_state;
-
-typedef enum e_lexer_flag
-{
-	IN_TOKEN,
-	END_TOKEN,
-	ERROR
-}					t_lexer_flag;
 
 typedef struct s_token
 {
@@ -54,7 +47,6 @@ typedef struct s_lexer
 	t_state			state;
 	char			*tmp;
 	t_list			*tokens;
-	t_lexer_flag	flag;
 }					t_lexer;
 
 typedef struct s_index

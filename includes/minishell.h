@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/03 14:59:20 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/03 20:58:04 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	ft_readline(char *buffer);
 
 // lexer
 t_list	*lexer(char *input);
+void	lexer_states(t_lexer *lexer, char c);
+void	add_char_to_tmp(t_lexer *lexer, char c);
+void	create_token(t_lexer *lexer);
 
 // utils
 void	free_tab(char **tab);
