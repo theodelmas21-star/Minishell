@@ -3,24 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:57:00 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/02 14:21:39 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/03 15:00:26 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_readline(t_list *tokens)
+void	ft_readline(char *buffer)
 {
-	char	*buffer;
-
 	while (1)
 	{
 		buffer = readline("minishell> ");
-		printf("buffer = %s\n", buffer);
-		state_machine(buffer, tokens);
-		// arg_to_token(buffer, tokens);
+		lexer(buffer);
 	}
 }
