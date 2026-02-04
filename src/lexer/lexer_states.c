@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/04 11:28:08 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/04 16:00:43 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,21 @@ static void	handle_general(t_lexer *lexer, char c)
 static void	handle_quotes(t_lexer *lexer, char c)
 {
 	if (c == '\'' || c == '\"')
+	{
+		create_token(lexer);
 		lexer->state = STATE_GENERAL;
+	}
 	else
 		add_char_to_tmp(lexer, c);
 }
 
 static void	handle_word(t_lexer *lexer, char c)
 {
-	if (c == ' ' || c == '\t' || c == '\'' || c == '"' 
-		|| c == '|' || c == '<' || c == '>')
+	if (c == ' ' || c == '\t' || c == '\'' || c == '"' || c == '|' || c == '<'
+		|| c == '>')
 	{
 		create_token(lexer);
 		lexer->state = STATE_GENERAL;
-		lexer->i--;
 	}
 	else
 		add_char_to_tmp(lexer, c);
