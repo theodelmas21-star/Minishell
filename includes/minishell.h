@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/02 14:21:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/03 20:58:04 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,13 @@
 # include "struct.h"
 
 // input
-void	ft_readline(t_list *tokens);
+void	ft_readline(char *buffer);
 
-// parser
-void	state_machine(char *buffer, t_list *tokens);
+// lexer
+t_list	*lexer(char *input);
+void	lexer_states(t_lexer *lexer, char c);
+void	add_char_to_tmp(t_lexer *lexer, char c);
+void	create_token(t_lexer *lexer);
 
 // utils
 void	free_tab(char **tab);
