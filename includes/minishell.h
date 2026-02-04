@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/03 20:58:04 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:28:19 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # include "../libft/libft.h"
 # include "libraries.h"
 # include "struct.h"
-
-// input
-void	ft_readline(char *buffer);
 
 // lexer
 t_list	*lexer(char *input);
