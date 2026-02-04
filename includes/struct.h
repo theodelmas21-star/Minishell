@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/04 14:20:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:10:43 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 typedef enum e_redir_type
 {
-    REDIR_IN,      // <
-    REDIR_OUT,     // >
-    REDIR_APPEND, // >>
-    REDIR_HEREDOC // <<
+    IN,      // <
+    OUT,     // >
+    APPEND, // >>
+    HEREDOC // <<
 }   t_redir_type;
 
 typedef struct s_redir
