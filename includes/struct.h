@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/04 14:02:58 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:20:28 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,26 @@
 
 # include "minishell.h"
 
+typedef enum e_redir_type
+{
+    REDIR_IN,      // <
+    REDIR_OUT,     // >
+    REDIR_APPEND, // >>
+    REDIR_HEREDOC // <<
+}   t_redir_type;
+
+typedef struct s_redir
+{
+    t_redir_type   type;
+    char           *target;   // fichier ou delimiter
+    int            fd;        // STDIN ou STDOUT
+}   t_redir;
+
 typedef enum e_token_type
 {
 	WORD,
 	PIPE,
-	HEREDOC,      //<<
+	REDIR_HEREDOC, //<<
 	REDIR_APPEND, //>>
 	REDIR_IN,     // <
 	REDIR_OUT     // >
@@ -32,6 +47,14 @@ typedef enum e_state
 	STATE_IN_SQUOTE,
 	STATE_IN_DQUOTE
 }					t_state;
+
+typedef struct s_cmd
+{
+    char            **argv;      // {"ls", "-l", NULL}
+    t_redir         *redirs;     // < > >> <<
+    int             is_builtin;
+}   t_cmd;
+
 
 typedef struct s_token
 {
