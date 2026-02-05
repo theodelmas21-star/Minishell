@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_states.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/05 15:19:08 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:54:06 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,15 @@ static void	handle_general(t_lexer *lexer, char c)
 
 static void	handle_squotes(t_lexer *lexer, char c)
 {
-	if (c == '\'' || c == '\"')
+	if (c == '\'')
+		lexer->state = STATE_GENERAL;
+	else
+		add_char_to_tmp(lexer, c);
+}
+
+static void	handle_dquotes(t_lexer *lexer, char c)
+{
+	if (c == '\"')
 		lexer->state = STATE_GENERAL;
 	else
 		add_char_to_tmp(lexer, c);
