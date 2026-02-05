@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/05 11:54:59 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:05:50 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,21 @@ static void	handle_general(t_lexer *lexer, char c)
 	}
 }
 
-static void	handle_quotes(t_lexer *lexer, char c)
+static void	handle_squotes(t_lexer *lexer, char c)
 {
-	if ((c == '\'' || c == '\"') && lexer->tmp)
+	if (c == '\'' && lexer->tmp)
+	{
+		add_char_to_tmp(lexer, c);
+		create_token(lexer);
+		lexer->state = STATE_GENERAL;
+	}
+	else
+		add_char_to_tmp(lexer, c);
+}
+
+static void	handle_dquotes(t_lexer *lexer, char c)
+{
+	if (c == '\"' && lexer->tmp)
 	{
 		add_char_to_tmp(lexer, c);
 		create_token(lexer);
@@ -78,8 +90,10 @@ void	lexer_states(t_lexer *lexer, char c)
 {
 	if (lexer->state == STATE_GENERAL)
 		handle_general(lexer, c);
-	else if (lexer->state == STATE_IN_SQUOTE || lexer->state == STATE_IN_DQUOTE)
-		handle_quotes(lexer, c);
+	else if (lexer->state == STATE_IN_SQUOTE)
+		handle_squotes(lexer, c);
+	else if (lexer->state == STATE_IN_DQUOTE)
+		handle_dquotes(lexer, c);
 	else if (lexer->state == STATE_IN_WORD)
 		handle_word(lexer, c);
 }
