@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/05 15:56:42 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:28:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(void)
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
-		//print_tokens(tokens);
+		print_tokens(tokens);
 		//token_to_cmd(tokens);
 		free(buffer);
 	}
