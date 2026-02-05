@@ -6,21 +6,39 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/05 11:56:11 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:15:54 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	print_tokens(t_list *tokens)
+{
+	t_list	*current;
+	t_token	*tok;
+
+	current = tokens;
+	while (current)
+	{
+		tok = (t_token *)current->content;
+		printf("arg = %s | type = %d\n", tok->arg, tok->type);
+		current = current->next;
+	}
+}
+
 int	main(void)
 {
 	char	*buffer;
+	t_list	*tokens;
 
-	buffer = NULL;
 	while (1)
 	{
 		buffer = readline("minishell> ");
-		lexer(buffer);
+		if (!buffer)
+			break ;
+		tokens = lexer(buffer);
+		print_tokens(tokens);
+		free(buffer);
 	}
 	return (0);
 }

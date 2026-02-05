@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/04 11:28:53 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/04 15:50:35 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ t_list	*lexer(char *input)
 	while (input[lexer.i])
 	{
 		lexer_states(&lexer, input[lexer.i]);
-		printf("[%d] = %d\n", lexer.i, lexer.state);
+		printf("[%d]%c = %d\n", lexer.i, input[lexer.i], lexer.state);
 		lexer.i++;
 	};
 	if (lexer.state == STATE_IN_SQUOTE || lexer.state == STATE_IN_DQUOTE)
 		return (NULL);
+	if (lexer.tmp)
+		create_token(&lexer);
 	free(lexer.tmp);
 	return (lexer.tokens);
 }
