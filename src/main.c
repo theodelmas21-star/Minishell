@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/05 15:15:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:20:47 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ void	print_tokens(t_list *tokens)
 	}
 }
 
+void	print_cmds(t_list *cmds)
+{
+	t_list	*current;
+	t_cmd	*cmd;
+
+	current = cmds;
+	while (current)
+	{
+		cmd = (t_cmd *)current->content;
+		printf("arg = %s\n", cmd->cmd[0]);
+		current = current->next;
+	}
+}
+
 int	main(void)
 {
 	char	*buffer;
@@ -37,7 +51,8 @@ int	main(void)
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
-		print_tokens(tokens);
+		//print_tokens(tokens);
+		token_to_cmd(tokens);
 		free(buffer);
 	}
 	return (0);
