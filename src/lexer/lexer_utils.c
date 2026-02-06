@@ -6,11 +6,25 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/05 16:30:32 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/06 13:48:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_space(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
+int	is_operator(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
+}
 
 void	add_char_to_tmp(t_lexer *lexer, char c)
 {

@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/06 13:28:02 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:47:26 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	handle_operator(t_lexer *lexer, char c)
 
 static void	handle_general(t_lexer *lexer, char c)
 {
-	if (c == ' ' || c == '\t')
+	if (is_space(c))
 		return ;
 	else if (c == '\'')
 	{
@@ -37,10 +37,11 @@ static void	handle_general(t_lexer *lexer, char c)
 	}
 	else if (c == '\"')
 	{
-		add_char_to_tmp(lexer, c);
+		if (lexer->state == STATE_GENERAL)
+			add_char_to_tmp(lexer, c);
 		lexer->state = STATE_IN_DQUOTE;
 	}
-	else if (c == '|' || c == '<' || c == '>')
+	else if (is_operator(c))
 		handle_operator(lexer, c);
 	else
 	{
@@ -54,29 +55,34 @@ static void	handle_squotes(t_lexer *lexer, char c)
 	add_char_to_tmp(lexer, c);
 	if (c == '\'' && lexer->tmp)
 	{
+		create_token(lexer);
 		lexer->state = STATE_GENERAL;
 	}
 }
 
 static void	handle_dquotes(t_lexer *lexer, char c)
 {
-	add_char_to_tmp(lexer, c);
+	if (c == '\"' && is_space(lexer->input[lexer->i + 1]))
+	{
+		lexer->state = STATE_GENERAL;
+	}
 	if (c == '\"' && lexer->tmp)
 	{
 		lexer->state = STATE_GENERAL;
 	}
+	add_char_to_tmp(lexer, c);
 }
 
 static void	handle_word(t_lexer *lexer, char c)
 {
-	if (c == ' ' || c == '\t' || c == '\'' || c == '|' || c == '<' || c == '>')
+	if (is_space(c) || is_operator(c))
 	{
 		create_token(lexer);
 		lexer->state = STATE_GENERAL;
 		lexer->i--;
 	}
 	else if (c == '\"')
-		return ;
+		lexer->state = STATE_IN_DQUOTE;
 	else
 		add_char_to_tmp(lexer, c);
 }
