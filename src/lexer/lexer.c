@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/04 15:50:35 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:54:31 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_list	*lexer(char *input)
 	if (lexer.state == STATE_IN_SQUOTE || lexer.state == STATE_IN_DQUOTE)
 		return (NULL);
 	if (lexer.tmp)
-		create_token(&lexer);
+		create_token(&lexer, NO_QUOTE);
 	free(lexer.tmp);
 	return (lexer.tokens);
 }

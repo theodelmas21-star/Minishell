@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/05 16:28:34 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:24:18 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_tokens(t_list *tokens)
 	while (current)
 	{
 		tok = (t_token *)current->content;
-		printf("arg = %s | type = %d\n", tok->arg, tok->type);
+		printf("arg = %s | type = %d | quote = %d\n", tok->arg, tok->type, tok->quote_type);
 		current = current->next;
 	}
 }

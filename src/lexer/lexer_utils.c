@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/06 13:48:28 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:52:41 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_token_type	get_token_type(char *arg)
 		return (WORD);
 }
 
-void	create_token(t_lexer *lexer)
+void	create_token(t_lexer *lexer, t_quote quote_type)
 {
 	t_token	*token;
 	t_list	*node;
@@ -76,6 +76,7 @@ void	create_token(t_lexer *lexer)
 		return ;
 	token->arg = lexer->tmp;
 	token->type = get_token_type(token->arg);
+	token->quote_type = quote_type;
 	node = ft_lstnew(token);
 	ft_lstadd_back(&lexer->tokens, node);
 	lexer->tmp = NULL;
