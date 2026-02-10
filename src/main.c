@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/09 13:24:18 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:14:32 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,14 @@ void	print_tokens(t_list *tokens)
 	}
 }
 
-void	print_cmds(t_list *cmds)
+void	print_cmds(t_cmd *cmd)
 {
-	t_list	*current;
-	t_cmd	*cmd;
+	int		i;
 
-	current = cmds;
-	while (current)
+	i = 0;
+	while (cmd->cmd[i])
 	{
-		cmd = (t_cmd *)current->content;
-		printf("arg = %s\n", cmd->cmd[0]);
-		current = current->next;
+		printf("cmd = %s\n", cmd->cmd[i++]);
 	}
 }
 
@@ -44,6 +41,7 @@ int	main(void)
 {
 	char	*buffer;
 	t_list	*tokens;
+	t_cmd	*cmd;
 
 	while (1)
 	{
@@ -52,7 +50,8 @@ int	main(void)
 			break ;
 		tokens = lexer(buffer);
 		print_tokens(tokens);
-		//token_to_cmd(tokens);
+		cmd = token_to_cmd(tokens);
+		print_cmds(cmd);
 		free(buffer);
 	}
 	return (0);

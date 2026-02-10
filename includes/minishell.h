@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/09 11:45:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:09:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int		is_space(char c);
 int		is_operator(char c);
 
 // parser
-t_list	*token_to_cmd(t_list *tokens);
+t_cmd	*token_to_cmd(t_list *tokens);
+
 
 // exec
 char	*find_cmd_path(t_env *envp, t_cmd *cmd);
