@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 10:42:31 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:52:52 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,34 @@ t_cmd	*create_cmd(t_list *tokens)
 	return (cmd);
 }
 
+t_list *create_list_cmd(t_list *list_cmd, t_list *tokens)
+{
+	t_list *cur_cmd;
+	t_cmd *cmd;
+	
+	cmd = create_cmd(tokens);
+	if (!cmd)
+		return (NULL);	
+	cur_cmd = ft_lstnew(cmd);
+	if (!cur_cmd)
+		return (free_tab(cmd->cmd), free(cmd), NULL);
+	cur_cmd->next = NULL;
+	ft_lstadd_back(&list_cmd, cur_cmd);
+	return (list_cmd);
+}
+
 t_list	*token_to_cmd(t_list *tokens)
 {
-	t_cmd *cmd;
 	t_list *list_cmd;
-	t_list *cur_cmd;
 	
 	if (!tokens)
 		return (NULL);
 	list_cmd = NULL;
 	while (tokens)
 	{
-		cmd = create_cmd(tokens);
-		if (!cmd)
-			return (NULL);	
-		cur_cmd = ft_lstnew(cmd);
-		if (!cur_cmd)
-			return (free(cmd->cmd), free(cmd), NULL);
-		cur_cmd->next = NULL;
-		ft_lstadd_back(&list_cmd, cur_cmd);
+		list_cmd = create_list_cmd(list_cmd, tokens);
+		if (list_cmd == NULL)
+			return (NULL);
 		while (tokens)
 		{
 			if (((t_token *)tokens->content)->type != WORD)
