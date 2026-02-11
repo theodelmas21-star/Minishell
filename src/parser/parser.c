@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 09:50:08 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/11 10:42:31 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_cmd	*create_cmd(t_list *tokens)
 	while (i < size)
 	{
 		s_token = (t_token *)tokens->content;
-		if (s_token->type != WORD)
-			break;
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;
 	}
@@ -63,14 +61,13 @@ t_list	*token_to_cmd(t_list *tokens)
 	t_cmd *cmd;
 	t_list *list_cmd;
 	t_list *cur_cmd;
-	t_list *current;
 	
 	if (!tokens)
 		return (NULL);
-	current = tokens;
-	while (current)
+	list_cmd = NULL;
+	while (tokens)
 	{
-		cmd = create_cmd(current);
+		cmd = create_cmd(tokens);
 		if (!cmd)
 			return (NULL);	
 		cur_cmd = ft_lstnew(cmd);
@@ -78,7 +75,14 @@ t_list	*token_to_cmd(t_list *tokens)
 			return (free(cmd->cmd), free(cmd), NULL);
 		cur_cmd->next = NULL;
 		ft_lstadd_back(&list_cmd, cur_cmd);
-		current = current->next;
+		while (tokens)
+		{
+			if (((t_token *)tokens->content)->type != WORD)
+				break;
+			tokens = tokens->next;
+		}
+		if (tokens && ((t_token *)tokens->content)->type == PIPE)
+			tokens = tokens->next;
 	}
 	return (list_cmd);
 } 
