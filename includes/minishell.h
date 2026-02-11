@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/10 11:09:21 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/11 09:29:42 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,18 @@ int		is_space(char c);
 int		is_operator(char c);
 
 // parser
-t_cmd	*token_to_cmd(t_list *tokens);
+t_list	*token_to_cmd(t_list *tokens);
 
 
 // exec
 char	*find_cmd_path(t_env *envp, t_cmd *cmd);
-t_cmd	*find_path(t_env *envp);
+t_env	*find_path(t_env *envp);
+void call_exec(t_list *cmds, char **envp);
 
 // utils
 void	free_tab(char **tab);
+void	free_list(t_list *list);
+void	free_cmds(t_list *cmds);
+
 
 #endif

@@ -5,7 +5,9 @@ MY_SOURCES = src/main.c \
 	src/lexer/lexer_states.c \
 	src/lexer/lexer_utils.c \
 	src/utils/utils_free.c \
-	src/parser/parser.c
+	src/parser/parser.c \
+	src/exec/exec.c \
+	src/exec/paths.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
