@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/13 15:32:00 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:17:14 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,16 @@ t_token_type	get_token_type(char *arg)
 void	create_token(t_lexer *lexer, t_quote quote_type)
 {
 	t_token	*token;
-	t_list	*node;
-	char	*tmp;
+	int		count_tmp;
 	int		i;
 	int		j;
+	int		k;
+	char	**tmp;
 
-	printf("tmp == %s\n", lexer->tmp);
+	// t_list	*node;
+	(void)quote_type;
+	printf("lexer->tmp == %s\n", lexer->tmp);
+	count_tmp = 0;
 	if (!lexer->tmp || !lexer->tmp[0])
 		return ;
 	token = malloc(sizeof(t_token));
@@ -81,32 +85,54 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 	i = 0;
 	while (lexer->tmp[i])
 	{
-		if (i == 0 && (lexer->tmp[i] == '\''))
+		if (lexer->tmp[i] == '\'')
 		{
 			j = 0;
 			while (lexer->tmp[j + 1] != '\'')
 				j++;
-			tmp = ft_calloc(sizeof(char), j + 1);
-			ft_strlcpy(tmp, &lexer->tmp[1], j + 1);
-			printf("j = %d\n", j);
-			printf("tmp = %s\n", tmp);
+			count_tmp++;
+			i += j + 1;
 		}
-		else if (i == 0 && (lexer->tmp[i] == '\"'))
+		if (lexer->tmp[i] == '\"')
 		{
 			j = 0;
 			while (lexer->tmp[j + 1] != '\"')
 				j++;
-			tmp = ft_calloc(sizeof(char), j + 1);
-			ft_strlcpy(tmp, &lexer->tmp[1], j + 1);
-			printf("j = %d\n", j);
-			printf("tmp = %s\n", tmp);
+			count_tmp++;
+			i += j + 1;
 		}
 		i++;
 	}
-	token->arg = lexer->tmp;
-	token->type = get_token_type(token->arg);
-	token->quote_type = quote_type;
-	node = ft_lstnew(token);
-	ft_lstadd_back(&lexer->tokens, node);
-	lexer->tmp = NULL;
+	tmp = ft_calloc(sizeof(char *), count_tmp + 1);
+	i = 0;
+	k = 0;
+	while (lexer->tmp[i])
+	{
+		if (lexer->tmp[i] == '\'')
+		{
+			j = 0;
+			while (lexer->tmp[j + 1] != '\'')
+				j++;
+			tmp[k] = ft_calloc(sizeof(char), j + 1);
+			ft_strlcpy(tmp[k], &lexer->tmp[i + 1], j + 1);
+			k++;
+			i += j;
+		}
+		if (lexer->tmp[i] == '\"')
+		{
+			j = 0;
+			while (lexer->tmp[j + 1] != '\"')
+				j++;
+			tmp[k] = ft_calloc(sizeof(char), j + 1);
+			ft_strlcpy(tmp[k], &lexer->tmp[i + 1], j + 1);
+			k++;
+			i += j;
+		}
+		i++;
+	}
+	printf("tmp[0] = %s\n", tmp[0]);
+	printf("tmp[1] = %s\n", tmp[1]);
+	/* 	node = ft_lstnew(token);
+		ft_lstadd_back(&lexer->tokens, node);
+		lexer->tmp = NULL; */
 }
