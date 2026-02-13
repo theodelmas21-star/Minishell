@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/09 13:52:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:32:00 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,41 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 {
 	t_token	*token;
 	t_list	*node;
+	char	*tmp;
+	int		i;
+	int		j;
 
+	printf("tmp == %s\n", lexer->tmp);
 	if (!lexer->tmp || !lexer->tmp[0])
 		return ;
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return ;
+	i = 0;
+	while (lexer->tmp[i])
+	{
+		if (i == 0 && (lexer->tmp[i] == '\''))
+		{
+			j = 0;
+			while (lexer->tmp[j + 1] != '\'')
+				j++;
+			tmp = ft_calloc(sizeof(char), j + 1);
+			ft_strlcpy(tmp, &lexer->tmp[1], j + 1);
+			printf("j = %d\n", j);
+			printf("tmp = %s\n", tmp);
+		}
+		else if (i == 0 && (lexer->tmp[i] == '\"'))
+		{
+			j = 0;
+			while (lexer->tmp[j + 1] != '\"')
+				j++;
+			tmp = ft_calloc(sizeof(char), j + 1);
+			ft_strlcpy(tmp, &lexer->tmp[1], j + 1);
+			printf("j = %d\n", j);
+			printf("tmp = %s\n", tmp);
+		}
+		i++;
+	}
 	token->arg = lexer->tmp;
 	token->type = get_token_type(token->arg);
 	token->quote_type = quote_type;

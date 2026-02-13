@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 09:58:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:38:25 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,17 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	while (1)
 	{
 		buffer = readline("minishell> ");
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
+		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		call_exec(cmd, envp);
+		//call_exec(cmd, envp);
 		free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);

@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/09 16:23:57 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:00:59 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	handle_general(t_lexer *lexer, char c)
 		return ;
 	else if (c == '\'')
 	{
+		add_char_to_tmp(lexer, c);
 		if (lexer->input[lexer->i + 1] == '\'')
 		{
-			add_char_to_tmp(lexer, c);
 			lexer->i++;
 			add_char_to_tmp(lexer, c);
 			create_token(lexer, SQUOTE);
@@ -45,9 +45,9 @@ static void	handle_general(t_lexer *lexer, char c)
 	}
 	else if (c == '\"')
 	{
+		add_char_to_tmp(lexer, c);
 		if (lexer->input[lexer->i + 1] == '\"')
 		{
-			add_char_to_tmp(lexer, c);
 			lexer->i++;
 			add_char_to_tmp(lexer, c);
 			create_token(lexer, DQUOTE);
@@ -60,43 +60,51 @@ static void	handle_general(t_lexer *lexer, char c)
 		handle_operator(lexer, c);
 	else
 	{
-		lexer->state = STATE_IN_WORD;
 		add_char_to_tmp(lexer, c);
+		lexer->state = STATE_IN_WORD;
 	}
 }
 
 static void	handle_squotes(t_lexer *lexer, char c)
 {
-	if ((c == '\'' && (lexer->input[lexer->i + 1] == ' '
-			|| lexer->input[lexer->i + 1] == '\0')) || lexer->input[lexer->i
-			+ 1] == '\0')
+	if (lexer->input[lexer->i + 1] == ' ' || lexer->input[lexer->i + 1] == '\0')
 	{
-		if (c != '\'')
-			add_char_to_tmp(lexer, c);
+		add_char_to_tmp(lexer, c);
 		create_token(lexer, SQUOTE);
 		lexer->state = STATE_GENERAL;
 	}
-	else if ((c == '\'' && (lexer->input[lexer->i + 1] != ' '
-			|| lexer->input[lexer->i + 1] != '\0')))
-		return ;
+	else if (c == '\"')
+	{
+		add_char_to_tmp(lexer, c);
+		lexer->state = STATE_IN_DQUOTE;
+	}
+	else if (is_operator(lexer->input[lexer->i + 1]))
+	{
+		add_char_to_tmp(lexer, c);
+		lexer->state = STATE_GENERAL;
+	}
 	else
 		add_char_to_tmp(lexer, c);
 }
 
 static void	handle_dquotes(t_lexer *lexer, char c)
 {
-	if ((c == '\"' && (lexer->input[lexer->i + 1] == ' '
-				|| lexer->input[lexer->i + 1] == '\0')) || lexer->input[lexer->i
-		+ 1] == '\0')
+	if (lexer->input[lexer->i + 1] == ' ' || lexer->input[lexer->i + 1] == '\0')
 	{
-		if (c != '\"')
-			add_char_to_tmp(lexer, c);
+		add_char_to_tmp(lexer, c);
 		create_token(lexer, DQUOTE);
 		lexer->state = STATE_GENERAL;
 	}
-	else if ((c == '\"' && (lexer->input[lexer->i + 1] != ' '
-				|| lexer->input[lexer->i + 1] != '\0')))
-		return ;
+	else if (c == '\'')
+	{
+		add_char_to_tmp(lexer, c);
+		lexer->state = STATE_IN_SQUOTE;
+	}
+	else if (is_operator(lexer->input[lexer->i + 1]))
+	{
+		add_char_to_tmp(lexer, c);
+		lexer->state = STATE_GENERAL;
+	}
 	else
 		add_char_to_tmp(lexer, c);
 }
@@ -112,9 +120,15 @@ static void	handle_word(t_lexer *lexer, char c)
 		lexer->state = STATE_GENERAL;
 	}
 	else if (c == '\'')
+	{
+		add_char_to_tmp(lexer, c);
 		lexer->state = STATE_IN_SQUOTE;
+	}
 	else if (c == '\"')
+	{
+		add_char_to_tmp(lexer, c);
 		lexer->state = STATE_IN_DQUOTE;
+	}
 	else
 		add_char_to_tmp(lexer, c);
 }
