@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 09:58:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/15 17:09:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	print_cmds(t_list *cmds)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
+	int exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
@@ -56,11 +57,9 @@ int	main(int argc, char **argv, char **envp)
 		tokens = lexer(buffer);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		call_exec(cmd, envp);
-		free_cmds(cmd);
+		exit_code = call_exec(cmd, envp);
 		if (*buffer)
 			add_history(buffer);
-		free(buffer);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 10:52:52 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/15 16:50:44 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ t_cmd	*create_cmd(t_list *tokens)
 		tokens = tokens->next;
 	}
 	cmd->cmd[i] = NULL;
+	cmd->redirs = NULL;
+	cmd->is_builtin = 0;
+	cmd->pipefd[0] = 0;
+	cmd->pipefd[1] = 0;
 	return (cmd);
 }
 

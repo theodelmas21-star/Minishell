@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/11 08:59:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/15 15:58:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 # define STRUCT_H
 
 # include "minishell.h"
-
-typedef enum e_redir_type
-{
-	IN,     // <
-	OUT,    // >
-	APPEND, // >>
-	HEREDOC // <<
-}					t_redir_type;
-
-typedef struct s_redir
-{
-	t_redir_type	type;
-	char *target; // fichier ou delimiter
-	int fd;       // STDIN ou STDOUT
-}					t_redir;
 
 typedef enum e_token_type
 {
@@ -39,6 +24,13 @@ typedef enum e_token_type
 	REDIR_IN,      // <
 	REDIR_OUT      // >
 }					t_token_type;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char *target; // fichier ou delimiter
+	int fd;       // STDIN ou STDOUT
+}					t_redir;
 
 typedef enum e_state
 {
@@ -51,7 +43,7 @@ typedef enum e_state
 typedef struct s_cmd
 {
 	char **cmd;      // {"ls", "-l", NULL}
-	t_redir *redirs; // < > >> <<
+	t_list *redirs; // < > >> <<
 	int				is_builtin;
 	int				pipefd[2];
 }					t_cmd;
