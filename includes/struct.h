@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/15 15:58:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 10:46:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	char *target; // fichier ou delimiter
+	char *LIMITER;
 	int fd;       // STDIN ou STDOUT
 }					t_redir;
 
