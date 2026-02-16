@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/11 09:29:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:26:20 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_list	*lexer(char *input);
 void	lexer_states(t_lexer *lexer, char c);
 void	add_char_to_tmp(t_lexer *lexer, char c);
 void	create_token(t_lexer *lexer, t_quote quote_type);
+void	create_subtoken(t_lexer *lexer, t_quote quote_type);
 int		is_space(char c);
 int		is_operator(char c);
 

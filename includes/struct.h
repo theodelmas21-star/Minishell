@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/11 14:55:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:01:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_lexer
 	int				i;
 	t_state			state;
 	char			*tmp;
+	int				is_subtoken;
 	t_list			*tokens;
 }					t_lexer;
 

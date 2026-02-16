@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/16 16:50:43 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/16 19:00:08 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,98 +64,50 @@ t_token_type	get_token_type(char *arg)
 		return (WORD);
 }
 
+void	create_subtoken(t_lexer *lexer, t_quote quote_type)
+{
+	t_token	*subtoken;
+	t_list	*node;
+	t_list	*last_token;
+	t_token	*last_tok_content;
+
+	if (!lexer->tmp || !lexer->tmp[0])
+		return ;
+	subtoken = malloc(sizeof(t_token));
+	if (!subtoken)
+		return ;
+	subtoken->subtokens = NULL;
+	subtoken->arg = ft_strdup(lexer->tmp);
+	subtoken->type = get_token_type(subtoken->arg);
+	subtoken->quote_type = quote_type;
+	node = ft_lstnew(subtoken);
+	last_token = ft_lstlast(lexer->tokens);
+	if (!last_token)
+	{
+		free(subtoken->arg);
+		free(subtoken);
+		return ;
+	}
+	last_tok_content = (t_token *)last_token->content;
+	ft_lstadd_back(&last_tok_content->subtokens, node);
+	lexer->tmp = NULL;
+}
+
 void	create_token(t_lexer *lexer, t_quote quote_type)
 {
-	
-/* 	t_token	*token;
-	int		count_tmp;
-	int		i;
-	int		j;
-	int		k;
-	char	**tmp;
+	t_token	*token;
+	t_list	*node;
 
-	// t_list	*node;
-	(void)quote_type;
-	printf("lexer->tmp == %s\n", lexer->tmp);
-	count_tmp = 0;
 	if (!lexer->tmp || !lexer->tmp[0])
 		return ;
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return ;
-	i = 0;
-	while (lexer->tmp[i])
-	{
-		if (lexer->tmp[i] == '\'')
-		{
-			j = 0;
-			while (lexer->tmp[i + j + 1] && lexer->tmp[i + j + 1] != '\'')
-				j++;
-			count_tmp++;
-			i += j + 1;
-		}
-		else if (lexer->tmp[i] == '\"')
-		{
-			j = 0;
-			while (lexer->tmp[i + j + 1] && lexer->tmp[i + j + 1] != '\"')
-				j++;
-			count_tmp++;
-			i += j + 1;
-		}
-		else
-		{
-			j = 0;
-			while (lexer->tmp[i + j] && lexer->tmp[i + j] != '\''
-				&& lexer->tmp[i + j] != '\"')
-				j++;
-			count_tmp++;
-			i += j;
-		}
-		i++;
-	}
-	tmp = ft_calloc(sizeof(char *), count_tmp + 1);
-	i = 0;
-	k = 0;
-	while (lexer->tmp[i])
-	{
-		if (lexer->tmp[i] == '\'')
-		{
-			j = 0;
-			while (lexer->tmp[i + j + 1] && lexer->tmp[i + j + 1] != '\'')
-				j++;
-			tmp[k] = ft_calloc(sizeof(char), j + 1);
-			i++;
-			ft_strlcpy(tmp[k], &lexer->tmp[i], j + 1);
-			k++;
-			i += j + 1;
-		}
-		else if (lexer->tmp[i] == '\"')
-		{
-			j = 0;
-			while (lexer->tmp[i + j + 1] && lexer->tmp[i + j + 1] != '\"')
-				j++;
-			tmp[k] = ft_calloc(sizeof(char), j + 1);
-			i++;
-			ft_strlcpy(tmp[k], &lexer->tmp[i], j + 1);
-			k++;
-			i += j + 1;
-		}
-		else
-		{
-			j = 0;
-			while (lexer->tmp[i + j] && lexer->tmp[i + j] != '\''
-				&& lexer->tmp[i + j] != '\"')
-				j++;
-			tmp[k] = ft_calloc(sizeof(char), j + 1);
-			ft_strlcpy(tmp[k], &lexer->tmp[i], j + 1);
-			k++;
-			i += j - 1;
-		}
-
-	}
-	printf("tmp[0] = %s\n", tmp[0]);
-	printf("tmp[1] = %s\n", tmp[1]); */
-	/* 	node = ft_lstnew(token);
-		ft_lstadd_back(&lexer->tokens, node);
-		lexer->tmp = NULL; */
+	token->subtokens = NULL;
+	token->arg = lexer->tmp;
+	token->type = get_token_type(token->arg);
+	token->quote_type = quote_type;
+	node = ft_lstnew(token);
+	ft_lstadd_back(&lexer->tokens, node);
+	lexer->tmp = NULL;
 }

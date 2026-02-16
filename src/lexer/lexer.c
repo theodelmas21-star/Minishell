@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/10 14:53:11 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:29:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_list	*lexer(char *input)
 	lexer.state = STATE_GENERAL;
 	lexer.tmp = NULL;
 	lexer.tokens = NULL;
+	lexer.is_subtoken = 0;
 	if (!input)
 		return (NULL);
 	while (input[lexer.i])
