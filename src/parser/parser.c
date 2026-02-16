@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/15 16:50:44 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 09:15:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	size_cmd(t_list *tokens)
 t_cmd	*create_cmd(t_list *tokens)
 {
 	t_cmd	*cmd;
+	//t_redir *redirs;
 	t_token *s_token;
 	int		size;
 	int		i;
@@ -41,6 +42,7 @@ t_cmd	*create_cmd(t_list *tokens)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+	ft_memset(cmd, 0, sizeof(t_cmd));
 	size = size_cmd(tokens);
 	cmd->cmd = malloc(sizeof(char *) * (size + 1));
 	if (!cmd->cmd)
@@ -53,10 +55,12 @@ t_cmd	*create_cmd(t_list *tokens)
 		tokens = tokens->next;
 	}
 	cmd->cmd[i] = NULL;
-	cmd->redirs = NULL;
-	cmd->is_builtin = 0;
-	cmd->pipefd[0] = 0;
-	cmd->pipefd[1] = 0;
+	/*redirs = malloc(sizeof(t_redir));
+	if (!redirs)
+		return (free_tab(cmd->cmd), free(cmd), NULL);
+	redirs->type = REDIR_IN;
+	redirs->target = ft_strdup("exec.c");
+	cmd->redirs = ft_lstnew(redirs);*/
 	return (cmd);
 }
 

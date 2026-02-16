@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/15 16:02:04 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/15 17:31:04 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int size_cmd(t_list *cmds);
 char	*find_cmd_path(t_env *envp, t_cmd *cmd);
 t_env	*find_path(t_env *envp);
 int call_exec(t_list *cmds, char **envp);
+void apply_redirections(t_cmd *cmds);
+
 
 // utils
 void	free_tab(char **tab);

@@ -8,6 +8,7 @@ MY_SOURCES = src/main.c \
 	src/parser/parser.c \
 	src/exec/exec.c \
 	src/exec/paths.c \
+	src/exec/redirs.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
