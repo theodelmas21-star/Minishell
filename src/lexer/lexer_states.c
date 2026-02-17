@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/16 19:00:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/17 14:59:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static void	handle_general(t_lexer *lexer, char c)
 	}
 	else if (c == '\"')
 	{
-		printf("lexer->tmp = %s\n", lexer->tmp);
-		add_char_to_tmp(lexer, c);
 		if (lexer->input[lexer->i + 1] == '\"')
 		{
 			lexer->i++;
@@ -90,23 +88,17 @@ static void	handle_squotes(t_lexer *lexer, char c)
 
 static void	handle_dquotes(t_lexer *lexer, char c)
 {
-	if (lexer->input[lexer->i + 1] == ' ' || lexer->input[lexer->i + 1] == '\0')
+	if (c == '\"')
 	{
-		add_char_to_tmp(lexer, c);
 		if (lexer->is_subtoken)
 		{
-			printf("is sub\n");
 			create_subtoken(lexer, DQUOTE);
-			lexer->is_subtoken = 0;
 		}
 		else
+		{
+			printf("lexer->is_subtoken = %d\n", lexer->is_subtoken);
 			create_token(lexer, DQUOTE);
-		lexer->state = STATE_GENERAL;
-	}
-	else if (c == '\'')
-	{
-		add_char_to_tmp(lexer, c);
-		lexer->state = STATE_IN_SQUOTE;
+		}
 	}
 	else if (is_operator(lexer->input[lexer->i + 1]))
 	{
@@ -135,7 +127,6 @@ static void	handle_word(t_lexer *lexer, char c)
 	else if (c == '\"')
 	{
 		create_token(lexer, NO_QUOTE);
-		add_char_to_tmp(lexer, c);
 		lexer->is_subtoken = 1;
 		lexer->state = STATE_IN_DQUOTE;
 	}
