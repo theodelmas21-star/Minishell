@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/16 09:27:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:56:51 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 		free(test_path);
 		i++;
 	}
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd->cmd[0], 2);
-	ft_putstr_fd(": command not found\n", 2);
+	printf("minishell: command not found: %s\n", cmd->cmd[0]);
 	return (NULL);
 }

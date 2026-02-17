@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/16 10:49:17 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 14:22:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	size_cmd(t_list *tokens)
 t_cmd	*create_cmd(t_list *tokens)
 {
 	t_cmd	*cmd;
-	t_redir *redirections;
+	//t_redir *redirections;
 	t_token *s_token;
 	int		size;
 	int		i;
@@ -55,12 +55,12 @@ t_cmd	*create_cmd(t_list *tokens)
 		tokens = tokens->next;
 	}
 	cmd->cmd[i] = NULL;
-	redirections = malloc(sizeof(t_redir));
+	/*redirections = malloc(sizeof(t_redir));
 	if (!redirections)
 		return (free_tab(cmd->cmd), free(cmd), NULL);
 	redirections->type = REDIR_HEREDOC;
 	redirections->LIMITER = ft_strdup("EOF\n");
-	cmd->redirs = ft_lstnew(redirections);
+	cmd->redirs = ft_lstnew(redirections);*/
 	return (cmd);
 }
 

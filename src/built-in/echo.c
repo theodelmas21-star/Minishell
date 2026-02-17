@@ -6,36 +6,39 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/05 09:34:46 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:54:56 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
-void    echo(t_cmd *cmd)
+int is_n(char *option)
 {
-    t_index     index;
+    int i;
 
-    index.i = 0;
-    index.j = 1;
-    index.k = 2;
-    if (!cmd->argv || ft_strncmp(cmd->argv[0], "echo", 4))
-        return ;
-    if (cmd->argv[1][index.i] == '-')
+    i = 1;
+    while (option[i])
     {
-        index.i++;
-        while (cmd->argv[1][index.i])
-        {
-            if (cmd->argv[1][index.i++] != 'n')
-                index.j--;
-        }
+        if (option [i] != 'n')
+            return (0);
+        i++;
     }
-    else
-        index.j--;
-    if (index.j == 0)
-        printf("%s", cmd->argv[1]);
-    while (cmd->argv[index.k])
-        printf("%s",cmd->argv[index.k++]);
-    if (index.j == 0)
-        printf("'\n");
+    return (1);
+}
+
+int    echo(t_cmd *cmd)
+{
+    int i;
+    int option;
+
+    i = 0;
+    if (!cmd->cmd || ft_strncmp(cmd->cmd[0], "echo", 4) != 0)
+        return ;
+    if (cmd->cmd[1][i] == '-')
+        i = is_n(cmd->cmd[1]);
+    option = i;
+    while (cmd->cmd[++i])
+        printf(cmd->cmd[i]);
+    if (option == 0)
+        printf("\n");
 }

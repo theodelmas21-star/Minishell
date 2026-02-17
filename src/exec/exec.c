@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/16 09:23:32 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/17 09:38:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void    child_exec(t_list *cmds, char **envp, int prev_fd, int pid)
             close(current->pipefd[1]);
         }
         apply_redirections(current);
+        handle_builtin_child(cmds, envp);
         execve(current->cmd[0], current->cmd, envp);
         return (free_tab(current->cmd), error("Execve error"));
     }
@@ -110,13 +111,18 @@ int call_exec(t_list *cmds, char **envp)
         return (free_s_env(s_env), free_cmds(cmds), -1);
     if (find_all_cmd_path(cmds, s_env) == 1)
         return (free_s_env(s_env), free_cmds(cmds), -1);
-    pipe_exec(cmds, envp, &lastpid);
-    waitpid(lastpid, &status, 0);
-    if (WIFEXITED(status))
-        exit_code = WEXITSTATUS(status);
+    if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
+        handle_builtin_parent(cmds);
     else
-        exit_code = 1;
-    while (wait(&status) > 0)
-        ;
+    {
+        pipe_exec(cmds, envp, &lastpid);
+        waitpid(lastpid, &status, 0);
+        if (WIFEXITED(status))
+            exit_code = WEXITSTATUS(status);
+        else
+            exit_code = 1;
+        while (wait(&status) > 0)
+            ;
+    }
     return (free_cmds(cmds), free_s_env(s_env), exit_code);
 }
