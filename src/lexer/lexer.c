@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/16 18:29:34 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/17 21:42:41 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,34 @@ t_list	*lexer(char *input)
 	lexer.input = input;
 	lexer.i = 0;
 	lexer.state = STATE_GENERAL;
+	lexer.prev_state = STATE_GENERAL;
 	lexer.tmp = NULL;
 	lexer.tokens = NULL;
-	lexer.is_subtoken = 0;
+	lexer.in_sequence = 0;
+	
 	if (!input)
 		return (NULL);
+	
 	while (input[lexer.i])
 	{
 		lexer_states(&lexer, input[lexer.i]);
-		printf("[%d]%c = %d\n", lexer.i, input[lexer.i], lexer.state);
 		lexer.i++;
-	};
+	}
 	if (lexer.state == STATE_IN_SQUOTE || lexer.state == STATE_IN_DQUOTE)
+	{
+		ft_putendl_fd("minishell: unclosed quote", 2);
+		free(lexer.tmp);
+		//ft_lstclear(&lexer.tokens, free_token_content);
 		return (NULL);
+	}
 	if (lexer.tmp)
-		create_token(&lexer, NO_QUOTE);
+	{
+		if (lexer.in_sequence)
+			create_subtoken(&lexer, NO_QUOTE);
+		else
+			create_token(&lexer, NO_QUOTE);
+	}
+	
 	free(lexer.tmp);
 	return (lexer.tokens);
 }

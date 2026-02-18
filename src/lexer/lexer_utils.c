@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/17 14:42:33 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/17 21:52:48 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,38 @@ void	create_subtoken(t_lexer *lexer, t_quote quote_type)
 	t_list	*last_token;
 	t_token	*last_tok_content;
 
-	if (!lexer->tmp || !lexer->tmp[0])
+	if (!lexer->tmp)
+	{
+		if (quote_type != NO_QUOTE)
+			lexer->tmp = ft_strdup("");
+		else
+			return ;
+	}
+	else if (!lexer->tmp[0] && quote_type == NO_QUOTE)
+	{
+		free(lexer->tmp);
+		lexer->tmp = NULL;
 		return ;
+	}
 	subtoken = malloc(sizeof(t_token));
 	if (!subtoken)
 		return ;
 	subtoken->subtokens = NULL;
-	subtoken->arg = ft_strdup(lexer->tmp);
-	subtoken->type = get_token_type(subtoken->arg);
+	subtoken->arg = lexer->tmp;
+	subtoken->type = WORD;
 	subtoken->quote_type = quote_type;
 	node = ft_lstnew(subtoken);
 	last_token = ft_lstlast(lexer->tokens);
 	if (!last_token)
 	{
-		free(subtoken->arg);
-		free(subtoken);
-		return ;
+		ft_lstadd_back(&lexer->tokens, node);
+		lexer->in_sequence = 0;
 	}
-	last_tok_content = (t_token *)last_token->content;
-	ft_lstadd_back(&last_tok_content->subtokens, node);
+	else
+	{
+		last_tok_content = (t_token *)last_token->content;
+		ft_lstadd_back(&last_tok_content->subtokens, node);
+	}
 	lexer->tmp = NULL;
 }
 
@@ -98,8 +111,19 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 	t_token	*token;
 	t_list	*node;
 
-	if (!lexer->tmp || !lexer->tmp[0])
+	if (!lexer->tmp)
+	{
+		if (quote_type != NO_QUOTE)
+			lexer->tmp = ft_strdup("");
+		else
+			return ;
+	}
+	else if (!lexer->tmp[0] && quote_type == NO_QUOTE)
+	{
+		free(lexer->tmp);
+		lexer->tmp = NULL;
 		return ;
+	}
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return ;
@@ -110,4 +134,5 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 	node = ft_lstnew(token);
 	ft_lstadd_back(&lexer->tokens, node);
 	lexer->tmp = NULL;
+	lexer->in_sequence = 0;
 }

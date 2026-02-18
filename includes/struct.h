@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/16 18:01:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/17 21:34:57 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,11 @@ typedef struct s_lexer
 	char			*input;
 	int				i;
 	t_state			state;
+	t_state			prev_state;
+	int				in_sequence;
 	char			*tmp;
-	int				is_subtoken;
 	t_list			*tokens;
-}					t_lexer;
+}	t_lexer;
 
 typedef struct s_index
 {
