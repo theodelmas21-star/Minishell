@@ -6,27 +6,30 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/17 21:42:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:20:56 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+static void	init_lexer(t_lexer *lexer, char *input)
+{
+	lexer->input = input;
+	lexer->i = 0;
+	lexer->state = STATE_GENERAL;
+	lexer->prev_state = STATE_GENERAL;
+	lexer->in_sequence = 0;
+	lexer->tmp = NULL;
+	lexer->tokens = NULL;
+}
+
 t_list	*lexer(char *input)
 {
 	t_lexer	lexer;
 
-	lexer.input = input;
-	lexer.i = 0;
-	lexer.state = STATE_GENERAL;
-	lexer.prev_state = STATE_GENERAL;
-	lexer.tmp = NULL;
-	lexer.tokens = NULL;
-	lexer.in_sequence = 0;
-	
+	init_lexer(&lexer, input);
 	if (!input)
 		return (NULL);
-	
 	while (input[lexer.i])
 	{
 		lexer_states(&lexer, input[lexer.i]);
@@ -34,10 +37,9 @@ t_list	*lexer(char *input)
 	}
 	if (lexer.state == STATE_IN_SQUOTE || lexer.state == STATE_IN_DQUOTE)
 	{
-		ft_putendl_fd("minishell: unclosed quote", 2);
-		free(lexer.tmp);
-		//ft_lstclear(&lexer.tokens, free_token_content);
-		return (NULL);
+		// ft_lstclear(&lexer.tokens, free_tokens);
+		return (ft_putendl_fd(">", 2), free(lexer.tmp),
+			NULL);
 	}
 	if (lexer.tmp)
 	{
@@ -46,7 +48,6 @@ t_list	*lexer(char *input)
 		else
 			create_token(&lexer, NO_QUOTE);
 	}
-	
 	free(lexer.tmp);
 	return (lexer.tokens);
 }
