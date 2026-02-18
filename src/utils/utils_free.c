@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/15 16:21:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:18:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	free_list(t_list *list)
 	{
 		current = list;
 		list = list->next;
+		free(current->content);
 		free(current);
 	}
 }

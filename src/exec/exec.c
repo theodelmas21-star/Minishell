@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/17 09:38:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/18 10:41:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    child_exec(t_list *cmds, char **envp, int prev_fd, int pid)
+void    child_exec(t_list *cmds, t_env *s_env, int prev_fd, int pid)
 {
     t_cmd *current;
 
@@ -30,8 +30,8 @@ void    child_exec(t_list *cmds, char **envp, int prev_fd, int pid)
             close(current->pipefd[1]);
         }
         apply_redirections(current);
-        handle_builtin_child(cmds, envp);
-        execve(current->cmd[0], current->cmd, envp);
+        //handle_builtin_child(cmds, envp);
+        execve(current->cmd[0], current->cmd, s_env->env);
         return (free_tab(current->cmd), error("Execve error"));
     }
     if (prev_fd != -1)
@@ -51,7 +51,7 @@ void secur_fork(t_list *cmds, t_cmd *current, int pid)
     }
 }
 
-void    pipe_exec(t_list *cmds, char **envp, int *pid)
+void    pipe_exec(t_list *cmds, t_env *s_env, int *pid)
 {
     int prev_fd;
     t_cmd *current;
@@ -68,7 +68,7 @@ void    pipe_exec(t_list *cmds, char **envp, int *pid)
         secur_fork(cmds, current, *pid);
         if (pid == 0 && cmds->next)
             close(current->pipefd[0]);
-        child_exec(cmds, envp, prev_fd, *pid);
+        child_exec(cmds, s_env, prev_fd, *pid);
         if (cmds->next)
         {
             close(current->pipefd[1]);
@@ -111,11 +111,11 @@ int call_exec(t_list *cmds, char **envp)
         return (free_s_env(s_env), free_cmds(cmds), -1);
     if (find_all_cmd_path(cmds, s_env) == 1)
         return (free_s_env(s_env), free_cmds(cmds), -1);
-    if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
-        handle_builtin_parent(cmds);
+    /*if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
+        handle_builtin_parent(cmds);*/
     else
     {
-        pipe_exec(cmds, envp, &lastpid);
+        pipe_exec(cmds, s_env, &lastpid);
         waitpid(lastpid, &status, 0);
         if (WIFEXITED(status))
             exit_code = WEXITSTATUS(status);

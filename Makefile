@@ -9,8 +9,12 @@ MY_SOURCES = src/main.c \
 	src/exec/exec.c \
 	src/exec/paths.c \
 	src/exec/redirs.c \
-	src/built-in/handle_builtins.c \
-	src/built-in/echo.c
+	src/utils/ft_strjoin_free.c \
+	src/built-in/env.c \
+	src/built-in/env.c \
+	src/built-in/export.c \
+	src/built-in/pwd.c \
+	src/built-in/export_utils.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

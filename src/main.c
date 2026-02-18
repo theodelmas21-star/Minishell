@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/15 17:09:19 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/17 10:28:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,20 @@ void	print_cmds(t_list *cmds)
 		cur_cmd = (t_cmd *)current->content;
 		cmds = cmds->next;
 		printf("%s", cur_cmd->cmd[0]);
+	}
+}
+
+void print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		printf("envp is NULL");
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
 	}
 }
 
