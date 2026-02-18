@@ -6,11 +6,64 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:19:15 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 17:21:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:52:58 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	on_create_token(t_lexer *lexer, t_quote quote_type, int in_sequence)
+{
+	if (lexer->in_sequence)
+		create_subtoken(lexer, quote_type);
+	else
+	{
+		create_token(lexer, quote_type);
+		if (in_sequence)
+			lexer->in_sequence = 1;
+	}
+}
+
+static void	handle_quotes_in_word(t_lexer *lexer, char c)
+{
+	if (c == '\'')
+	{
+		if (lexer->tmp && lexer->tmp[0])
+			on_create_token(lexer, NO_QUOTE, 1);
+		lexer->state = STATE_IN_SQUOTE;
+	}
+	else if (c == '\"')
+	{
+		if (lexer->tmp && lexer->tmp[0])
+			on_create_token(lexer, NO_QUOTE, 1);
+		lexer->state = STATE_IN_DQUOTE;
+	}
+}
+
+void	handle_word(t_lexer *lexer, char c)
+{
+	if (is_space(c))
+	{
+		if (lexer->tmp)
+			on_create_token(lexer, NO_QUOTE, 0);
+		lexer->in_sequence = 0;
+		lexer->prev_state = STATE_GENERAL;
+		lexer->state = STATE_GENERAL;
+	}
+	else if (is_operator(c))
+	{
+		if (lexer->tmp)
+			on_create_token(lexer, NO_QUOTE, 0);
+		lexer->in_sequence = 0;
+		lexer->prev_state = STATE_GENERAL;
+		lexer->i--;
+		lexer->state = STATE_GENERAL;
+	}
+	else if (c == '\'' || c == '\"')
+		handle_quotes_in_word(lexer, c);
+	else
+		add_char_to_tmp(lexer, c);
+}
 
 void	handle_operator(t_lexer *lexer, char c)
 {
@@ -30,84 +83,17 @@ void	handle_quotes(t_lexer *lexer, char c)
 {
 	if (c == '\'')
 	{
-		if (lexer->in_sequence)
-			create_subtoken(lexer, SQUOTE);
-		else
-			create_token(lexer, SQUOTE);
+		on_create_token(lexer, SQUOTE, 0);
 		lexer->prev_state = STATE_IN_SQUOTE;
 		lexer->state = STATE_IN_WORD;
 		lexer->in_sequence = 1;
 	}
 	else if (c == '\"')
 	{
-		if (lexer->in_sequence)
-			create_subtoken(lexer, DQUOTE);
-		else
-			create_token(lexer, DQUOTE);
+		on_create_token(lexer, DQUOTE, 0);
 		lexer->prev_state = STATE_IN_DQUOTE;
 		lexer->state = STATE_IN_WORD;
 		lexer->in_sequence = 1;
-	}
-	else
-		add_char_to_tmp(lexer, c);
-}
-
-void	handle_word(t_lexer *lexer, char c)
-{
-	if (is_space(c))
-	{
-		if (lexer->tmp)
-		{
-			if (lexer->in_sequence)
-				create_subtoken(lexer, NO_QUOTE);
-			else
-				create_token(lexer, NO_QUOTE);
-		}
-		lexer->in_sequence = 0;
-		lexer->prev_state = STATE_GENERAL;
-		lexer->state = STATE_GENERAL;
-	}
-	else if (is_operator(c))
-	{
-		if (lexer->tmp)
-		{
-			if (lexer->in_sequence)
-				create_subtoken(lexer, NO_QUOTE);
-			else
-				create_token(lexer, NO_QUOTE);
-		}
-		lexer->in_sequence = 0;
-		lexer->prev_state = STATE_GENERAL;
-		lexer->i--;
-		lexer->state = STATE_GENERAL;
-	}
-	else if (c == '\'')
-	{
-		if (lexer->tmp && lexer->tmp[0])
-		{
-			if (lexer->in_sequence)
-				create_subtoken(lexer, NO_QUOTE);
-			else
-			{
-				create_token(lexer, NO_QUOTE);
-				lexer->in_sequence = 1;
-			}
-		}
-		lexer->state = STATE_IN_SQUOTE;
-	}
-	else if (c == '\"')
-	{
-		if (lexer->tmp && lexer->tmp[0])
-		{
-			if (lexer->in_sequence)
-				create_subtoken(lexer, NO_QUOTE);
-			else
-			{
-				create_token(lexer, NO_QUOTE);
-				lexer->in_sequence = 1;
-			}
-		}
-		lexer->state = STATE_IN_DQUOTE;
 	}
 	else
 		add_char_to_tmp(lexer, c);
