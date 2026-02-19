@@ -14,7 +14,8 @@ MY_SOURCES = src/main.c \
 	src/built-in/env.c \
 	src/built-in/export.c \
 	src/built-in/pwd.c \
-	src/built-in/export_utils.c
+	src/built-in/export_utils.c \
+	src/built-in/export_options.c
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

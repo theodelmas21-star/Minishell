@@ -6,17 +6,37 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/18 16:58:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/19 11:54:27 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
+
+int parser_export(char *cmd)
+{
+    t_index index;
+    
+    index = (t_index){0};
+    if (!ft_strchr(cmd, '='))
+            return (1);
+    if ((cmd[index.i] < 'a' || cmd[index.i] > 'z') && 
+        (cmd[index.i] < 'A' || cmd[index.i] > 'Z') && cmd[index.i] != '_')
+        return (1);
+    while (cmd[index.i])
+    {
+        if ((cmd[index.i] < 'a' || cmd[index.i] > 'z') && 
+        (cmd[index.i] < 'A' || cmd[index.i] > 'Z') && cmd[index.i] != '_'
+        && (cmd[index.i] < '0' || cmd[index.i] > '9'))
+            return (1);
+    }
+    return (0);
+}
 
 int is_var(char *var, char **env)
 {
     t_index index;
     
-    index.k = ft_strlen(var);
+    index.k = 0;
     index.j = 0;
     while (env[index.j])
     {
@@ -54,24 +74,26 @@ void export_options(t_cmd *cmd, t_env *s_env)
 {
     t_index index;
     char    *tmp;
+    char    *con_str;
 
     index.i = 1;
     while (cmd->cmd[index.i])
     {
         index.j = 0;
-        if (!ft_strchr(cmd->cmd[index.i], '='))
-            return (1);
-        //parser()
-        index.k = is_var(cmd->cmd[index.i], s_env->env);
-        if (index.k != -1)
+        if (parser_export(cmd->cmd[index.i]) == 1)
         {
-            tmp = s_env->env[index.k];
-            s_env->env[index.k] = cmd->cmd[index.i];
-            free(tmp);
+            printf("minishell : %s: not a valid identifier");
+            index.i++;
+            if (!cmd->cmd[index.i])
+                return (1);
         }
+        index.k = is_var(cmd->cmd[index.i], s_env->env);
+        if (concat_or_replace(index, cmd, s_env) == 1)
+            return (1);
         else if (index.k == -1 && create_var(cmd->cmd[index.i], s_env) == 1)
             return (1);
     }
+    return (0);
 }
 
 int export(t_cmd *cmd, t_env *s_env)
