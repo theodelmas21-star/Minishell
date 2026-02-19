@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:48 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 18:07:44 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:14:13 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,16 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 	ft_lstadd_back(&lexer->tokens, node);
 	lexer->tmp = NULL;
 	lexer->in_sequence = 0;
+}
+
+void	on_create_token(t_lexer *lexer, t_quote quote_type, int in_sequence)
+{
+	if (lexer->in_sequence)
+		create_subtoken(lexer, quote_type);
+	else
+	{
+		create_token(lexer, quote_type);
+		if (in_sequence)
+			lexer->in_sequence = 1;
+	}
 }

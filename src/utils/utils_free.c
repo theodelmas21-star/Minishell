@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 15:28:23 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:55:41 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,12 @@ void	free_cmds(t_list *cmds)
 	}
 }
 
-/* void	free_tokens(t_list *tokens)
+void	del_token(void *content)
 {
-	t_list	*current;
-	t_token	*cur_tok;
+	t_token	*token;
 
-	while (tokens)
-	{
-		current = tokens;
-		cur_tok = (t_token *)current->content;
-		tokens = tokens->next;
-		free_list(cur_tok);
-		free(current);
-	}
-} */
+	token = (t_token *)content;
+	free(token->arg);
+	ft_lstclear(&token->subtokens, del_token);
+	free(token);
+}

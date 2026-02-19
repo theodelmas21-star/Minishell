@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:46:41 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 17:21:43 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:12:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	lexer_states(t_lexer *lexer, char c)
 {
 	if (lexer->state == STATE_GENERAL)
 		handle_general(lexer, c);
-	else if (lexer->state == STATE_IN_SQUOTE || lexer->state == STATE_IN_DQUOTE)
-		handle_quotes(lexer, c);
+	else if (lexer->state == STATE_IN_SQUOTE)
+		handle_squotes(lexer, c);
+	else if (lexer->state == STATE_IN_DQUOTE)
+		handle_dquotes(lexer, c);
 	else if (lexer->state == STATE_IN_WORD)
 		handle_word(lexer, c);
 }

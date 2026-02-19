@@ -6,23 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:19:15 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 17:52:58 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:17:55 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	on_create_token(t_lexer *lexer, t_quote quote_type, int in_sequence)
-{
-	if (lexer->in_sequence)
-		create_subtoken(lexer, quote_type);
-	else
-	{
-		create_token(lexer, quote_type);
-		if (in_sequence)
-			lexer->in_sequence = 1;
-	}
-}
 
 static void	handle_quotes_in_word(t_lexer *lexer, char c)
 {
@@ -79,7 +67,7 @@ void	handle_operator(t_lexer *lexer, char c)
 	lexer->state = STATE_GENERAL;
 }
 
-void	handle_quotes(t_lexer *lexer, char c)
+void	handle_squotes(t_lexer *lexer, char c)
 {
 	if (c == '\'')
 	{
@@ -88,7 +76,13 @@ void	handle_quotes(t_lexer *lexer, char c)
 		lexer->state = STATE_IN_WORD;
 		lexer->in_sequence = 1;
 	}
-	else if (c == '\"')
+	else
+		add_char_to_tmp(lexer, c);
+}
+
+void	handle_dquotes(t_lexer *lexer, char c)
+{
+	if (c == '\"')
 	{
 		on_create_token(lexer, DQUOTE, 0);
 		lexer->prev_state = STATE_IN_DQUOTE;
