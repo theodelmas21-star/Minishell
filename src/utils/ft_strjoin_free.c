@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:31:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 10:23:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 17:15:05 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin_free(char *str, char *str2, char *str_to_free)
 
 	new = malloc(ft_strlen(str) + ft_strlen(str2) + 1);
 	if (!new)
-		return (NULL);
+		return (free(str_to_free), NULL);
 	i = 0;
 	j = 0;
 	if (str != NULL)
@@ -46,7 +46,7 @@ char	*ft_strjoin_free_both(char *str, char *str2)
 
 	new = malloc(ft_strlen(str) + ft_strlen(str2) + 1);
 	if (!new)
-		return (NULL);
+		return (free(str2), free(str), NULL);
 	i = 0;
 	j = 0;
 	if (str != NULL)
