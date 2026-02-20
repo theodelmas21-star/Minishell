@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 11:54:25 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:24:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ int is_n(char *option)
 {
     int i;
 
-    i = 1;
+    i = 0;
+    if (option[i] == '-')
+        i++;
+    else
+        return (0);
     while (option[i])
     {
         if (option [i] != 'n')
@@ -32,15 +36,21 @@ int    echo(t_cmd *cmd)
     int option;
 
     index = (t_index){0, 1, 0};
-    while (cmd->cmd[index.j] && cmd->cmd[index.j][index.i] == '-')
-        index.i = is_n(cmd->cmd[1]);
-    option = index.i;
-    while (cmd->cmd[++index.i])
+    while (cmd->cmd[index.j])
     {
-        if (cmd->cmd[index.i + 1])
-            printf("%s ", cmd->cmd[index.i]);
+        if (is_n(cmd->cmd[index.j]) == 1)
+            option = 1;
         else
-            printf("%s", cmd->cmd[index.i]);
+            break;
+        index.j++;
+    }
+    while (cmd->cmd[index.j])
+    {
+        if (cmd->cmd[index.j + 1])
+            printf("%s ", cmd->cmd[index.j]);
+        else
+            printf("%s", cmd->cmd[index.j]);
+        index.j++;
     }
     if (option == 0)
         printf("\n");
