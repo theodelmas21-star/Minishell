@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 14:49:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:00:32 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
-		print_tokens(tokens);
+		//print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
 		exit_code = call_exec(cmd, envp);
-		free_cmds(cmd);
+		//free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);

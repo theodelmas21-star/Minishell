@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 14:24:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 15:01:14 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int    echo(t_cmd *cmd)
     int option;
 
     index = (t_index){0, 1, 0};
+    option = 0;
     while (cmd->cmd[index.j])
     {
         if (is_n(cmd->cmd[index.j]) == 1)
