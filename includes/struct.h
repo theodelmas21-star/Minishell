@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/11 08:59:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:10:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef enum e_quote
 
 typedef struct s_token
 {
+	t_list			*subtokens;
 	char			*arg;
 	t_token_type	type;
 	t_quote			quote_type;
@@ -82,9 +83,11 @@ typedef struct s_lexer
 	char			*input;
 	int				i;
 	t_state			state;
+	t_state			prev_state;
+	int				in_sequence;
 	char			*tmp;
 	t_list			*tokens;
-}					t_lexer;
+}	t_lexer;
 
 typedef struct s_index
 {

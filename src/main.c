@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 09:58:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/16 18:51:20 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,31 @@ void	print_tokens(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*tok;
+	t_list	*curr_sub;
+	t_token	*subtok;
 
 	current = tokens;
 	while (current)
 	{
 		tok = (t_token *)current->content;
-		printf("arg = %s | type = %d | quote = %d\n", tok->arg, tok->type, tok->quote_type);
+		printf("TOKEN:\n");
+		printf("  arg = %s | type = %d | quote = %d\n", tok->arg, tok->type,
+			tok->quote_type);
+		curr_sub = tok->subtokens;
+		while (curr_sub)
+		{
+			subtok = (t_token *)curr_sub->content;
+			printf("    SUBTOKEN: arg = %s | type = %d | quote = %d\n",
+				subtok->arg, subtok->type, subtok->quote_type);
+			curr_sub = curr_sub->next;
+		}
 		current = current->next;
 	}
 }
 
 void	print_cmds(t_list *cmds)
 {
-	t_list *current;
+	t_list	*current;
 	t_cmd	*cur_cmd;
 
 	while (cmds)
@@ -48,15 +60,17 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	while (1)
 	{
 		buffer = readline("minishell> ");
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
+		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		call_exec(cmd, envp);
+		// call_exec(cmd, envp);
 		free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
