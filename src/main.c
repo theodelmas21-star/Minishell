@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/16 18:51:20 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:49:37 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,24 @@ void	print_cmds(t_list *cmds)
 	}
 }
 
+void	print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		printf("envp is NULL");
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
+	int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
@@ -70,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		// call_exec(cmd, envp);
+		exit_code = call_exec(cmd, envp);
 		free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);

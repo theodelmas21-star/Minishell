@@ -11,6 +11,16 @@ MY_SOURCES = src/main.c \
 	src/parser/parser.c \
 	src/exec/exec.c \
 	src/exec/paths.c \
+	src/exec/redirs.c \
+	src/exec/utils_exec.c \
+	src/utils/ft_strjoin_free.c \
+	src/built-in/env.c \
+	src/built-in/echo.c \
+	src/built-in/export/export.c \
+	src/built-in/pwd.c \
+	src/built-in/export/export_utils.c \
+	src/built-in/export/export_options.c \
+	src/built-in/handle_builtins.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 09:00:45 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 11:00:32 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	if (access(cmd->cmd[0], X_OK) == 0)
+	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
 	while (envp->path_split[i])
 	{
@@ -62,7 +62,6 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 		free(test_path);
 		i++;
 	}
-	ft_putstr_fd(cmd->cmd[0], 2);
-	ft_putstr_fd(": Command not found", 2);
+	printf("minishell: command not found: %s\n", cmd->cmd[0]);
 	return (NULL);
 }

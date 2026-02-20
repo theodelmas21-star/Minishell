@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/11 10:52:52 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:55:06 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	size_cmd(t_list *tokens)
+int	size_cmd_parser(t_list *tokens)
 {
 	t_token *s_token;
 	int		size;
@@ -41,7 +41,8 @@ t_cmd	*create_cmd(t_list *tokens)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	size = size_cmd(tokens);
+	ft_memset(cmd, 0, sizeof(t_cmd));
+	size = size_cmd_parser(tokens);
 	cmd->cmd = malloc(sizeof(char *) * (size + 1));
 	if (!cmd->cmd)
 		return (free(cmd), NULL);
@@ -49,6 +50,7 @@ t_cmd	*create_cmd(t_list *tokens)
 	while (i < size)
 	{
 		s_token = (t_token *)tokens->content;
+		cmd->is_builtin = 1;
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;
 	}
