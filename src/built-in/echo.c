@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 16:48:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:28:08 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,27 @@ int	echo(t_cmd *cmd)
 	t_index	index;
 	int		option;
 
-	index = (t_index){0, 1, 0};
-	option = 0;
-	while (cmd->cmd[index.j])
-	{
-		if (is_n(cmd->cmd[index.j]) == 1)
-			option = 1;
-		else
-			break ;
-		index.j++;
-	}
-	while (cmd->cmd[index.j])
-	{
-		if (cmd->cmd[index.j + 1])
-			printf("%s ", cmd->cmd[index.j]);
-		else
-			printf("%s", cmd->cmd[index.j]);
-		index.j++;
-	}
-	if (option == 0)
-		printf("\n");
-	return (0);
+    index = (t_index){0, 1, 0};
+    option = 0;
+    while (cmd->cmd[index.j])
+    {
+        if (is_n(cmd->cmd[index.j]) == 1)
+            option = 1;
+        else
+            break;
+        index.j++;
+    }
+    while (cmd->cmd[index.j])
+    {
+        if (cmd->cmd[index.j + 1])
+            printf("%s ", cmd->cmd[index.j]);
+        else
+            printf("%s", cmd->cmd[index.j]);
+        index.j++;
+    }
+    if (option == 0)
+        printf("\n");
+    return (0);
 }
 
 // a refaire pour gerer -nnn -nnn salut
