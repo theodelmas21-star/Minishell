@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 10:41:26 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:41:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	char *target; // fichier ou delimiter
-	char *LIMITER;
-	int fd;       // STDIN ou STDOUT
+	char			*LIMITER;
+	int fd; // STDIN ou STDOUT
 }					t_redir;
 
 typedef enum e_state
@@ -43,7 +43,7 @@ typedef enum e_state
 
 typedef struct s_cmd
 {
-	char **cmd;      // {"ls", "-l", NULL}
+	char **cmd;     // {"ls", "-l", NULL}
 	t_list *redirs; // < > >> <<
 	int				is_builtin;
 	int				pipefd[2];
@@ -65,6 +65,7 @@ typedef enum e_quote
 
 typedef struct s_token
 {
+	t_list			*subtokens;
 	char			*arg;
 	t_token_type	type;
 	t_quote			quote_type;
@@ -75,6 +76,8 @@ typedef struct s_lexer
 	char			*input;
 	int				i;
 	t_state			state;
+	t_state			prev_state;
+	int				in_sequence;
 	char			*tmp;
 	t_list			*tokens;
 }					t_lexer;

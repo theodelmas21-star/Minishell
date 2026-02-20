@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 10:18:48 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:43:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_tab(char **tab)
 
 void	free_list(t_list *list)
 {
-	t_list *current;
+	t_list	*current;
 
 	while (list)
 	{
@@ -42,7 +42,7 @@ void	free_list(t_list *list)
 
 void	free_cmds(t_list *cmds)
 {
-	t_list *current;
+	t_list	*current;
 	t_cmd	*cur_cmd;
 	t_redir *cur_redir;
 
@@ -66,4 +66,14 @@ void free_s_env(t_env *s_env)
 {
 	free_tab(s_env->path_split);
 	free(s_env);
+}
+
+void	del_token(void *content)
+{
+	t_token	*token;
+
+	token = (t_token *)content;
+	free(token->arg);
+	ft_lstclear(&token->subtokens, del_token);
+	free(token);
 }

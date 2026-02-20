@@ -3,8 +3,11 @@ CC = cc
 MY_SOURCES = src/main.c \
 	src/lexer/lexer.c \
 	src/lexer/lexer_states.c \
-	src/lexer/lexer_utils.c \
+	src/lexer/handle_states.c \
+	src/lexer/utils/lexer_utils.c \
+	src/lexer/utils/create_token.c \
 	src/utils/utils_free.c \
+	src/utils/utils_check_char.c \
 	src/parser/parser.c \
 	src/exec/exec.c \
 	src/exec/paths.c \

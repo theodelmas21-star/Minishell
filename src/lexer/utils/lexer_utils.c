@@ -6,25 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/09 13:52:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:32:41 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
-
-int	is_space(char c)
-{
-	if (c == ' ' || c == '\t')
-		return (1);
-	return (0);
-}
-
-int	is_operator(char c)
-{
-	if (c == '|' || c == '<' || c == '>')
-		return (1);
-	return (0);
-}
+#include "../../../includes/minishell.h"
 
 void	add_char_to_tmp(t_lexer *lexer, char c)
 {
@@ -62,22 +48,4 @@ t_token_type	get_token_type(char *arg)
 		return (REDIR_IN);
 	else
 		return (WORD);
-}
-
-void	create_token(t_lexer *lexer, t_quote quote_type)
-{
-	t_token	*token;
-	t_list	*node;
-
-	if (!lexer->tmp || !lexer->tmp[0])
-		return ;
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return ;
-	token->arg = lexer->tmp;
-	token->type = get_token_type(token->arg);
-	token->quote_type = quote_type;
-	node = ft_lstnew(token);
-	ft_lstadd_back(&lexer->tokens, node);
-	lexer->tmp = NULL;
 }

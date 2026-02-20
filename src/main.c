@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 11:46:19 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 14:49:37 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,31 @@ void	print_tokens(t_list *tokens)
 {
 	t_list	*current;
 	t_token	*tok;
+	t_list	*curr_sub;
+	t_token	*subtok;
 
 	current = tokens;
 	while (current)
 	{
 		tok = (t_token *)current->content;
-		printf("arg = %s | type = %d | quote = %d\n", tok->arg, tok->type, tok->quote_type);
+		printf("TOKEN:\n");
+		printf("  arg = %s | type = %d | quote = %d\n", tok->arg, tok->type,
+			tok->quote_type);
+		curr_sub = tok->subtokens;
+		while (curr_sub)
+		{
+			subtok = (t_token *)curr_sub->content;
+			printf("    SUBTOKEN: arg = %s | type = %d | quote = %d\n",
+				subtok->arg, subtok->type, subtok->quote_type);
+			curr_sub = curr_sub->next;
+		}
 		current = current->next;
 	}
 }
 
 void	print_cmds(t_list *cmds)
 {
-	t_list *current;
+	t_list	*current;
 	t_cmd	*cur_cmd;
 
 	while (cmds)
@@ -40,7 +52,7 @@ void	print_cmds(t_list *cmds)
 	}
 }
 
-void print_env(char **env)
+void	print_env(char **env)
 {
 	int	i;
 
@@ -57,24 +69,27 @@ void print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
-	int exit_code;
+	int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	while (1)
 	{
 		buffer = readline("minishell> ");
-		if (buffer)
-		{
-			tokens = lexer(buffer);
-			cmd = token_to_cmd(tokens);
-			free_list(tokens);
-			exit_code = call_exec(cmd, envp);
-			if (*buffer)
-				add_history(buffer);
-		}
+		if (!buffer)
+			break ;
+		tokens = lexer(buffer);
+		print_tokens(tokens);
+		cmd = token_to_cmd(tokens);
+		free_list(tokens);
+		exit_code = call_exec(cmd, envp);
+		free_cmds(cmd);
+		if (*buffer)
+			add_history(buffer);
+		free(buffer);
 	}
 	return (0);
 }
