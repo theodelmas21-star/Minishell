@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/18 10:41:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 11:44:46 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void    child_exec(t_list *cmds, t_env *s_env, int prev_fd, int pid)
             close(current->pipefd[1]);
         }
         apply_redirections(current);
-        //handle_builtin_child(cmds, envp);
+        if (current->is_builtin == 1)
+            handle_builtins(((t_cmd *)cmds->content), s_env, 1);
         execve(current->cmd[0], current->cmd, s_env->env);
         return (free_tab(current->cmd), error("Execve error"));
     }
@@ -105,14 +106,17 @@ int call_exec(t_list *cmds, char **envp)
     s_env = malloc(sizeof(t_env));
     if (!envp)
         return (1);
-    s_env->env = envp;
-    s_env = find_path(s_env);
+    env_init(s_env, envp);
+    exit_code = 0;
     if (!s_env->path)
         return (free_s_env(s_env), free_cmds(cmds), -1);
     if (find_all_cmd_path(cmds, s_env) == 1)
         return (free_s_env(s_env), free_cmds(cmds), -1);
-    /*if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
-        handle_builtin_parent(cmds);*/
+    if (cmds && !cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
+    {
+        if (handle_builtins(((t_cmd *)cmds->content), s_env, 1) == 1)
+            exit_code = 1;
+    }
     else
     {
         pipe_exec(cmds, s_env, &lastpid);

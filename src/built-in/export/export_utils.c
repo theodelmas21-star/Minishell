@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:42:48 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:48:06 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,17 @@ char	*mid_core(t_env *s_env, t_index index)
 char	**make_it_dquote(t_env *s_env)
 {
 	t_index	index;
-	char	*tmp;
 	char	**env_exp;
 
 	index.i = 0;
 	index.k = 0;
 	env_exp = malloc(sizeof(char *) * size_env_export(s_env->env));
 	if (!env_exp)
-		return (1);
+		return (NULL);
 	while (s_env->env[index.i])
 	{
 		index.j = 0;
-		if (ft_strchr(s_env->env, '='))
+		if (ft_strchr(s_env->env[index.i], '='))
 		{
 			env_exp[index.k] = mid_core(s_env, index);
 			if (!env_exp[index.k])
@@ -81,14 +80,10 @@ char	**make_it_dquote(t_env *s_env)
 	return (env_exp);
 }
 
-int	simple_export(t_cmd *cmd, t_env *s_env)
+int simple_export_loop(char **env_exp)
 {
-	char **env_exp;
 	t_index index;
 
-	env_exp = make_it_dquote(s_env);
-	if (!env_exp)
-		return (1);
 	index.i = 0;
 	while (env_exp[index.i])
 	{
@@ -110,5 +105,22 @@ int	simple_export(t_cmd *cmd, t_env *s_env)
 		}
 		index.i++;
 	}
-	return (printf(env_exp[index.i - 1]), free_tab(env_exp), 0);
+	return (0);
+}
+
+int	simple_export(t_env *s_env)
+{
+	char **env_exp;
+	t_index index;
+
+	env_exp = make_it_dquote(s_env);
+	if (!env_exp)
+		return (1);
+	index.i = 0;
+	if (simple_export_loop(env_exp) == 1)
+		return (1);
+	while (env_exp[index.i])
+		index.i++;
+	printf("%s", env_exp[index.i]);
+	return (free_tab(env_exp), 0);
 }

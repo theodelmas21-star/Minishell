@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:59:39 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/18 09:08:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:51:00 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int size_env(char **env)
+int size_env_built_in(char **env)
 {
 	int		i;
     int     index_char;
@@ -37,7 +37,7 @@ int size_env(char **env)
 	return (size);
 }
 
-void print_env(t_env *s_env)
+int env(t_env *s_env)
 {
 	t_index index;
     char *tmp;
@@ -45,9 +45,11 @@ void print_env(t_env *s_env)
 	index.i = 0;
 	if (!s_env->env)
 		return (1);
-    tmp = malloc(sizeof(char) * size_env(s_env->env));
+    tmp = malloc(sizeof(char) * size_env_built_in(s_env->env));
     if (!tmp)
+    {
         return (1);
+    }
 	while (s_env->env[index.i])
 	{
         index.j = 0;
@@ -62,6 +64,5 @@ void print_env(t_env *s_env)
 	}
     tmp[index.k] = '\0';
     printf("%s", tmp);
-    free(tmp);
-    return (0);
+    return (free(tmp), 0);
 }

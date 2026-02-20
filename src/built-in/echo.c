@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/17 10:17:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 11:54:25 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,23 @@ int is_n(char *option)
 
 int    echo(t_cmd *cmd)
 {
-    int i;
+    t_index index;
     int option;
 
-    i = 0;
-    if (!cmd->cmd || ft_strncmp(cmd->cmd[0], "echo", 4) != 0)
-        return (1);
-    if (cmd->cmd[1][i] == '-')
-        i = is_n(cmd->cmd[1]);
-    option = i;
-    while (cmd->cmd[++i])
-        printf("%s", cmd->cmd[i]);
+    index = (t_index){0, 1, 0};
+    while (cmd->cmd[index.j] && cmd->cmd[index.j][index.i] == '-')
+        index.i = is_n(cmd->cmd[1]);
+    option = index.i;
+    while (cmd->cmd[++index.i])
+    {
+        if (cmd->cmd[index.i + 1])
+            printf("%s ", cmd->cmd[index.i]);
+        else
+            printf("%s", cmd->cmd[index.i]);
+    }
     if (option == 0)
         printf("\n");
     return (0);
 }
+
+//a refaire pour gerer -nnn -nnn salut

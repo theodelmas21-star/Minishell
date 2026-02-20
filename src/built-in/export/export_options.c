@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:48:54 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env)
         if (is_concatenate(cmd->cmd[index.i]))
         {
             con_str = concatenate(cmd->cmd[index.i], s_env->env[index.k]);
-            if (tmp == NULL);
+            if (con_str == NULL)
                 return (1);
             tmp = s_env->env[index.k];
             s_env->env[index.k] = con_str;

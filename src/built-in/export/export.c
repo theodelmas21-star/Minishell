@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/19 11:54:27 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 10:57:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,9 @@ int create_var(char *var, t_env *s_env)
     return (0);
 }
 
-void export_options(t_cmd *cmd, t_env *s_env)
+int export_options(t_cmd *cmd, t_env *s_env)
 {
     t_index index;
-    char    *tmp;
-    char    *con_str;
 
     index.i = 1;
     while (cmd->cmd[index.i])
@@ -82,7 +80,7 @@ void export_options(t_cmd *cmd, t_env *s_env)
         index.j = 0;
         if (parser_export(cmd->cmd[index.i]) == 1)
         {
-            printf("minishell : %s: not a valid identifier");
+            printf("minishell : %s: not a valid identifier", cmd->cmd[index.i]);
             index.i++;
             if (!cmd->cmd[index.i])
                 return (1);
@@ -101,6 +99,6 @@ int export(t_cmd *cmd, t_env *s_env)
     if (!cmd || !s_env)
         return (1);
     if (!cmd->cmd[1])
-        return (simple_export(cmd, s_env));
-    export_options(cmd, s_env);
+        return (simple_export(s_env));
+    return (export_options(cmd, s_env));
 }

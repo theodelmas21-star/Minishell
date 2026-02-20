@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/17 10:28:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 11:46:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,15 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		buffer = readline("minishell> ");
-		if (!buffer)
-			break ;
-		tokens = lexer(buffer);
-		cmd = token_to_cmd(tokens);
-		free_list(tokens);
-		exit_code = call_exec(cmd, envp);
-		if (*buffer)
-			add_history(buffer);
+		if (buffer)
+		{
+			tokens = lexer(buffer);
+			cmd = token_to_cmd(tokens);
+			free_list(tokens);
+			exit_code = call_exec(cmd, envp);
+			if (*buffer)
+				add_history(buffer);
+		}
 	}
 	return (0);
 }
