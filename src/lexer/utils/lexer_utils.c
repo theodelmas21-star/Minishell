@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 20:48:55 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/18 17:32:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/23 13:24:05 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_token_type	get_token_type(char *arg)
 	else if (ft_strncmp(arg, "<", 1) == 0 && ft_strlen(arg) == 1)
 		return (REDIR_IN);
 	else if (ft_strncmp(arg, ">", 1) == 0 && ft_strlen(arg) == 1)
-		return (REDIR_IN);
+		return (REDIR_OUT);
 	else
 		return (WORD);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 14:49:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/20 17:14:43 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
-	int		exit_code;
+	//int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
@@ -85,8 +85,8 @@ int	main(int argc, char **argv, char **envp)
 		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		exit_code = call_exec(cmd, envp);
-		free_cmds(cmd);
+		//exit_code = call_exec(cmd, envp);
+		//free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
