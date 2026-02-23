@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/23 14:26:26 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/23 15:54:25 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_cmds(t_list *cmds)
 {
 	t_list	*current;
 	t_cmd	*cur_cmd;
-	t_redir *cur_redir;
+	t_redir	*cur_redir;
 
 	if (!cmds)
 		return ;
@@ -72,7 +72,7 @@ void	free_cmds(t_list *cmds)
 	}
 }
 
-void free_s_env(t_env *s_env)
+void	free_s_env(t_env *s_env)
 {
 	free_tab(s_env->path_split);
 	free(s_env);
