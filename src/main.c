@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 17:14:43 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:35:48 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ void	print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
-	//int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
+	// int		exit_code;
 	(void)argc;
 	(void)argv;
 	(void)envp;
@@ -85,11 +85,13 @@ int	main(int argc, char **argv, char **envp)
 		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		//exit_code = call_exec(cmd, envp);
-		//free_cmds(cmd);
+		// exit_code = call_exec(cmd, envp);
+		// free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
+		rl_clear_history();
+		rl_free_line_state();
 	}
 	return (0);
 }
