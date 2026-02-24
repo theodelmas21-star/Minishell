@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/23 14:35:48 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:54:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,13 @@ void	print_cmds(t_list *cmds)
 	t_list	*current;
 	t_cmd	*cur_cmd;
 
+	printf("CMDS:\n");
 	while (cmds)
 	{
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
 		cmds = cmds->next;
-		printf("%s", cur_cmd->cmd[0]);
+		printf("%s\n", cur_cmd->cmd[0]);
 	}
 }
 
@@ -84,14 +85,14 @@ int	main(int argc, char **argv, char **envp)
 		tokens = lexer(buffer);
 		print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
+		parser(tokens, cmd);
+		print_cmds(cmd);
 		free_list(tokens);
 		// exit_code = call_exec(cmd, envp);
 		// free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
-		rl_clear_history();
-		rl_free_line_state();
 	}
 	return (0);
 }

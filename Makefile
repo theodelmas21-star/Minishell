@@ -9,6 +9,8 @@ MY_SOURCES = src/main.c \
 	src/utils/utils_free.c \
 	src/utils/utils_check_char.c \
 	src/parser/parser.c \
+	src/parser/check_args.c \
+	src/parser/token_to_cmd.c \
 	src/exec/exec.c \
 	src/exec/paths.c \
 	src/exec/redirs.c \
