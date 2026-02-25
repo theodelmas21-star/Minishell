@@ -6,11 +6,22 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/25 19:55:21 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/25 21:51:35 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int check_pipe(t_token *tok, t_token *next)
+{
+	if (tok->type == PIPE)
+	{
+		if (!next)
+			return (printf(">"), 0);
+		if (next->type == PIPE)
+			return (printf(">"), 0);
+	}
+}
 
 static int is_redirection(t_token_type type)
 {
@@ -19,6 +30,17 @@ static int is_redirection(t_token_type type)
 		return (1);
 	else
 		return (0);
+}
+
+static int check_redir(t_token *tok, t_token *next)
+{
+	if (is_redirection(tok->type))
+	{
+		if (!next)
+			return (printf("syntax error near unexpected token 'newline'"), 0);
+		if (next->type != WORD)
+			return (printf("syntax error near unexpected token '%s'", next->arg), 0);
+	}
 }
 
 int check_args(t_list *tokens)
@@ -40,20 +62,8 @@ int check_args(t_list *tokens)
 			next = tokens->next->content;
 		else
 			next = NULL;
-		if (tok->type == PIPE)
-		{
-			if (!next)
-				return (printf(">"), 0);
-			if (next->type == PIPE)
-				return (printf(">"), 0);
-		}
-		if (is_redirection(tok->type))
-		{
-			if (!next)
-				return (printf("syntax error near unexpected token 'newline'"), 0);
-			if (next->type != WORD)
-				return (printf("syntax error near unexpected token '%s'", next->arg), 0);
-		}
+		check_pipe(token, next);
+		check_redir(token, next);
 		tokens = tokens->next;
 	}
 	return (1);
