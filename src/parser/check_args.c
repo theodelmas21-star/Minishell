@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/25 21:51:35 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/25 22:36:55 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,6 @@ static int check_pipe(t_token *tok, t_token *next)
 		if (next->type == PIPE)
 			return (printf(">"), 0);
 	}
-}
-
-static int is_redirection(t_token_type type)
-{
-	if (type == REDIR_IN || type == REDIR_OUT || type == REDIR_APPEND 
-		|| type == REDIR_HEREDOC)
-		return (1);
-	else
-		return (0);
 }
 
 static int check_redir(t_token *tok, t_token *next)

@@ -6,94 +6,100 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/24 14:27:51 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/25 22:47:03 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	size_cmd_parser(t_list *tokens)
+static t_cmd *init_cmd(void)
 {
-	t_token	*s_token;
-	int		size;
-
-	size = 0;
-	if (!tokens)
-		return (0);
-	while (tokens)
-	{
-		s_token = (t_token *)tokens->content;
-		if (s_token->type != WORD)
-			break ;
-		tokens = tokens->next;
-		size++;
-	}
-	return (size);
-}
-
-static t_cmd	*create_cmd(t_list *tokens)
-{
-	t_cmd	*cmd;
-	t_token	*s_token;
-	int		size;
-	int		i;
+	t_cmd *cmd;
 
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	ft_memset(cmd, 0, sizeof(t_cmd));
-	size = size_cmd_parser(tokens);
-	cmd->cmd = malloc(sizeof(char *) * (size + 1));
+	cmd->cmd = malloc(sizeof(char *));
 	if (!cmd->cmd)
-		return (free(cmd), NULL);
-	i = 0;
-	while (i < size)
-	{
-		s_token = (t_token *)tokens->content;
-		cmd->is_builtin = 1;
-		cmd->cmd[i++] = s_token->arg;
-		tokens = tokens->next;
-	}
-	cmd->cmd[i] = NULL;
+		return (free(cmd),NULL);
+	cmd->cmd[0] = NULL;
+	cmd->pipefd[0] = -1;
+	cmd->pipefd[1] = -1;
 	return (cmd);
 }
 
-static t_list	*create_list_cmd(t_list *list_cmd, t_list *tokens)
+static int cmd_add_arg(t_cmd *cmd, char *arg)
 {
-	t_list	*cur_cmd;
-	t_cmd	*cmd;
+	char **new;
+	int i = 0;
 
-	cmd = create_cmd(tokens);
-	if (!cmd)
-		return (NULL);
-	cur_cmd = ft_lstnew(cmd);
-	if (!cur_cmd)
-		return (free_tab(cmd->cmd), free(cmd), NULL);
-	cur_cmd->next = NULL;
-	ft_lstadd_back(&list_cmd, cur_cmd);
-	return (list_cmd);
+	while (cmd->cmd[i])
+		i++;
+	new = malloc(sizeof(char *) * (i + 2));
+	if (!new)
+		return (0);
+	i = 0;
+	while (cmd->cmd[i])
+	{
+		new[i] = cmd->cmd[i];
+		i++;
+	}
+	new[i++] = arg;
+	new[i] = NULL;
+	free(cmd->cmd);
+	cmd->cmd = new;
+	return (1);
 }
 
-t_list	*token_to_cmd(t_list *tokens)
+static int add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 {
-	t_list	*list_cmd;
+	t_redir *new;
 
-	if (!tokens)
+	new = malloc(sizeof(t_redir));
+	if (!new)
+		return (0);
+	new->type = redir->type;
+	new->target = target->arg;
+	new->LIMITER = NULL;
+	new->fd = -1;
+	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
+	return (1);
+}
+
+t_list *token_to_cmd(t_list *tokens)
+{
+	t_list *cmd_list;
+	t_cmd  *cmd;
+	t_token *tok;
+	t_token *target;
+
+	cmd_list = NULL;
+	cmd = init_cmd();
+	if (!cmd)
 		return (NULL);
-	list_cmd = NULL;
 	while (tokens)
 	{
-		list_cmd = create_list_cmd(list_cmd, tokens);
-		if (list_cmd == NULL)
-			return (NULL);
-		while (tokens)
+		tok = tokens->content;
+		if (tok->type == WORD)
+			cmd_add_arg(cmd, tok->arg);
+		else if (is_redirection(tok->type))
 		{
-			if (((t_token *)tokens->content)->type != WORD)
-				break ;
+			if (!tokens->next)
+				return (NULL);
+			target = tokens->next->content;
+			add_redirection(cmd, tok, target);
 			tokens = tokens->next;
 		}
-		if (tokens && ((t_token *)tokens->content)->type == PIPE)
-			tokens = tokens->next;
+		else if (tok->type == PIPE)
+		{
+			ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
+			cmd = init_cmd();
+			if (!cmd)
+				return (NULL);
+		}
+		tokens = tokens->next;
 	}
-	return (list_cmd);
+	ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
+	return (cmd_list);
 }
