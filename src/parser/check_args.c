@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/25 22:36:55 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 14:32:59 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int check_pipe(t_token *tok, t_token *next)
 		if (next->type == PIPE)
 			return (printf(">"), 0);
 	}
+	return (1);
 }
 
 static int check_redir(t_token *tok, t_token *next)
@@ -32,6 +33,7 @@ static int check_redir(t_token *tok, t_token *next)
 		if (next->type != WORD)
 			return (printf("syntax error near unexpected token '%s'", next->arg), 0);
 	}
+	return (1);
 }
 
 int check_args(t_list *tokens)
@@ -53,8 +55,8 @@ int check_args(t_list *tokens)
 			next = tokens->next->content;
 		else
 			next = NULL;
-		check_pipe(token, next);
-		check_redir(token, next);
+		check_pipe(tok, next);
+		check_redir(tok, next);
 		tokens = tokens->next;
 	}
 	return (1);
