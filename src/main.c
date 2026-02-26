@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/25 20:30:57 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 15:26:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,23 @@ void	print_cmds(t_list *cmds)
 {
 	t_list	*current;
 	t_cmd	*cur_cmd;
+	t_list	*cur_redir;
+	t_redir	*redir;
 
 	printf("CMDS:\n");
 	while (cmds)
 	{
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
-		cmds = cmds->next;
 		printf("%s\n", cur_cmd->cmd[0]);
+		cur_redir = cur_cmd->redirs;
+		while (cur_redir)
+		{
+			redir = (t_redir *)cur_redir->content;
+			printf("redir target = %s \n", redir->target);
+			cur_redir = cur_redir->next;
+		}
+		cmds = cmds->next;
 	}
 }
 
