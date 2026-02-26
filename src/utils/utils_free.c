@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/25 13:02:16 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:29:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,27 @@ void	free_list(t_list *list)
 	}
 }
 
+void	free_cmd(t_cmd *cmd)
+{
+	t_redir	*cur_redir;
+
+	if (!cmd)
+		return ;
+	free_tab(cmd->cmd);
+	cur_redir = (t_redir *)cmd->redirs;
+	while (cur_redir)
+	{
+		if (cur_redir && cur_redir->fd)
+			close(cur_redir->fd);
+		cur_redir = (t_redir *)cmd->redirs->next;
+	}
+}
+
 void	free_cmds(t_list *cmds)
 {
 	t_list	*current;
 	t_cmd	*cur_cmd;
-	//t_redir	*cur_redir;
+	t_redir	*cur_redir;
 
 	if (!cmds)
 		return ;
@@ -62,13 +78,13 @@ void	free_cmds(t_list *cmds)
 	{
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
-		//cur_redir = (t_redir *)cur_cmd->redirs;
+		cur_redir = (t_redir *)cur_cmd->redirs;
 		cmds = cmds->next;
 		free_tab(cur_cmd->cmd);
-		/*if (cur_redir && cur_redir->fd)
+		if (cur_redir && cur_redir->fd)
 			close(cur_redir->fd);
 		if (current)
-			free(current);*/
+			free(current);
 	}
 }
 

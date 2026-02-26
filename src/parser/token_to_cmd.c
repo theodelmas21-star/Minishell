@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/26 15:27:04 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:29:51 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg)
 		new[i] = cmd->cmd[i];
 		i++;
 	}
-	new[i++] = arg;
+	new[i++] = ft_strdup(arg);
 	new[i] = NULL;
 	free(cmd->cmd);
 	cmd->cmd = new;
@@ -107,7 +107,7 @@ t_list	*token_to_cmd(t_list *tokens)
 	cmd_list = NULL;
 	cmd = init_cmd();
 	if (!cmd)
-		return (NULL);
+		return (free_cmd(cmd), NULL);
 	while (tokens)
 	{
 		tok = tokens->content;

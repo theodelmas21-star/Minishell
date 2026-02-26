@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/26 15:26:10 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:50:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	print_cmds(t_list *cmds)
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
 		printf("%s\n", cur_cmd->cmd[0]);
+		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
 		cur_redir = cur_cmd->redirs;
 		while (cur_redir)
 		{
@@ -92,12 +93,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
-		print_tokens(tokens);
 		cmd = parsed_cmds(tokens);
 		print_cmds(cmd);
 		free_list(tokens);
 		// exit_code = call_exec(cmd, envp);
-		// free_cmds(cmd);
+		free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
