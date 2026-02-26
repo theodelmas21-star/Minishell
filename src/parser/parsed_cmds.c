@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:19:57 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/25 20:32:53 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/26 14:38:09 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_list	*parsed_cmds(t_list *tokens)
 {
-	t_list *cmd_list;
+	t_list	*cmd_list;
 
 	if (check_args(tokens))
 	{
