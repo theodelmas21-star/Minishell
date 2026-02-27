@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/27 13:43:09 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/27 14:41:47 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int				export(t_cmd *cmd, t_env *s_env);
 int				env(t_env *s_env);
 int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int unset(t_cmd *cmd, t_env *s_env);
+int cd(t_cmd *cmd, t_env *s_env);
 
 
 // utils
