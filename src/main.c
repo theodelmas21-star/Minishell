@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 15:00:32 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/27 11:25:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,16 @@ int	main(int argc, char **argv, char **envp)
 	int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
+	t_env	*s_env;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	s_env = malloc(sizeof(t_env));
+	if (!s_env)
+		return (1);
+	if (env_init(s_env, envp) == 1)
+		return (free_s_env(s_env), 1);
 	while (1)
 	{
 		buffer = readline("minishell> ");
@@ -85,11 +91,12 @@ int	main(int argc, char **argv, char **envp)
 		//print_tokens(tokens);
 		cmd = token_to_cmd(tokens);
 		free_list(tokens);
-		exit_code = call_exec(cmd, envp);
+		exit_code = call_exec(cmd, s_env);
 		//free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
 	}
+	free_s_env(s_env);
 	return (0);
 }
