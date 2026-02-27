@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:34:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 10:50:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/27 13:45:25 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ int handle_builtins_second(t_cmd *cmd, t_env *s_env, int i, int pid)
         if (pid == 0)
             exit(pwd(cmd));
         return (pwd(cmd));
+    }
+    else if (ft_strncmp(cmd->cmd[0], "unset", i) == 0)
+    {
+        if (pid == 0)
+            exit(unset(cmd, s_env));
+        return (unset(cmd, s_env));
     }
     return (0);
 }
