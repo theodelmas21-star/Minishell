@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:42:48 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 10:48:06 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/27 09:51:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,29 @@ int	size_env_export(char **env)
 	return (size);
 }
 
-char	*mid_core(t_env *s_env, t_index index)
+char	*mid_core(char *env)
 {
 	char	*tmp;
+	t_index index;
 
-	tmp = malloc(sizeof(char) * ft_strlen(s_env->env[index.i]) + 2);
+	index = (t_index){0};
+	tmp = malloc(sizeof(char) * (ft_strlen(env) + 3));
 	if (!tmp)
 		return (NULL);
-	while (s_env->env[index.i][index.j] != '=')
-		tmp[index.j] = s_env->env[index.i][index.j++];
-	tmp[index.j] = s_env->env[index.i][index.j++];
-	tmp[index.j++] = '\"';
-	while (s_env->env[index.i][index.j])
-		tmp[index.j] = s_env->env[index.i][index.j++];
-	tmp[index.j++] = '\"';
-	tmp[index.j] = '\0';
+	while (env[index.j])
+	{
+		tmp[index.k] = env[index.j];
+		index.j++;
+		index.k++;
+		if (tmp[index.k - 1] == '=' && index.i == 0)
+		{
+			tmp[index.k] = '\"';
+			index.k++;
+			index.i++;
+		}
+	}
+	tmp[index.k++] = '\"';
+	tmp[index.k] = '\0';
 	return (tmp);
 }
 
@@ -66,10 +74,9 @@ char	**make_it_dquote(t_env *s_env)
 		return (NULL);
 	while (s_env->env[index.i])
 	{
-		index.j = 0;
-		if (ft_strchr(s_env->env[index.i], '='))
+		if (ft_strchr(s_env->env[index.i], '=') != NULL)
 		{
-			env_exp[index.k] = mid_core(s_env, index);
+			env_exp[index.k] = mid_core(s_env->env[index.i]);
 			if (!env_exp[index.k])
 				return (free_tab(env_exp), NULL);
 			index.k++;
@@ -121,6 +128,8 @@ int	simple_export(t_env *s_env)
 		return (1);
 	while (env_exp[index.i])
 		index.i++;
-	printf("%s", env_exp[index.i]);
-	return (free_tab(env_exp), 0);
+	printf("%s", env_exp[index.i - 1]);
+	free (env_exp[index.i - 1]);
+	free (env_exp);
+	return (0);
 }
