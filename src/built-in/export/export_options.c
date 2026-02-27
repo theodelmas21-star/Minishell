@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 10:48:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/27 10:42:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,24 @@ char *concatenate(char *cmd, char *env)
 {
     t_index index;
     char    *tmp;
-
+    int eq_pos;
+    
     index = (t_index){0};
-    if (!cmd && !env)
-        return (NULL);
-    tmp = malloc(sizeof(char) * ((ft_strlen(cmd) + ft_strlen(env)) - (index.i * 2)) + 1);
+    eq_pos = 0;
+    while (cmd[eq_pos] && cmd[eq_pos] != '=')
+        eq_pos++;
+    tmp = malloc(ft_strlen(env) + (ft_strlen(cmd) - eq_pos) + 1);
     if (!tmp)
         return (NULL);
+    index.i = 0;
+    index.k = 0;
     while (env[index.i])
-        tmp[index.k] = env[index.i];
-    while (cmd[index.j] != '=')
-        index.j++;
-    index.j++;
-    while (cmd[index.j])
-        tmp[index.k] = cmd[index.j];
+        tmp[index.k++] = env[index.i++];
+    index.i = eq_pos + 1;
+    while (cmd[index.i])
+        tmp[index.k++] = cmd[index.i++];
     tmp[index.k] = '\0';
-    return (tmp); 
+    return (tmp);
 }
 
 int concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env)
@@ -71,7 +73,12 @@ int concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env)
         else
         {    
             tmp = s_env->env[index.k];
-            s_env->env[index.k] = cmd->cmd[index.i];
+            s_env->env[index.k] = ft_strdup(cmd->cmd[index.i]);
+            if (!s_env->env[index.k])
+            {
+                s_env->env[index.k] = tmp;
+                return (1);
+            }
             free(tmp);
         }
     }

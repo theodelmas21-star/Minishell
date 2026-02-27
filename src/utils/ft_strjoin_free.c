@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:31:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 14:33:03 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:35:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ char	*ft_strjoin_free(char *str, char *str2, char *str_to_free)
 		j++;
 	}
 	new[i + j] = '\0';
-	return (free(str_to_free), new);
+	if (str_to_free)
+		free(str_to_free);
+	return (new);
 }
 
 char	*ft_strjoin_free_both(char *str, char *str2)
