@@ -25,6 +25,7 @@ MY_SOURCES = src/main.c \
 	src/built-in/export/export_options.c \
 	src/built-in/handle_builtins.c \
 	src/built-in/unset.c \
+	src/built-in/cd.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
