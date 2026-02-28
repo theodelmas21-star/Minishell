@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 11:49:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/28 09:49:18 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,11 @@ int find_all_cmd_path(t_list *cmds, t_env *env)
     return (0);
 }
 
-int call_exec(t_list *cmds, t_env *s_env)
+int call_exec(t_list *cmds, t_env *s_env, int exit_code)
 {
     int status;
     int lastpid;
-    int exit_code;
-
-    exit_code = 0;
+    
     if (!s_env->path)
         return (free_s_env(s_env), free_cmds(cmds), -1);
     if (find_all_cmd_path(cmds, s_env) == 1)
@@ -111,6 +109,7 @@ int call_exec(t_list *cmds, t_env *s_env)
     {
         if (handle_builtins(((t_cmd *)cmds->content), s_env, 1) == 1)
             exit_code = 1;
+        is_exit(cmds, s_env, exit_code);
     }
     else
     {

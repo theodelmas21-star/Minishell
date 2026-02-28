@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/20 14:43:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/28 09:30:54 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ void	free_cmds(t_list *cmds)
 
 void free_s_env(t_env *s_env)
 {
-	free_tab(s_env->path_split);
+	if (!s_env)
+		return ;
+	if (s_env->path_split)
+		free_tab(s_env->path_split);
+	if (s_env->env)
+		free_tab(s_env->env);
 	free(s_env);
 }
 
