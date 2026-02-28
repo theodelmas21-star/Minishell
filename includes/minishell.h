@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:36:52 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:38:03 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void			error(char *error_message);
 int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
 t_env			*find_path(t_env *envp);
-int				call_exec(t_list *cmds, t_env *s_env);
+int				call_exec(t_list *cmds, t_env *s_env, int exit_code);
 void			apply_redirections(t_cmd *cmds);
 int				env_init(t_env *s_env, char **envp);
 
@@ -57,9 +57,9 @@ int				pwd(t_cmd *cmd);
 int				export(t_cmd *cmd, t_env *s_env);
 int				env(t_env *s_env);
 int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
-int unset(t_cmd *cmd, t_env *s_env);
-int cd(t_cmd *cmd, t_env *s_env);
-
+int				unset(t_cmd *cmd, t_env *s_env);
+int				cd(t_cmd *cmd, t_env *s_env);
+void			is_exit(t_list *cmd, t_env *s_env, int exit_code);
 
 // utils
 void			free_tab(char **tab);

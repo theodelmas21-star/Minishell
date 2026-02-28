@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 14:34:47 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:38:17 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	exit_code = 0;
 	s_env = malloc(sizeof(t_env));
 	if (!s_env)
 		return (1);
@@ -102,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 		cmd = parsed_cmds(tokens);
 		print_cmds(cmd);
 		free_list(tokens);
-		exit_code = call_exec(cmd, s_env);
+		exit_code = call_exec(cmd, s_env, exit_code);
 		//free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);
