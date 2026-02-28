@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/28 09:49:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/28 10:34:15 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int				is_operator(char c);
 
 // parser
 t_list			*token_to_cmd(t_list *tokens);
+
+//signals
+void init_signal();
 
 // exec
 void			error(char *error_message);

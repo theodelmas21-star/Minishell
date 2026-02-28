@@ -1,6 +1,7 @@
 NAME = minishell
 CC = cc
 MY_SOURCES = src/main.c \
+	src/signals.c \
 	src/lexer/lexer.c \
 	src/lexer/lexer_states.c \
 	src/lexer/handle_states.c \
