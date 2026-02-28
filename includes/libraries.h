@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libraries.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/01/30 15:07:55 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/28 10:05:18 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@
 # include <termcap.h>
 # include <termios.h>
 # include <unistd.h>
+#include <signal.h>
 
 #endif

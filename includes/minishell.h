@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:38:03 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:39:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ t_list			*parsed_cmds(t_list *tokens);
 int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
 int				is_redirection(t_token_type type);
+
+//signals
+void init_signal();
+
 // exec
 void			error(char *error_message);
 int				size_cmd(t_list *cmds);
