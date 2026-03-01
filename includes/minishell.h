@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/28 10:34:15 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 09:50:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ t_list			*token_to_cmd(t_list *tokens);
 
 //signals
 void init_signal();
+void reset_signals();
+
+//expand
+int expander(t_list *cmds, t_env *s_env, int exit_code);
+int call_exp_env(t_cmd *cmd, t_env *s_env, int i);
+
 
 // exec
 void			error(char *error_message);

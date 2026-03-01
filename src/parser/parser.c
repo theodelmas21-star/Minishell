@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 10:55:06 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 09:53:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cmd	*create_cmd(t_list *tokens)
 	t_token *s_token;
 	int		size;
 	int		i;
-
+	
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
@@ -51,6 +51,10 @@ t_cmd	*create_cmd(t_list *tokens)
 	{
 		s_token = (t_token *)tokens->content;
 		cmd->is_builtin = 1;
+		cmd->is_expand = malloc(sizeof(int *) * size);
+		if (!cmd->is_expand)
+			return (free_tab(cmd->cmd), NULL);
+		cmd->is_expand[i] = 1;
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;
 	}

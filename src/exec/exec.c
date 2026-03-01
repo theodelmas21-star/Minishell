@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/28 09:49:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 09:52:57 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void    child_exec(t_list *cmds, t_env *s_env, int prev_fd, int pid)
     current = ((t_cmd *)cmds->content);
     if (pid == 0)
     {
+        reset_signals();
         if (prev_fd != -1)
         {
             dup2(prev_fd, STDIN_FILENO);
@@ -102,9 +103,11 @@ int call_exec(t_list *cmds, t_env *s_env, int exit_code)
     int lastpid;
     
     if (!s_env->path)
-        return (free_s_env(s_env), free_cmds(cmds), -1);
+        return (free_s_env(s_env), free_cmds(cmds), 1);
     if (find_all_cmd_path(cmds, s_env) == 1)
-        return (free_s_env(s_env), free_cmds(cmds), -1);
+        return (free_s_env(s_env), free_cmds(cmds), 1);
+    if (expander(cmds, s_env, exit_code) == 1)
+        return (free_s_env(s_env), free_cmds(cmds), 1);
     if (cmds && !cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
     {
         if (handle_builtins(((t_cmd *)cmds->content), s_env, 1) == 1)
