@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:50:06 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 10:43:45 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 11:01:18 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,16 @@ char *expand_env(t_env *s_env, int ind_env)
 
 int call_exp_env(t_cmd *cmd, t_env *s_env, int i)
 {
-    char *tmp;
     char *tmp2;
     int  ind_env;
     
     ind_env = is_env(cmd->cmd[i], s_env);
     if (ind_env >= 0)
     {
-        tmp = expand_env(s_env, ind_env);
-        if (!tmp)
-            return (1);
         tmp2 = cmd->cmd[i];
-        cmd->cmd[i] = tmp;
+        cmd->cmd[i] = expand_env(s_env, ind_env);
+        if (!cmd->cmd[i])
+            return (1);
         free(tmp2);
     }
     return (0);
