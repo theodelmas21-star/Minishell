@@ -6,34 +6,34 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:34:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/28 08:55:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 10:29:42 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 
-int handle_builtins_second(t_cmd *cmd, t_env *s_env, int i, int pid)
+int handle_builtins_second(t_cmd *cmd, t_env *s_env, int pid)
 {
-    if (ft_strncmp(cmd->cmd[0], "export", i) == 0)
+    if (ft_strncmp(cmd->cmd[0], "export", 7) == 0)
     {
         if (pid == 0)
             exit(export(cmd, s_env));
         return (export(cmd, s_env));
     }
-    else if (ft_strncmp(cmd->cmd[0], "pwd", i) == 0)
+    else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
     {
         if (pid == 0)
             exit(pwd(cmd));
         return (pwd(cmd));
     }
-    else if (ft_strncmp(cmd->cmd[0], "unset", i) == 0)
+    else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
     {
         if (pid == 0)
             exit(unset(cmd, s_env));
         return (unset(cmd, s_env));
     }
-    else if (ft_strncmp(cmd->cmd[0], "cd", i) == 0)
+    else if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0)
     {
         if (pid == 0)
             exit(cd(cmd, s_env));
@@ -44,16 +44,13 @@ int handle_builtins_second(t_cmd *cmd, t_env *s_env, int i, int pid)
 
 int handle_builtins(t_cmd *cmd, t_env *s_env, int pid)
 {
-    int i;
-
-    i = ft_strlen(cmd->cmd[0]);
-    if (ft_strncmp(cmd->cmd[0], "echo", i) == 0)
+    if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0)
     {
         if (pid == 0)
             exit(echo(cmd));
         return (echo(cmd));
     }
-    else if (ft_strncmp(cmd->cmd[0], "env", i) == 0)
+    else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0)
     {
         if (cmd->cmd[1])
         {
@@ -64,9 +61,9 @@ int handle_builtins(t_cmd *cmd, t_env *s_env, int pid)
             exit(env(s_env));
         return (env(s_env));
     }
-    else if (ft_strncmp(cmd->cmd[0], "exit", i) == 0 && pid == 0)
+    else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0 && pid == 0)
         exit(0);
-    handle_builtins_second(cmd, s_env, i, pid);
+    handle_builtins_second(cmd, s_env, pid);
     return (0);
 }
 
