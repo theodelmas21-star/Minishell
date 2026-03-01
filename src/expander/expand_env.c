@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:50:06 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 10:15:52 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 10:43:45 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ int is_env(char *cmd, t_env *s_env)
     index = (t_index){0};
     while (s_env->env[index.i])
     {
-        if (!ft_strncmp(cmd +  1, s_env->env[index.i], ft_strlen (cmd) - 1))
-            return(index.i);
+        if (!ft_strncmp(cmd + 1, s_env->env[index.i], ft_strlen(cmd) - 1)
+            && s_env->env[index.i][ft_strlen(cmd) - 1] == '=')
+            return (index.i);
         index.i++;
     }
-    return (0);
+    return (-1);
 }
 
 int len_new(char *env)
@@ -83,7 +84,7 @@ int call_exp_env(t_cmd *cmd, t_env *s_env, int i)
     int  ind_env;
     
     ind_env = is_env(cmd->cmd[i], s_env);
-    if (ind_env != 0)
+    if (ind_env >= 0)
     {
         tmp = expand_env(s_env, ind_env);
         if (!tmp)

@@ -46,14 +46,17 @@ t_cmd	*create_cmd(t_list *tokens)
 	cmd->cmd = malloc(sizeof(char *) * (size + 1));
 	if (!cmd->cmd)
 		return (free(cmd), NULL);
+	/* allocate expansion flags once, initialize all to 0 */
+	cmd->is_expand = malloc(sizeof(int) * size);
+	if (!cmd->is_expand)
+		return (free_tab(cmd->cmd), free(cmd), NULL);
+	ft_memset(cmd->is_expand, 0, sizeof(int) * size);
 	i = 0;
 	while (i < size)
 	{
 		s_token = (t_token *)tokens->content;
 		cmd->is_builtin = 1;
-		cmd->is_expand = malloc(sizeof(int *) * size);
-		if (!cmd->is_expand)
-			return (free_tab(cmd->cmd), NULL);
+		/* mark every word for expansion initially */
 		cmd->is_expand[i] = 1;
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;
