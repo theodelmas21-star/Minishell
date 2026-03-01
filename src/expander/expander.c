@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 12:33:35 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 12:35:35 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int interrogation(t_cmd *cmd, int exit_code, int cmd_ind)
         if (!cmd)
             return (1);
         free(tmp);
-        //printf("CMD : %s\n abracadabra\n", cmd);
     }
     return (0);
 }
