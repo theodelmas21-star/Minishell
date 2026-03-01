@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/28 10:34:41 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 14:29:37 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
-	int		exit_code;
+	t_exec	exc;
 	t_list	*tokens;
 	t_list	*cmd;
 	t_env	*s_env;
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	exit_code = 0;
+	exc.exit_code = 0;
 	if (isatty(STDIN_FILENO))
     {	
 		init_signal();
@@ -89,13 +89,20 @@ int	main(int argc, char **argv, char **envp)
 		while (1)
 		{
 			buffer = readline("minishell> ");
+			if (g_signal)
+			{
+				exc.exit_code = g_signal;
+				g_signal = 0;
+				free(buffer);
+				continue;
+			}
 			if (!buffer)
 				break;
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
 			cmd = token_to_cmd(tokens);
 			free_list(tokens);
-			exit_code = call_exec(cmd, s_env, exit_code);
+			exc.exit_code = call_exec(cmd, s_env, exc);
 			//free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);

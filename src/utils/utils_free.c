@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/28 09:30:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:11:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	free_cmds(t_list *cmds)
 {
 	t_list	*current;
 	t_cmd	*cur_cmd;
-	t_redir *cur_redir;
 
 	if (!cmds)
 		return ;
@@ -52,8 +51,9 @@ void	free_cmds(t_list *cmds)
 	{
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
-		cur_redir = (t_redir *)cur_cmd->redirs;
 		cmds = cmds->next;
+		if (cur_cmd->redirs)
+        	free_list(cur_cmd->redirs);
 		free_tab(cur_cmd->cmd);
 		/*if (cur_redir && cur_redir->fd)
 			close(cur_redir->fd);

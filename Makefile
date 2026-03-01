@@ -11,8 +11,10 @@ MY_SOURCES = src/main.c \
 	src/utils/utils_check_char.c \
 	src/parser/parser.c \
 	src/exec/exec.c \
+	src/exec/exec_prep.c \
 	src/exec/paths.c \
-	src/exec/redirs.c \
+	src/exec/redirs/redirs.c \
+	src/exec/redirs/redirs_utils.c \
 	src/exec/utils_exec.c \
 	src/utils/ft_strjoin_free.c \
 	src/built-in/env.c \
@@ -27,6 +29,7 @@ MY_SOURCES = src/main.c \
 	src/built-in/exit.c \
 	src/expander/expander.c \
 	src/expander/expand_env.c \
+	src/expander/expand_hd.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
