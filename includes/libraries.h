@@ -6,12 +6,14 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/28 10:05:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:11:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBRARIES_H
 # define LIBRARIES_H
+
+extern volatile __sig_atomic_t g_signal;
 
 # include <dirent.h>
 # include <errno.h>

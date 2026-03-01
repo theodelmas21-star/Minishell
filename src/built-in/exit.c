@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 13:36:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:06:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@ void is_exit(t_list *cmds, t_env *s_env, int exit_code)
     cmd = ((t_cmd *)cmds->content);
     if (ft_strncmp(cmd->cmd[0], "exit", 5) != 0)
         return ;
-    free_tab(cmd->cmd);
-    if (cmd->redirs)
-        free_list(cmd->redirs);
-    free(cmd);
-    free(cmds);
+    free_cmds(cmds);
     if (s_env)
         free_s_env(s_env);
     printf("exit\n");

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:41:55 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:46:00 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ typedef enum e_token_type
 	REDIR_IN,      // <
 	REDIR_OUT      // >
 }					t_token_type;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char *target; // fichier ou delimiter
+	char			*LIMITER;
+	int	exp_hd;
+	int fd; // STDIN ou STDOUT
+}					t_redir;
 
 typedef enum e_state
 {
@@ -90,4 +99,9 @@ typedef struct s_index
 	int				k;
 }					t_index;
 
+typedef struct s_exec
+{
+	int				prev_fd;
+	int				exit_code;
+}					t_exec;
 #endif

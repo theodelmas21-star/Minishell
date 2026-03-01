@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:41:49 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:45:32 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,29 @@ int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
 int				is_redirection(t_token_type type);
 
-//signals
-void init_signal();
-void reset_signals();
+// signals
+void			init_signal(void);
+void			reset_signals(void);
 
-//expand
-int expander(t_list *cmds, t_env *s_env, int exit_code);
-int call_exp_env(t_cmd *cmd, t_env *s_env, int i);
-
+// expand
+int				expander(t_list *cmds, t_env *s_env, int exit_code);
+int				call_exp_env(t_cmd *cmd, t_env *s_env, int i);
+int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
+char			*expand_hd(char *res, t_env *s_env, t_exec exc);
 
 // exec
 void			error(char *error_message);
 int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
 t_env			*find_path(t_env *envp);
-int				call_exec(t_list *cmds, t_env *s_env, int exit_code);
-void			apply_redirections(t_cmd *cmds);
+int				call_exec(t_list *cmds, t_env *s_env, t_exec exc);
+int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
+int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc);
 int				env_init(t_env *s_env, char **envp);
+int	exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
+int	prep_exec(t_list *cmds, t_env *s_env);
+int	find_all_cmd_path(t_list *cmds, t_env *env);
+
 
 // built-in
 int				simple_export(t_env *s_env);

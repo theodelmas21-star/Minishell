@@ -6,124 +6,110 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 09:52:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:08:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void    child_exec(t_list *cmds, t_env *s_env, int prev_fd, int pid)
+int	find_all_cmd_path(t_list *cmds, t_env *env)
 {
-    t_cmd *current;
+	t_cmd	*current;
+	t_list	*cur_cmd;
 
-    current = ((t_cmd *)cmds->content);
-    if (pid == 0)
-    {
-        reset_signals();
-        if (prev_fd != -1)
-        {
-            dup2(prev_fd, STDIN_FILENO);
-            close(prev_fd);
-        }
-        if (cmds->next)
-        {
-            dup2(current->pipefd[1], STDOUT_FILENO);
-            close(current->pipefd[1]);
-        }
-        apply_redirections(current);
-        if (current->is_builtin == 1)
-            handle_builtins(((t_cmd *)cmds->content), s_env, 1);
-        execve(current->cmd[0], current->cmd, s_env->env);
-        return (free_tab(current->cmd), error("Execve error"));
-    }
-    if (prev_fd != -1)
-        close(prev_fd);
+	cur_cmd = cmds;
+	while (cur_cmd)
+	{
+		current = (t_cmd *)cur_cmd->content;
+		current->cmd[0] = find_cmd_path(env, current);
+		if (!current->cmd[0])
+			return (1);
+		cur_cmd = cur_cmd->next;
+	}
+	return (0);
 }
 
-void secur_fork(t_list *cmds, t_cmd *current, int pid)
+int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 {
-    if (pid == -1)
-    {
-        if (cmds->next)
-        {
-            close(current->pipefd[1]);
-            close(current->pipefd[0]);
-        }
-        return (free_cmds(cmds), error("Fork error"));
-    }
+	if (pid == -1)
+	{
+		if (cmds->next)
+		{
+			close(current->pipefd[1]);
+			close(current->pipefd[0]);
+		}
+		return (free_cmds(cmds), error("Fork error"), 1);
+	}
+	return (0);
 }
 
-void    pipe_exec(t_list *cmds, t_env *s_env, int *pid)
+void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 {
-    int prev_fd;
-    t_cmd *current;
+	t_cmd	*current;
 
-    if (!cmds)
-        return ;
-    prev_fd = -1;
-    while (cmds)
-    {
-        current = ((t_cmd *)cmds->content);
-        if (cmds->next)
-            pipe(current->pipefd);
-        *pid = fork();
-        secur_fork(cmds, current, *pid);
-        if (pid == 0 && cmds->next)
-            close(current->pipefd[0]);
-        child_exec(cmds, s_env, prev_fd, *pid);
-        if (cmds->next)
-        {
-            close(current->pipefd[1]);
-            prev_fd = current->pipefd[0];
-        }
-        cmds = cmds->next;
-    }
+	current = ((t_cmd *)cmds->content);
+	if (pid != 0)
+		return ;
+	reset_signals();
+	if (exc.prev_fd != -1)
+			{
+		dup2(exc.prev_fd, STDIN_FILENO);
+		close(exc.prev_fd);
+		}
+	if (cmds->next)
+	{
+		dup2(current->pipefd[1], STDOUT_FILENO);
+		close(current->pipefd[1]);
+	}
+	apply_redirections(current, s_env, exc);
+	if (current->is_builtin == 1 &&  handle_builtins(current, s_env, 0) == 1)
+		return (exit(1));
+	execve(current->cmd[0], current->cmd, s_env->env);
+	error("Execve error");
 }
 
-int find_all_cmd_path(t_list *cmds, t_env *env)
+void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)
 {
-    t_cmd *current;
-    t_list *cur_cmd;
+	t_exec	exc;
+	t_cmd	*current;
 
-    cur_cmd = cmds;
-    while (cur_cmd)
-    {
-        current = (t_cmd *)cur_cmd->content;
-        current->cmd[0] = find_cmd_path(env, current);
-        if (!current->cmd[0])
-            return (1);
-        cur_cmd = cur_cmd->next;
-    }
-    return (0);
+	if (!cmds)
+		return ;
+	exc.prev_fd = -1;
+	while (cmds)
+	{
+		current = ((t_cmd *)cmds->content);
+		if (cmds->next)
+			pipe(current->pipefd);
+		*pid = fork();
+		if (secur_fork(cmds, current, *pid))
+			return ;
+		child_exec(cmds, s_env, exc, *pid);
+		if (cmds->next)
+		{
+			close(current->pipefd[1]);
+			exc.prev_fd = current->pipefd[0];
+		}
+		cmds = cmds->next;
+	}
 }
 
-int call_exec(t_list *cmds, t_env *s_env, int exit_code)
+int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 {
-    int status;
-    int lastpid;
-    
-    if (!s_env->path)
-        return (free_s_env(s_env), free_cmds(cmds), 1);
-    if (find_all_cmd_path(cmds, s_env) == 1)
-        return (free_s_env(s_env), free_cmds(cmds), 1);
-    if (expander(cmds, s_env, exit_code) == 1)
-        return (free_s_env(s_env), free_cmds(cmds), 1);
-    if (cmds && !cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
-    {
-        if (handle_builtins(((t_cmd *)cmds->content), s_env, 1) == 1)
-            exit_code = 1;
-        is_exit(cmds, s_env, exit_code);
-    }
-    else
-    {
-        pipe_exec(cmds, s_env, &lastpid);
-        waitpid(lastpid, &status, 0);
-        if (WIFEXITED(status))
-            exit_code = WEXITSTATUS(status);
-        else
-            exit_code = 1;
-        while (wait(&status) > 0)
-            ;
-    }
-    return (free_cmds(cmds), exit_code);
+	int	status;
+	int	lastpid;
+
+	if (prep_exec(cmds, s_env) || expander(cmds, s_env, exc.exit_code))
+		return (free_s_env(s_env), free_cmds(cmds), 1);
+	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
+		return (exec_builtin_cmd(cmds, s_env, exc));
+	pipe_exec(cmds, s_env, &lastpid);
+	waitpid(lastpid, &status, 0);
+	if (WIFEXITED(status))
+		exc.exit_code = WEXITSTATUS(status);
+	else
+		exc.exit_code = 1;
+	while (wait(&status) > 0)
+		;
+	return (free_cmds(cmds), exc.exit_code);
 }
