@@ -6,11 +6,30 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/02 14:54:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:56:45 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+int parser_export(char *cmd)
+{
+    int i;
+    
+    i = 0;
+    if ((cmd[i] < 'a' || cmd[i] > 'z') && 
+        (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
+        return (1);
+    while (cmd[i] && cmd[i] != '=')
+    {
+        if ((cmd[i] < 'a' || cmd[i] > 'z') && 
+            (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_'
+            && (cmd[i] < '0' || cmd[i] > '9') && cmd[i] != '+')
+            return (1);
+        i++;
+    }
+    return (0);
+}
 
 char *remove_concat_operator(char *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:48:09 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:48:44 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
 void			is_exit(t_list *cmd, t_env *s_env, int exit_code);
 char *remove_concat_operator(char *cmd);
+int parser_export(char *cmd);
+int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
+int process_var_new(t_cmd *cmd, t_env *s_env, int arg_idx);
+int process_var_exists(t_cmd *cmd, t_env *s_env, int arg_idx, int var_idx);
+int check_var_in_env(char *var, char **env, int var_len);
+int get_var_name_len(char *var);
 
 // utils
 void			free_tab(char **tab);
