@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 11:21:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/02 13:26:57 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int parser_export(char *cmd)
 {
     int i;
     
-    if (!ft_strchr(cmd, '='))
-        return (1);
     i = 0;
     if ((cmd[i] < 'a' || cmd[i] > 'z') && 
         (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
@@ -107,11 +105,15 @@ int export_options(t_cmd *cmd, t_env *s_env)
 {
     t_index index;
 
-    index = (t_index){0};
-    index.i = 1;
+    index = (t_index){1, 0, 0};
     while (cmd->cmd[index.i])
     {
         index.j = 0;
+        if (!ft_strchr(cmd->cmd[index.i], '='))
+        {
+            index.i++;
+            continue;
+        }
         if (parser_export(cmd->cmd[index.i]) == 1)
         {
             printf("minishell : %s: not a valid identifier\n", cmd->cmd[index.i]);
