@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 09:53:29 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/02 08:51:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_cmd	*create_cmd(t_list *tokens)
 {
 	t_cmd	*cmd;
 	t_token *s_token;
+	t_redir *redir;
 	int		size;
 	int		i;
 	
@@ -51,13 +52,18 @@ t_cmd	*create_cmd(t_list *tokens)
 	if (!cmd->is_expand)
 		return (free_tab(cmd->cmd), free(cmd), NULL);
 	ft_memset(cmd->is_expand, 0, sizeof(int) * size);
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return NULL;
+	cmd->redirs = ft_lstnew(redir);
 	i = 0;
 	while (i < size)
 	{
 		s_token = (t_token *)tokens->content;
-		cmd->is_builtin = 1;
-		/* mark every word for expansion initially */
 		cmd->is_expand[i] = 1;
+		((t_redir *)cmd->redirs->content)->exp_hd = 1;
+		((t_redir *)cmd->redirs->content)->type = REDIR_HEREDOC;
+		((t_redir *)cmd->redirs->content)->LIMITER = "EOF";
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;
 	}
