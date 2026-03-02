@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:46:00 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:47:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_redir
 
 typedef struct s_cmd
 {
-	char **cmd;     // {"ls", "-l", NULL}
+	char **cmd;     // {"echo" "hello" "$USER" "here" "$PATH", NULL}
 	t_list *redirs; // < > >> <<
 	int				is_builtin;
 	int				pipefd[2];
