@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/02 13:26:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:46:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int parser_export(char *cmd)
     {
         if ((cmd[i] < 'a' || cmd[i] > 'z') && 
             (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_'
-            && (cmd[i] < '0' || cmd[i] > '9'))
+            && (cmd[i] < '0' || cmd[i] > '9') && cmd[i] != '+')
             return (1);
         i++;
     }
@@ -36,16 +36,29 @@ int is_var(char *var, char **env)
     t_index index;
     char    *eq_pos;
     int     var_len;
+    int     plus_pos;
     
     index.j = 0;
     eq_pos = ft_strchr(var, '=');
+    var_len = 0;
+    plus_pos = -1;
+    
     if (eq_pos)
-        var_len = (int)(eq_pos - var);
+    {
+        plus_pos = 0;
+        while (var[plus_pos] && var[plus_pos] != '=')
+        {
+            if (var[plus_pos] == '+' && var[plus_pos + 1] == '=')
+                break ;
+            plus_pos++;
+        }
+        var_len = plus_pos;
+    }
     else
         var_len = ft_strlen(var);
     while (env[index.j])
     {
-        if (ft_strncmp(var, env[index.j], var_len) == 0 && env[index.j][var_len] == '=')
+        if (ft_strncmp(var, env[index.j], var_len) == 0 && (env[index.j][var_len] == '='))
             return (index.j);
         index.j++;
     }
@@ -104,6 +117,7 @@ int create_var(char *var, t_env *s_env)
 int export_options(t_cmd *cmd, t_env *s_env)
 {
     t_index index;
+    char    *var_to_create;
 
     index = (t_index){1, 0, 0};
     while (cmd->cmd[index.i])
@@ -121,10 +135,22 @@ int export_options(t_cmd *cmd, t_env *s_env)
             continue ;
         }
         index.k = is_var(cmd->cmd[index.i], s_env->env);
-        if (concat_or_replace(index, cmd, s_env) == 1)
+        if (index.k != -1 && concat_or_replace(index, cmd, s_env) == 1)
             return (1);
-        else if (index.k == -1 && create_var(cmd->cmd[index.i], s_env) == 1)
-            return (1);
+        else if (index.k == -1)
+        {
+            var_to_create = cmd->cmd[index.i];
+            if (is_concatenate(cmd->cmd[index.i]))
+                var_to_create = remove_concat_operator(cmd->cmd[index.i]);
+            if (create_var(var_to_create, s_env) == 1)
+            {
+                if (is_concatenate(cmd->cmd[index.i]))
+                    free(var_to_create);
+                return (1);
+            }
+            if (is_concatenate(cmd->cmd[index.i]))
+                free(var_to_create);
+        }
         index.i++;
     }
     return (0);

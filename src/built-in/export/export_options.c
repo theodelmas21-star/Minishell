@@ -6,11 +6,35 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 10:42:13 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:54:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+char *remove_concat_operator(char *cmd)
+{
+    char    *result;
+    int     i;
+    int     j;
+
+    result = malloc(ft_strlen(cmd));
+    if (!result)
+        return (NULL);
+    i = 0;
+    j = 0;
+    while (cmd[i])
+    {
+        if (cmd[i] == '+' && cmd[i + 1] == '=')
+        {
+            i++;
+            continue;
+        }
+        result[j++] = cmd[i++];
+    }
+    result[j] = '\0';
+    return (result);
+}
 
 int is_concatenate(char *cmd)
 {
@@ -59,28 +83,25 @@ int concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env)
     char *tmp;
     char *con_str;
 
-    if (index.k != -1)
+    if (is_concatenate(cmd->cmd[index.i]))
     {
-        if (is_concatenate(cmd->cmd[index.i]))
+        con_str = concatenate(cmd->cmd[index.i], s_env->env[index.k]);
+        if (con_str == NULL)
+            return (1);
+        tmp = s_env->env[index.k];
+        s_env->env[index.k] = con_str;
+        free(tmp);
+    }
+    else
+    {    
+        tmp = s_env->env[index.k];
+        s_env->env[index.k] = ft_strdup(cmd->cmd[index.i]);
+        if (!s_env->env[index.k])
         {
-            con_str = concatenate(cmd->cmd[index.i], s_env->env[index.k]);
-            if (con_str == NULL)
-                return (1);
-            tmp = s_env->env[index.k];
-            s_env->env[index.k] = con_str;
-            free(tmp);
+            s_env->env[index.k] = tmp;
+            return (1);
         }
-        else
-        {    
-            tmp = s_env->env[index.k];
-            s_env->env[index.k] = ft_strdup(cmd->cmd[index.i]);
-            if (!s_env->env[index.k])
-            {
-                s_env->env[index.k] = tmp;
-                return (1);
-            }
-            free(tmp);
-        }
+        free(tmp);
     }
     return (0);
 }
