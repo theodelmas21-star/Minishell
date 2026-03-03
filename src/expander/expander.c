@@ -6,15 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/03 08:44:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/03 11:02:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-#include <stdlib.h>
-
-static int	nbr_len(long n)
+int	nbr_len(long n)
 {
 	int len = (n <= 0);
 	while (n)
@@ -49,20 +47,20 @@ char	*ft_putnbr(int n)
 	return (res);
 }
 
-int interrogation(t_cmd *cmd, int exit_code, int cmd_ind)
+int interrogation(char *cmd, int exit_code)
 {
     t_index index;
     char    *new;
     char    *tmp;
 
     index = (t_index){1, 0, 0};
-    if (cmd->cmd[cmd_ind][index.i] == '?')
+    if (cmd[index.i] == '?')
     {
         new = ft_putnbr(exit_code);
         if (!new)
             return (1);
-        tmp = cmd->cmd[cmd_ind];
-        cmd->cmd[cmd_ind] = ft_strjoin_free(new, cmd->cmd[cmd_ind] + 2, new);
+        tmp = cmd;
+        cmd = ft_strjoin_free(new, cmd + 2, new);
         if (!cmd)
             return (1);
         free(tmp);
@@ -78,11 +76,10 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
-        if (cmd->cmd[index.i][0] == '$' && cmd->is_expand[index.i] > 0)
+        while (is_env(cmd->cmd[index.i], s_env) != -1 && cmd->is_expand[index.i] > 0)
         {
-            if (call_exp_env(cmd, s_env, index.i) == 1)
-                return (1);
-            if (interrogation(cmd, exit_code, index.i) == 1)
+            cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code);
+            if (!cmd->cmd[index.i])
                 return (1);
         }
         index.i++;

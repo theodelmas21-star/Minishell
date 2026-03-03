@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/02 15:05:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/03 10:35:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void			reset_signals(void);
 
 // expand
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
-int				call_exp_env(t_cmd *cmd, t_env *s_env, int i);
+int call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
 char			*expand_hd(char *res, t_env *s_env, t_exec exc);
+int is_expand(t_cmd *cmd, int ind_cmd);
+char *expand_all(char *str, t_env *s_env, int exit_code);
 
 // exec
 void			error(char *error_message);

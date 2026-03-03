@@ -30,6 +30,7 @@ MY_SOURCES = src/main.c \
 	src/expander/expander.c \
 	src/expander/expand_env.c \
 	src/expander/expand_hd.c \
+	src/expander/expand_new.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

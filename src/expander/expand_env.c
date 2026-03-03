@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:50:06 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/03 09:14:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/03 10:36:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ char *expand_env(t_env *s_env, int ind_env)
     return (new);
 }
 
-int call_exp_env(t_cmd *cmd, t_env *s_env, int i)
+int call_exp_env(char *cmd, t_env *s_env)
 {
     char *tmp2;
     int  ind_env;
     
-    ind_env = is_env(cmd->cmd[i], s_env);
+    ind_env = is_env(cmd, s_env);
     if (ind_env >= 0)
     {
-        tmp2 = cmd->cmd[i];
-        cmd->cmd[i] = expand_env(s_env, ind_env);
-        if (!cmd->cmd[i])
+        tmp2 = cmd;
+        cmd = expand_env(s_env, ind_env);
+        if (!cmd)
             return (1);
         free(tmp2);
     }
