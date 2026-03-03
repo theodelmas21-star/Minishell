@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/02 09:15:04 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/03 08:44:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
-        if (cmd->cmd[index.i][0] == '$' && cmd->is_expand[index.i] == 1)
+        if (cmd->cmd[index.i][0] == '$' && cmd->is_expand[index.i] > 0)
         {
             if (call_exp_env(cmd, s_env, index.i) == 1)
                 return (1);
