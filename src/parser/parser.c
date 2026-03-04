@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/03 09:09:47 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/04 08:34:31 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	size_cmd_parser(t_list *tokens)
 	return (size);
 }
 
-static int	get_quote_type(t_token *token)
+/* int	get_quote_type(t_token *token)
 {
 	t_list	*current;
 	t_token	*subtoken;
@@ -49,7 +49,7 @@ static int	get_quote_type(t_token *token)
 		current = current->next;
 	}
 	return (1);
-}
+}*/
 
 t_cmd	*create_cmd(t_list *tokens)
 {
@@ -75,7 +75,8 @@ t_cmd	*create_cmd(t_list *tokens)
 	while (i < size)
 	{
 		s_token = (t_token *)tokens->content;
-		cmd->is_expand[i] = get_quote_type(s_token);
+		//cmd->is_expand[i] = get_quote_type(s_token);
+		cmd->is_expand[i] = 2;
 		cmd->is_builtin = 1 ;
 		cmd->cmd[i++] = s_token->arg;
 		tokens = tokens->next;

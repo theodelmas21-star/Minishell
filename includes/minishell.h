@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:49:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:49:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,19 @@ void			reset_signals(void);
 
 // expand
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
-int call_exp_env(char *cmd, t_env *s_env);
+char *call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
 char			*expand_hd(char *res, t_env *s_env, t_exec exc);
-int is_expand(t_cmd *cmd, int ind_cmd);
-char *expand_all(char *str, t_env *s_env, int exit_code);
+int				is_expand(t_cmd *cmd, int ind_cmd);
+char			*expand_all(char *str, t_env *s_env, int exit_code);
+int				is_env(char *cmd, t_env *s_env);
+char			*interrogation(char *cmd, int exit_code);
+int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
+int				get_var_name_len(char *var);
+int				check_var_in_env(char *var, char **env, int var_len);
+char			*join_split(char *str);
+int				len_new(char *str, int ind_str);
+int				is_expandable(char *str);
 
 // exec
 void			error(char *error_message);
@@ -58,13 +66,12 @@ int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
 t_env			*find_path(t_env *envp);
 int				call_exec(t_list *cmds, t_env *s_env, t_exec exc);
-int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
+int				apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
 int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc);
 int				env_init(t_env *s_env, char **envp);
-int	exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
-int	prep_exec(t_list *cmds, t_env *s_env);
-int	find_all_cmd_path(t_list *cmds, t_env *env);
-
+int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
+int				prep_exec(t_list *cmds, t_env *s_env);
+int				find_all_cmd_path(t_list *cmds, t_env *env);
 
 // built-in
 int				simple_export(t_env *s_env);
@@ -78,13 +85,15 @@ int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
 void			is_exit(t_list *cmd, t_env *s_env, int exit_code);
-char *remove_concat_operator(char *cmd);
-int parser_export(char *cmd);
-int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
-int process_var_new(t_cmd *cmd, t_env *s_env, int arg_idx);
-int process_var_exists(t_cmd *cmd, t_env *s_env, int arg_idx, int var_idx);
-int check_var_in_env(char *var, char **env, int var_len);
-int get_var_name_len(char *var);
+char			*remove_concat_operator(char *cmd);
+int				parser_export(char *cmd);
+int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
+int				process_var_new(t_cmd *cmd, t_env *s_env, int arg_idx);
+int				process_var_exists(t_cmd *cmd, t_env *s_env, int arg_idx,
+					int var_idx);
+int				check_var_in_env(char *var, char **env, int var_len);
+int				get_var_name_len(char *var);
+int				create_var(char *var, t_env *s_env);
 
 // utils
 void			free_tab(char **tab);

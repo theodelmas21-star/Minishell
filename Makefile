@@ -26,6 +26,7 @@ MY_SOURCES = src/main.c \
 	src/built-in/pwd.c \
 	src/built-in/export/export_utils.c \
 	src/built-in/export/export_options.c \
+	src/built-in/export/export_continue.c \
 	src/built-in/handle_builtins.c \
 	src/built-in/unset.c \
 	src/built-in/cd.c \
@@ -34,6 +35,7 @@ MY_SOURCES = src/main.c \
 	src/expander/expand_env.c \
 	src/expander/expand_hd.c \
 	src/expander/expand_new.c \
+	src/expander/expand_continue.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3
