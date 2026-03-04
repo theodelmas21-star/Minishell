@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/03 11:02:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/04 10:03:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_putnbr(int n)
 	return (res);
 }
 
-int interrogation(char *cmd, int exit_code)
+char *interrogation(char *cmd, int exit_code)
 {
     t_index index;
     char    *new;
@@ -58,14 +58,14 @@ int interrogation(char *cmd, int exit_code)
     {
         new = ft_putnbr(exit_code);
         if (!new)
-            return (1);
+            return (NULL);
         tmp = cmd;
         cmd = ft_strjoin_free(new, cmd + 2, new);
         if (!cmd)
-            return (1);
+            return (NULL);
         free(tmp);
     }
-    return (0);
+    return (cmd);
 }
 
 int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
@@ -76,9 +76,15 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
-        while (is_env(cmd->cmd[index.i], s_env) != -1 && cmd->is_expand[index.i] > 0)
+        while (is_expandable(cmd->cmd[index.i]) != -1 && cmd->is_expand[index.i] > 0)
         {
             cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code);
+            if (!cmd->cmd[index.i])
+                return (1);
+        }
+        if (cmd->is_expand[index.i] == 1)
+        {
+            cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
             if (!cmd->cmd[index.i])
                 return (1);
         }
