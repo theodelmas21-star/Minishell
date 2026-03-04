@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:02:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 08:06:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:33:43 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,13 @@ int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx)
     }
     var_len = get_var_name_len(cmd->cmd[arg_idx]);
     var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->env, var_len);
-    if (var_idx != -1)
+    if (var_idx == -1)
+    {
+        var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->local, var_len);
+        if (var_idx != - 1)
+            return (process_var_exists(cmd, s_env, arg_idx, var_idx));
+    }
+    else if (var_idx != -1)
         return (process_var_exists(cmd, s_env, arg_idx, var_idx));
     return (process_var_new(cmd, s_env, arg_idx));
 }
