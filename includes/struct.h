@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/04 10:40:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/05 08:34:50 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_env
 	char			**env;
 	char			*path;
 	char			**path_split;
-	char			**local;
+	t_list			*local;
 }					t_env;
 
 typedef enum e_quote

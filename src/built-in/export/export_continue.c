@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:02:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 11:33:43 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/05 11:07:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int check_var_in_env(char *var, char **env, int var_len)
     int j;
 
     j = 0;
+    if (!env)
+        return (-1);
     while (env[j])
     {
         if (ft_strncmp(var, env[j], var_len) == 0 && env[j][var_len] == '=')
@@ -66,27 +68,39 @@ int process_var_new(t_cmd *cmd, t_env *s_env, int arg_idx)
     return (err);
 }
 
-int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx)
+int handle_local(t_cmd *cmd, t_env *s_env, int arg_idx)
 {
     int var_len;
     int var_idx;
+    
+    var_len = get_var_name_len(cmd->cmd[arg_idx]);
+    var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->env, var_len);
+    printf("handle local : %d\n", var_idx);
+    if (var_idx == -1)
+    {
+        var_idx = check_var_in_env(cmd->cmd[arg_idx], ((t_env *)s_env->local->content)->env, var_len);
+        if (var_idx != -1)
+        {
+            printf("handle local, env local\n");
+            if (change_list_var(s_env, ((t_env *)s_env->local->content), var_idx))
+                return (1);
+            var_idx = 0;
+            while (s_env->env[var_idx])
+                var_idx++;
+            return (process_var_exists(cmd, s_env, arg_idx, var_idx));
+        }
+    }
+    else if (var_idx != -1)
+        return (process_var_exists(cmd, s_env, arg_idx, var_idx));
+    return (process_var_new(cmd, s_env, arg_idx));
+}
 
-    if (!ft_strchr(cmd->cmd[arg_idx], '='))
-        return (0);
+int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx)
+{   
     if (parser_export(cmd->cmd[arg_idx]) == 1)
     {
         printf("minishell : %s: not a valid identifier\n", cmd->cmd[arg_idx]);
         return (0);
     }
-    var_len = get_var_name_len(cmd->cmd[arg_idx]);
-    var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->env, var_len);
-    if (var_idx == -1)
-    {
-        var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->local, var_len);
-        if (var_idx != - 1)
-            return (process_var_exists(cmd, s_env, arg_idx, var_idx));
-    }
-    else if (var_idx != -1)
-        return (process_var_exists(cmd, s_env, arg_idx, var_idx));
-    return (process_var_new(cmd, s_env, arg_idx));
+    return (handle_local(cmd, s_env, arg_idx));
 }

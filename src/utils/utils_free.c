@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/01 16:11:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/05 11:26:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ void free_s_env(t_env *s_env)
 		free_tab(s_env->path_split);
 	if (s_env->env)
 		free_tab(s_env->env);
+	/*if (s_env->local)
+	{
+		free_s_env(((t_env*)s_env->local->content));
+		if (s_env->local)
+			free(s_env->local);
+	}*/
 	free(s_env);
 }
 

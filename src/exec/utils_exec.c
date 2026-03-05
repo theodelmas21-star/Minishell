@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 14:38:41 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 11:21:35 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/05 11:09:03 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ int size_cmd(t_list *cmds)
 	return (size);
 }
 
+int init_env_local(t_env *s_env)
+{
+	t_env *env;
+
+	env = malloc(sizeof(t_env));
+    if (!env)
+	{
+        return (1);
+	}
+	env->env = NULL;
+	s_env->path_split = NULL;
+	s_env->path = NULL;
+	s_env->local = ft_lstnew(env);
+	if (!s_env->local)
+		return (free(env), 1);
+	return (0);
+}
+
 int	env_init(t_env *s_env, char **envp)
 {
 	char **copy;
@@ -57,5 +75,7 @@ int	env_init(t_env *s_env, char **envp)
 	copy[index.j] = NULL;
 	s_env->env = copy;
     s_env = find_path(s_env);
+	if (init_env_local(s_env) == 1)
+		return (1);
 	return (0);
 }
