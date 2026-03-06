@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/05 08:31:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:38:09 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,22 @@ int is_concatenate(char *cmd)
 
 char *concatenate(char *cmd, char *env)
 {
-    t_index index;
-    char    *tmp;
-    int eq_pos;
-    
-    index = (t_index){0};
-    eq_pos = 0;
-    while (cmd[eq_pos] && cmd[eq_pos] != '=')
-        eq_pos++;
-    tmp = malloc(ft_strlen(env) + (ft_strlen(cmd) - eq_pos) + 1);
+    char *eq_cmd;
+    char *eq_env;
+    char *tmp;
+    int len;
+
+    eq_cmd = ft_strchr(cmd, '=');
+    eq_env = ft_strchr(env, '=');
+    if (!eq_cmd || !eq_env)
+        return (NULL);
+    len = (eq_env - env + 1) + ft_strlen(eq_env + 1) + ft_strlen(eq_cmd + 1);
+    tmp = malloc(len + 1);
     if (!tmp)
         return (NULL);
-    index.i = 0;
-    index.k = 0;
-    while (env[index.i])
-        tmp[index.k++] = env[index.i++];
-    index.i = eq_pos + 1;
-    while (cmd[index.i])
-        tmp[index.k++] = cmd[index.i++];
-    tmp[index.k] = '\0';
+    ft_strlcpy(tmp, env, eq_env - env + 2);
+    ft_strlcat(tmp, eq_env + 1, len + 1);
+    ft_strlcat(tmp, eq_cmd + 1, len + 1);
     return (tmp);
 }
 

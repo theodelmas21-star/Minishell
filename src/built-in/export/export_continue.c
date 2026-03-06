@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:02:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/05 11:07:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/06 10:37:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,12 @@ int handle_local(t_cmd *cmd, t_env *s_env, int arg_idx)
     
     var_len = get_var_name_len(cmd->cmd[arg_idx]);
     var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->env, var_len);
-    printf("handle local : %d\n", var_idx);
-    if (var_idx == -1)
+    if (var_idx != -1)
     {
-        var_idx = check_var_in_env(cmd->cmd[arg_idx], ((t_env *)s_env->local->content)->env, var_len);
-        if (var_idx != -1)
-        {
-            printf("handle local, env local\n");
-            if (change_list_var(s_env, ((t_env *)s_env->local->content), var_idx))
-                return (1);
-            var_idx = 0;
-            while (s_env->env[var_idx])
-                var_idx++;
-            return (process_var_exists(cmd, s_env, arg_idx, var_idx));
-        }
-    }
-    else if (var_idx != -1)
+        if (!ft_strchr(cmd->cmd[arg_idx], '='))
+            return (0);
         return (process_var_exists(cmd, s_env, arg_idx, var_idx));
+    }
     return (process_var_new(cmd, s_env, arg_idx));
 }
 
