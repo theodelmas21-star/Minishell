@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 14:47:25 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:32:45 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,19 @@ void	print_cmds(t_list *cmds)
 	t_cmd	*cur_cmd;
 	t_list	*cur_redir;
 	t_redir	*redir;
+	int i;
 
 	printf("CMDS:\n");
 	while (cmds)
 	{
+		i = 0;
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
-		printf("%s\n", cur_cmd->cmd[0]);
+		while (cur_cmd->cmd[i])
+		{
+			printf("%s\n", cur_cmd->cmd[i]);
+			i++;
+		}
 		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
 		cur_redir = cur_cmd->redirs;
 		while (cur_redir)
@@ -113,8 +119,9 @@ int	main(int argc, char **argv, char **envp)
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
 			cmd = token_to_cmd(tokens);
+			print_cmds(cmd);
 			free_list(tokens);
-			exc.exit_code = call_exec(cmd, s_env, exc);
+			//exc.exit_code = call_exec(cmd, s_env, exc);
 			//free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);

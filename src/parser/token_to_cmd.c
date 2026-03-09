@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/26 16:29:51 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:04:51 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,26 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	}
 	return (1);
 }
+
+/* int	get_quote_type(t_token *token)
+{
+	t_list	*current;
+	t_token	*subtoken;
+
+	if (!token)
+		return (1);
+	if (token->quote_type == DQUOTE)
+		return (2);
+	current = token->subtokens;
+	while (current)
+	{
+		subtoken = (t_token *)current->content;
+		if (subtoken && subtoken->quote_type == DQUOTE)
+			return (2);
+		current = current->next;
+	}
+	return (1);
+}*/
 
 t_list	*token_to_cmd(t_list *tokens)
 {
