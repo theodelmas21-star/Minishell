@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 14:49:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/26 18:50:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,24 @@ void	print_cmds(t_list *cmds)
 {
 	t_list	*current;
 	t_cmd	*cur_cmd;
+	t_list	*cur_redir;
+	t_redir	*redir;
 
+	printf("CMDS:\n");
 	while (cmds)
 	{
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
+		printf("%s\n", cur_cmd->cmd[0]);
+		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
+		cur_redir = cur_cmd->redirs;
+		while (cur_redir)
+		{
+			redir = (t_redir *)cur_redir->content;
+			printf("redir target = %s \n", redir->target);
+			cur_redir = cur_redir->next;
+		}
 		cmds = cmds->next;
-		printf("%s", cur_cmd->cmd[0]);
 	}
 }
 
@@ -69,10 +80,10 @@ void	print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*buffer;
-	int		exit_code;
 	t_list	*tokens;
 	t_list	*cmd;
 
+	// int		exit_code;
 	(void)argc;
 	(void)argv;
 	(void)envp;
@@ -82,10 +93,10 @@ int	main(int argc, char **argv, char **envp)
 		if (!buffer)
 			break ;
 		tokens = lexer(buffer);
-		print_tokens(tokens);
-		cmd = token_to_cmd(tokens);
+		cmd = parsed_cmds(tokens);
+		print_cmds(cmd);
 		free_list(tokens);
-		exit_code = call_exec(cmd, envp);
+		// exit_code = call_exec(cmd, envp);
 		free_cmds(cmd);
 		if (*buffer)
 			add_history(buffer);

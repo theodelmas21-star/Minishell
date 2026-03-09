@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/20 14:41:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/26 16:28:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int				is_space(char c);
 int				is_operator(char c);
 
 // parser
+t_list			*parsed_cmds(t_list *tokens);
+int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
-
+int				is_redirection(t_token_type type);
 // exec
 void			error(char *error_message);
 int				size_cmd(t_list *cmds);
@@ -60,6 +62,7 @@ int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 void			free_tab(char **tab);
 void			free_list(t_list *list);
 void			free_cmds(t_list *cmds);
+void			free_cmd(t_cmd *cmd);
 void			free_s_env(t_env *s_env);
 char			*ft_strjoin_free(char *str, char *str2, char *str_to_free);
 char			*ft_strjoin_free_both(char *str, char *str2);

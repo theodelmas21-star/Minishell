@@ -8,7 +8,10 @@ MY_SOURCES = src/main.c \
 	src/lexer/utils/create_token.c \
 	src/utils/utils_free.c \
 	src/utils/utils_check_char.c \
-	src/parser/parser.c \
+	src/parser/parsed_cmds.c \
+	src/parser/check_args.c \
+	src/parser/token_to_cmd.c \
+	src/parser/parser_utils.c \
 	src/exec/exec.c \
 	src/exec/paths.c \
 	src/exec/redirs.c \

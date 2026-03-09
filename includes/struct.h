@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/20 14:41:13 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/02/26 14:41:32 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,6 @@ typedef enum e_token_type
 	REDIR_OUT      // >
 }					t_token_type;
 
-typedef struct s_redir
-{
-	t_token_type	type;
-	char *target; // fichier ou delimiter
-	char			*LIMITER;
-	int fd; // STDIN ou STDOUT
-}					t_redir;
-
 typedef enum e_state
 {
 	STATE_GENERAL,
@@ -40,6 +32,21 @@ typedef enum e_state
 	STATE_IN_SQUOTE,
 	STATE_IN_DQUOTE
 }					t_state;
+
+typedef enum e_quote
+{
+	NO_QUOTE,
+	SQUOTE,
+	DQUOTE,
+}					t_quote;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char *target; // fichier ou delimiter
+	char			*limiter;
+	int fd; // STDIN ou STDOUT
+}					t_redir;
 
 typedef struct s_cmd
 {
@@ -55,13 +62,6 @@ typedef struct s_env
 	char			*path;
 	char			**path_split;
 }					t_env;
-
-typedef enum e_quote
-{
-	NO_QUOTE,
-	SQUOTE,
-	DQUOTE,
-}					t_quote;
 
 typedef struct s_token
 {

@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:48 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/19 17:14:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:12:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ static void	check_empty_quotes(t_lexer *lexer, t_quote quote_type)
 	if (!lexer->tmp)
 	{
 		if (quote_type != NO_QUOTE)
+		{
 			lexer->tmp = ft_strdup("");
+			if (!lexer->tmp)
+				return ;
+		}
 		else
 			return ;
 	}
@@ -54,12 +58,20 @@ void	create_subtoken(t_lexer *lexer, t_quote quote_type)
 	check_empty_quotes(lexer, quote_type);
 	subtoken = malloc(sizeof(t_token));
 	if (!subtoken)
+	{
+		free(lexer->tmp);
+		lexer->tmp = NULL;
 		return ;
+	}
 	subtoken->subtokens = NULL;
-	subtoken->arg = lexer->tmp;
+	subtoken->arg = NULL;
+	if (lexer->tmp)
+		subtoken->arg = lexer->tmp;
 	subtoken->type = WORD;
 	subtoken->quote_type = quote_type;
 	node = ft_lstnew(subtoken);
+	if (!node)
+		return (del_token(subtoken));
 	last_token = ft_lstlast(lexer->tokens);
 	add_subtoken(last_token, lexer, node);
 	lexer->tmp = NULL;
@@ -73,12 +85,20 @@ void	create_token(t_lexer *lexer, t_quote quote_type)
 	check_empty_quotes(lexer, quote_type);
 	token = malloc(sizeof(t_token));
 	if (!token)
+	{
+		free(lexer->tmp);
+		lexer->tmp = NULL;
 		return ;
+	}
 	token->subtokens = NULL;
-	token->arg = lexer->tmp;
+	token->arg = NULL;
+	if (lexer->tmp)
+		token->arg = lexer->tmp;
 	token->type = get_token_type(token->arg);
 	token->quote_type = quote_type;
 	node = ft_lstnew(token);
+	if (!node)
+		return (del_token(token));
 	ft_lstadd_back(&lexer->tokens, node);
 	lexer->tmp = NULL;
 	lexer->in_sequence = 0;
