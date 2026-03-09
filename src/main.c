@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 15:32:45 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/09 16:37:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char **argv, char **envp)
 				break;
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
-			cmd = token_to_cmd(tokens);
+			cmd = parsed_cmds(tokens);
 			print_cmds(cmd);
 			free_list(tokens);
 			//exc.exit_code = call_exec(cmd, s_env, exc);
