@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 15:19:53 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:27:59 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,6 @@ static t_cmd	*init_cmd(void)
 	return (cmd);
 }
 
-static int	is_builtin(char *cmd)
-{
-	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "cd",
-			ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0
-		|| ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0 || ft_strncmp(cmd,
-			"unset", ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "env",
-			ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "exit",
-			ft_strlen(cmd)) == 0)
-		return (1);
-	return (0);
-}
 static int	cmd_add_arg(t_cmd *cmd, t_token *tok)
 {
 	char	**new;

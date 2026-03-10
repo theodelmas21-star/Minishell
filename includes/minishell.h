@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:49:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:28:30 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_list			*parsed_cmds(t_list *tokens);
 int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
 int				is_redirection(t_token_type type);
+int				is_builtin(char *cmd);
 
 // signals
 void			init_signal(void);
@@ -46,7 +47,7 @@ void			reset_signals(void);
 
 // expand
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
-char *call_exp_env(char *cmd, t_env *s_env);
+char			*call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
 char			*expand_hd(char *res, t_env *s_env, t_exec exc);
 int				is_expand(t_cmd *cmd, int ind_cmd);
