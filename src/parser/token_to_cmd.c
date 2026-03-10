@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 15:04:51 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:31:23 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,37 @@ static t_cmd	*init_cmd(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->cmd = malloc(sizeof(char *));
 	if (!cmd->cmd)
 		return (free(cmd), NULL);
+	cmd->is_expand = malloc(sizeof(int));
+	if (!cmd->is_expand)
+		return (free(cmd->cmd), free(cmd), NULL);
 	cmd->cmd[0] = NULL;
+	cmd->is_expand[0] = 0;
+	cmd->redirs = NULL;
+	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
 	cmd->pipefd[1] = -1;
 	return (cmd);
 }
 
+static int	is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "cd",
+			ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0
+		|| ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0 || ft_strncmp(cmd,
+			"unset", ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "env",
+			ft_strlen(cmd)) == 0 || ft_strncmp(cmd, "exit",
+			ft_strlen(cmd)) == 0)
+		return (1);
+	return (0);
+}
+
 static int	cmd_add_arg(t_cmd *cmd, char *arg)
 {
 	char	**new;
+	int		*new_expand;
 	int		i;
 
 	i = 0;
@@ -40,16 +58,24 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg)
 	new = malloc(sizeof(char *) * (i + 2));
 	if (!new)
 		return (0);
+	new_expand = malloc(sizeof(int) * (i + 1));
+	if (!new_expand)
+		return (free(new), 0);
 	i = 0;
 	while (cmd->cmd[i])
 	{
 		new[i] = cmd->cmd[i];
+		new_expand[i] = cmd->is_expand[i];
 		i++;
 	}
-	new[i++] = ft_strdup(arg);
-	new[i] = NULL;
+	new[i] = ft_strdup(arg);
+	new_expand[i] = 0; // a deterrminer
+	new[i + 1] = NULL;
 	free(cmd->cmd);
+	free(cmd->is_expand);
 	cmd->cmd = new;
+	cmd->is_expand = new_expand;
+	cmd->is_builtin = is_builtin(cmd->cmd[0]);
 	return (1);
 }
 
@@ -98,10 +124,37 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	return (1);
 }
 
+t_list	*token_to_cmd(t_list *tokens)
+{
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+	t_token	*tok;
+
+	cmd_list = NULL;
+	cmd = init_cmd();
+	if (!cmd)
+		return (NULL);
+	while (tokens)
+	{
+		tok = tokens->content;
+		if (!create_cmd_list(tok, &cmd, tokens, &cmd_list))
+			return (free_cmd(cmd), free_cmds(cmd_list), NULL);
+		tokens = tokens->next;
+	}
+	ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
+	return (cmd_list);
+}
+
 /* int	get_quote_type(t_token *token)
 {
 	t_list	*current;
 	t_token	*subtoken;
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+	t_token	*tok;
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+	t_token	*tok;
 
 	if (!token)
 		return (1);
@@ -117,24 +170,3 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	}
 	return (1);
 }*/
-
-t_list	*token_to_cmd(t_list *tokens)
-{
-	t_list	*cmd_list;
-	t_cmd	*cmd;
-	t_token	*tok;
-
-	cmd_list = NULL;
-	cmd = init_cmd();
-	if (!cmd)
-		return (free_cmd(cmd), NULL);
-	while (tokens)
-	{
-		tok = tokens->content;
-		if (!create_cmd_list(tok, &cmd, tokens, &cmd_list))
-			return (NULL);
-		tokens = tokens->next;
-	}
-	ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
-	return (cmd_list);
-}
