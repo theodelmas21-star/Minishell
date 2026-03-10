@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_continue.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 10:13:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:16:58 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,9 @@ int len_new(char *str, int ind_str)
 
 int is_expandable(char *str)
 {
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-        if (str[i] == '$')
-            return (i);
-        i++;
-    }
-    return (-1);
+	if (ft_strchr(str, '$'))
+		return (1);
+	return (0);
 }
 
 char *join_split(char *str)

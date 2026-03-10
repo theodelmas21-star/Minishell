@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 16:37:53 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:59:31 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_cmds(t_list *cmds)
 	t_cmd	*cur_cmd;
 	t_list	*cur_redir;
 	t_redir	*redir;
-	int i;
+	int		i;
 
 	printf("CMDS:\n");
 	while (cmds)
@@ -55,6 +55,7 @@ void	print_cmds(t_list *cmds)
 		while (cur_cmd->cmd[i])
 		{
 			printf("%s\n", cur_cmd->cmd[i]);
+			printf("isexpand[%d] = %d\n", i, cur_cmd->is_expand[i]);
 			i++;
 		}
 		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
@@ -97,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	exc.exit_code = 0;
 	if (isatty(STDIN_FILENO))
-    {	
+	{
 		init_signal();
 		s_env = malloc(sizeof(t_env));
 		if (!s_env)
@@ -112,17 +113,17 @@ int	main(int argc, char **argv, char **envp)
 				exc.exit_code = g_signal;
 				g_signal = 0;
 				free(buffer);
-				continue;
+				continue ;
 			}
 			if (!buffer)
-				break;
+				break ;
 			tokens = lexer(buffer);
-			//print_tokens(tokens);
+			// print_tokens(tokens);
 			cmd = parsed_cmds(tokens);
 			print_cmds(cmd);
 			free_list(tokens);
-			//exc.exit_code = call_exec(cmd, s_env, exc);
-			//free_cmds(cmd);
+			// exc.exit_code = call_exec(cmd, s_env, exc);
+			// free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);
 			free(buffer);

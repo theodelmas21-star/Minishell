@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 10:03:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:17:52 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
-        while (is_expandable(cmd->cmd[index.i]) != -1 && cmd->is_expand[index.i] > 0)
+        while (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
         {
             cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code);
             if (!cmd->cmd[index.i])

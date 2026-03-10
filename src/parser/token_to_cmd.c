@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 14:31:23 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:19:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ static int	is_builtin(char *cmd)
 		return (1);
 	return (0);
 }
-
-static int	cmd_add_arg(t_cmd *cmd, char *arg)
+static int	cmd_add_arg(t_cmd *cmd, t_token *tok)
 {
 	char	**new;
 	int		*new_expand;
@@ -68,8 +67,8 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg)
 		new_expand[i] = cmd->is_expand[i];
 		i++;
 	}
-	new[i] = ft_strdup(arg);
-	new_expand[i] = 0; // a deterrminer
+	new[i] = ft_strdup(tok->arg);
+	new_expand[i] = is_expandable(tok->arg) && tok->quote_type != SQUOTE;
 	new[i + 1] = NULL;
 	free(cmd->cmd);
 	free(cmd->is_expand);
@@ -101,7 +100,7 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 
 	if (tok->type == WORD)
 	{
-		cmd_add_arg(*cmd, tok->arg);
+		cmd_add_arg(*cmd, tok);
 		return (1);
 	}
 	else if (is_redirection(tok->type))
