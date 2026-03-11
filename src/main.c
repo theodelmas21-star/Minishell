@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 14:59:31 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:57:17 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_cmds(t_list *cmds)
 		while (cur_cmd->cmd[i])
 		{
 			printf("%s\n", cur_cmd->cmd[i]);
-			printf("isexpand[%d] = %d\n", i, cur_cmd->is_expand[i]);
+			printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
 			i++;
 		}
 		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
@@ -64,6 +64,10 @@ void	print_cmds(t_list *cmds)
 		{
 			redir = (t_redir *)cur_redir->content;
 			printf("redir target = %s \n", redir->target);
+			printf("tok type = %u \n", redir->type);
+			printf("delimiter = %s \n", redir->delimiter);
+			printf("exp hd = %d \n", redir->exp_hd);
+			printf("fd = %d \n", redir->fd);
 			cur_redir = cur_redir->next;
 		}
 		cmds = cmds->next;
@@ -118,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 			if (!buffer)
 				break ;
 			tokens = lexer(buffer);
-			// print_tokens(tokens);
+			print_tokens(tokens);
 			cmd = parsed_cmds(tokens);
 			print_cmds(cmd);
 			free_list(tokens);

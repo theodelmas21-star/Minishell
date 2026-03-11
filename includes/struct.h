@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 15:07:57 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:00:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_redir
 {
 	t_token_type	type;
 	char *target; // fichier ou delimiter
-	char			*limiter;
+	char			*delimiter;
 	int				exp_hd;
 	int fd; // STDIN ou STDOUT
 }					t_redir;

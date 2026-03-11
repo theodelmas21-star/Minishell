@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 15:08:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:57:06 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 
 	redir_R->fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (redir_R->fd < 0)
-		return (error("Open error"), free(redir_R->limiter), 1);
+		return (error("Open error"), free(redir_R->delimiter), 1);
 	while (1)
 	{
 		ft_putstr_fd("heredoc> ", 1);
 		tmp = get_next_line(0);
 		if (!tmp || g_signal)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
-		if (ft_strncmp(tmp, redir_R->limiter, ft_strlen(redir_R->limiter)) == 0)
+		if (ft_strncmp(tmp, redir_R->delimiter, ft_strlen(redir_R->delimiter)) == 0)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{

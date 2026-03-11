@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 15:27:59 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:13:13 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 		return (0);
 	new->type = redir->type;
 	new->target = target->arg;
-	new->limiter = NULL;
+	if (redir->type == REDIR_HEREDOC)
+		new->delimiter = target->arg;
+	else
+		new->delimiter = NULL;
+	new->exp_hd = target->quote_type == NO_QUOTE;
 	new->fd = -1;
 	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
 	return (1);
