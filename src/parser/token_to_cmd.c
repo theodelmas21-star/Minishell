@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/11 10:47:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:01:35 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,25 @@ static t_cmd	*init_cmd(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
-	ft_memset(cmd, 0, sizeof(t_cmd));
 	cmd->cmd = malloc(sizeof(char *));
 	if (!cmd->cmd)
 		return (free(cmd), NULL);
+	cmd->is_expand = malloc(sizeof(int));
+	if (!cmd->is_expand)
+		return (free(cmd->cmd), free(cmd), NULL);
 	cmd->cmd[0] = NULL;
+	cmd->is_expand[0] = 0;
+	cmd->redirs = NULL;
+	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
 	cmd->pipefd[1] = -1;
 	return (cmd);
 }
 
-static int	cmd_add_arg(t_cmd *cmd, char *arg)
+static int	cmd_add_arg(t_cmd *cmd, t_token *tok)
 {
 	char	**new;
+	int		*new_expand;
 	int		i;
 
 	i = 0;
@@ -40,16 +46,24 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg)
 	new = malloc(sizeof(char *) * (i + 2));
 	if (!new)
 		return (0);
+	new_expand = malloc(sizeof(int) * (i + 1));
+	if (!new_expand)
+		return (free(new), 0);
 	i = 0;
 	while (cmd->cmd[i])
 	{
 		new[i] = cmd->cmd[i];
+		new_expand[i] = cmd->is_expand[i];
 		i++;
 	}
-	new[i++] = ft_strdup(arg);
-	new[i] = NULL;
+	new[i] = ft_strdup(tok->arg);
+	new_expand[i] = is_expandable(tok->arg) && tok->quote_type != SQUOTE;
+	new[i + 1] = NULL;
 	free(cmd->cmd);
+	free(cmd->is_expand);
 	cmd->cmd = new;
+	cmd->is_expand = new_expand;
+	cmd->is_builtin = is_builtin(cmd->cmd[0]);
 	return (1);
 }
 
@@ -62,7 +76,11 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 		return (0);
 	new->type = redir->type;
 	new->target = target->arg;
-	new->LIMITER = NULL;
+	if (redir->type == REDIR_HEREDOC)
+		new->delimiter = target->arg;
+	else
+		new->delimiter = NULL;
+	new->exp_hd = target->quote_type == NO_QUOTE;
 	new->fd = -1;
 	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
 	return (1);
@@ -75,7 +93,7 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 
 	if (tok->type == WORD)
 	{
-		cmd_add_arg(*cmd, tok->arg);
+		cmd_add_arg(*cmd, tok);
 		return (1);
 	}
 	else if (is_redirection(tok->type))
@@ -107,14 +125,40 @@ t_list	*token_to_cmd(t_list *tokens)
 	cmd_list = NULL;
 	cmd = init_cmd();
 	if (!cmd)
-		return (free_cmd(cmd), NULL);
+		return (NULL);
 	while (tokens)
 	{
 		tok = tokens->content;
 		if (!create_cmd_list(tok, &cmd, tokens, &cmd_list))
-			return (NULL);
+			return (free_cmd(cmd), free_cmds(cmd_list), NULL);
 		tokens = tokens->next;
 	}
 	ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
 	return (cmd_list);
 }
+
+/* int	get_quote_type(t_token *token)
+{
+	t_list	*current;
+	t_token	*subtoken;
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+	t_token	*tok;
+	t_list	*cmd_list;
+	t_cmd	*cmd;
+	t_token	*tok;
+
+	if (!token)
+		return (1);
+	if (token->quote_type == DQUOTE)
+		return (2);
+	current = token->subtokens;
+	while (current)
+	{
+		subtoken = (t_token *)current->content;
+		if (subtoken && subtoken->quote_type == DQUOTE)
+			return (2);
+		current = current->next;
+	}
+	return (1);
+}*/

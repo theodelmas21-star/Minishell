@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/09 14:47:25 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/11 14:57:17 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,30 @@ void	print_cmds(t_list *cmds)
 	t_cmd	*cur_cmd;
 	t_list	*cur_redir;
 	t_redir	*redir;
+	int		i;
 
 	printf("CMDS:\n");
 	while (cmds)
 	{
+		i = 0;
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
-		printf("%s\n", cur_cmd->cmd[0]);
+		while (cur_cmd->cmd[i])
+		{
+			printf("%s\n", cur_cmd->cmd[i]);
+			printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
+			i++;
+		}
 		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
 		cur_redir = cur_cmd->redirs;
 		while (cur_redir)
 		{
 			redir = (t_redir *)cur_redir->content;
 			printf("redir target = %s \n", redir->target);
+			printf("tok type = %u \n", redir->type);
+			printf("delimiter = %s \n", redir->delimiter);
+			printf("exp hd = %d \n", redir->exp_hd);
+			printf("fd = %d \n", redir->fd);
 			cur_redir = cur_redir->next;
 		}
 		cmds = cmds->next;
@@ -91,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	exc.exit_code = 0;
 	if (isatty(STDIN_FILENO))
-    {	
+	{
 		init_signal();
 		s_env = malloc(sizeof(t_env));
 		if (!s_env)
@@ -106,16 +117,17 @@ int	main(int argc, char **argv, char **envp)
 				exc.exit_code = g_signal;
 				g_signal = 0;
 				free(buffer);
-				continue;
+				continue ;
 			}
 			if (!buffer)
-				break;
+				break ;
 			tokens = lexer(buffer);
-			//print_tokens(tokens);
-			cmd = token_to_cmd(tokens);
+			print_tokens(tokens);
+			cmd = parsed_cmds(tokens);
+			print_cmds(cmd);
 			free_list(tokens);
-			exc.exit_code = call_exec(cmd, s_env, exc);
-			//free_cmds(cmd);
+			// exc.exit_code = call_exec(cmd, s_env, exc);
+			// free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);
 			free(buffer);

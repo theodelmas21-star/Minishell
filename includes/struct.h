@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/11 10:46:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:02:44 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,6 @@ typedef enum e_token_type
 	REDIR_OUT      // >
 }					t_token_type;
 
-typedef struct s_redir
-{
-	t_token_type	type;
-	char *target; // fichier ou delimiter
-	char			*LIMITER;
-	int	exp_hd;
-	int fd; // STDIN ou STDOUT
-}					t_redir;
-
 typedef enum e_state
 {
 	STATE_GENERAL,
@@ -48,6 +39,15 @@ typedef enum e_quote
 	SQUOTE,
 	DQUOTE,
 }					t_quote;
+
+typedef struct s_redir
+{
+	t_token_type	type;
+	char *target; // fichier ou delimiter
+	char			*delimiter;
+	int				exp_hd;
+	int fd; // STDIN ou STDOUT
+}					t_redir;
 
 typedef struct s_cmd
 {
