@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_continue.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 15:16:58 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:58:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char *join_split(char *str)
     char *res;
 
     i = 0;
+    if (ft_strchr(str, ' ') == NULL)
+        return (str);
     tmp = ft_split(str, ' ');
     if (!tmp)
         return (NULL);

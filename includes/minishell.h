@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/10 15:28:30 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:45:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ void			del_token(void *content);
 int				is_space(char c);
 int				is_operator(char c);
 void			print_env(char **env);
+void			print_cmds(t_list *cmds);
 
 #endif

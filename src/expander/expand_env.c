@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:50:06 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 10:13:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:34:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char *expand_env(t_env *s_env, int ind_env)
     start = 0;
     index = (t_index){0};
     index.i = ind_env;
-    new = malloc(sizeof(char) * (len_new_exp(s_env->env[index.i] + 1)));
+    new = malloc(sizeof(char) * (len_new_exp(s_env->env[index.i]) + 1));
     if (!new)
         return NULL;
     while (s_env->env[index.i][index.j])

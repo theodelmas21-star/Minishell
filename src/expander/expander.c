@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/10 15:17:52 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/12 10:00:27 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
         cur_list = cur_list->next;
+        print_cmds(cmds);
     }
     return (0);
 }
