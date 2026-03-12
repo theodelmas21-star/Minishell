@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 16:08:22 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:22:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)
 		current = ((t_cmd *)cmds->content);
 		if (cmds->next)
 			pipe(current->pipefd);
+		g_signal = -1;
 		*pid = fork();
 		if (secur_fork(cmds, current, *pid))
 			return ;

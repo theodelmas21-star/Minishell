@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/11 14:57:17 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:12:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 			cmd = parsed_cmds(tokens);
 			print_cmds(cmd);
 			free_list(tokens);
-			// exc.exit_code = call_exec(cmd, s_env, exc);
+			exc.exit_code = call_exec(cmd, s_env, exc);
 			// free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);

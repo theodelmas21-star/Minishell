@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:00:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 14:14:09 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/12 09:23:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ volatile sig_atomic_t	g_signal = 0;
 void	sigint_handler(int sig)
 {
 	(void)sig;
+	if (g_signal == -1)
+	{
+		write(1, "\n", 1);
+		return ;
+	}
 	g_signal = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
