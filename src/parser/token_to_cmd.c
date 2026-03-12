@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/26 16:29:51 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:47:28 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 		return (0);
 	new->type = redir->type;
 	new->target = target->arg;
-	new->limiter = NULL;
+	new->LIMITER = NULL;
 	new->fd = -1;
 	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
 	return (1);

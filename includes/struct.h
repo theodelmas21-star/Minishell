@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 14:47:21 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:46:57 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ typedef enum e_quote
 	SQUOTE,
 	DQUOTE,
 }					t_quote;
-
-typedef struct s_redir
-{
-	t_token_type	type;
-	char *target; // fichier ou delimiter
-	char			*limiter;
-	int fd; // STDIN ou STDOUT
-}					t_redir;
 
 typedef struct s_cmd
 {
