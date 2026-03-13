@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 17:02:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:10:52 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	}
 	else
 	{
-		new->target = target->arg;
+		new->target = ft_strdup(target->arg);
 		new->delimiter = NULL;
 	}
 	new->exp_hd = target->quote_type == NO_QUOTE;
