@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 16:33:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:02:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,11 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 				quote_type = subtok_content->quote_type;
 				subtoken = subtoken->next;
 			}
+			cmd_add_arg(*cmd, arg, quote_type);
+			return (1);
 		}
-		cmd_add_arg(*cmd, arg, quote_type);
+		else
+			cmd_add_arg(*cmd, tok->arg, tok->quote_type);
 		return (1);
 	}
 	else if (is_redirection(tok->type))
