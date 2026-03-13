@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 16:18:48 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:33:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	{
 		if (ft_strlen(arg) < 1)
 		{
-			while (subtoken)
+			while (subtoken && ft_strlen(arg) < 1)
 			{
 				subtok_content = (t_token *)subtoken->content;
 				arg = subtok_content->arg;
