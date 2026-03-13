@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/12 09:01:35 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/13 15:05:41 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,16 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	if (!new)
 		return (0);
 	new->type = redir->type;
-	new->target = target->arg;
 	if (redir->type == REDIR_HEREDOC)
+	{
+		new->target = NULL;
 		new->delimiter = target->arg;
+	}
 	else
+	{
+		new->target = target->arg;
 		new->delimiter = NULL;
+	}
 	new->exp_hd = target->quote_type == NO_QUOTE;
 	new->fd = -1;
 	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
@@ -102,7 +107,6 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 			return (0);
 		target = tokens->next->content;
 		add_redirection(*cmd, tok, target);
-		tokens = tokens->next;
 		return (1);
 	}
 	else if (tok->type == PIPE)
@@ -131,7 +135,10 @@ t_list	*token_to_cmd(t_list *tokens)
 		tok = tokens->content;
 		if (!create_cmd_list(tok, &cmd, tokens, &cmd_list))
 			return (free_cmd(cmd), free_cmds(cmd_list), NULL);
-		tokens = tokens->next;
+		if (is_redirection(tok->type))
+			tokens = tokens->next->next;
+		else
+			tokens = tokens->next;
 	}
 	ft_lstadd_back(&cmd_list, ft_lstnew(cmd));
 	return (cmd_list);
