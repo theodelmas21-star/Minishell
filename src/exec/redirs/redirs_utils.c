@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/11 14:57:06 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:25:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ int	handle_output_redir(t_redir *redir_R)
 	fd = open(redir_R->target, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (error("Open Error"), 1);
-	return (dup2(fd, STDOUT_FILENO), close(fd), 0);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
 }
 
 int	handle_append_redir(t_redir *redir_R)

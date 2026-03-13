@@ -1,0 +1,11 @@
+abc
+[?2004hminishell> 
+[?2004lCMDS:
+[?2004hminishell> abcdef
+[?2004lTOKEN:
+  arg = abcdef | type = 0 | quote = 0
+CMDS:
+abcdef
+is_expand[0] = 0
+isbuiltin = 0
+minishell: command not found: abcdef
