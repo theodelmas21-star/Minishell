@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/12 09:45:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:46:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int				check_var_in_env(char *var, char **env, int var_len);
 char			*join_split(char *str);
 int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);
+char *handle_number(char *new);
 
 // exec
 void			error(char *error_message);

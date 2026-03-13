@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 10:14:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:56:52 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,14 @@ char *create_new(char *str, int ind_str)
     new = malloc(sizeof(char) * (len + 1));
     if (!new)
         return NULL;
-    while (str[ind_str] && str[ind_str] != ' ')
+    while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '*' && str[ind_str] != '@' 
+         && str[ind_str] != '!' && str[ind_str] != '-')
     {
         new[index.i] = str[ind_str];
         index.i++;
         ind_str++;
+        if (str[ind_str] == '$')
+            break;
     }
     new[index.i] = '\0';
     return (new);
@@ -52,9 +55,13 @@ char *replace_old(char *old, char *new)
         index.i++;
     }
     tmp[index.i] = '\0';
-    tmp = ft_strjoin_free_both(tmp, new);
-    if (!tmp)
-        return (NULL);
+    if (new)
+    {
+        tmp = ft_strjoin_free_both(tmp, new);
+        if (!tmp)
+            return (NULL);
+        return (tmp);
+    }
     return (tmp);
 }
 
@@ -68,7 +75,9 @@ char *return_new_core(char *tmp, char *res, char *old, int dollar)
         res[i] = tmp[i];
         i++;
     }
-    while(old[dollar] && old[dollar] != ' ')
+    dollar++;
+    while(old[dollar] && old[dollar] != ' ' && old[dollar] != ' ' && old[dollar] != '%' && old[dollar] != '*' && old[dollar] != '@' 
+         && old[dollar] != '!' && old[dollar] != '-' && old[dollar] != '$')
         dollar++;
     while(old[dollar])
     {
@@ -110,25 +119,36 @@ char *expand_all(char *str, t_env *s_env, int exit_code)
     index = (t_index){0};
     while (str[index.i])
     {
-        if (str[index.i] == '$')
+        if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' ')
         {
             new = create_new(str, index.i);
             if (!new)
                 return NULL;
             to_replace = ft_strlen(new);
-            new = call_exp_env(new, s_env);
-            if (!new)
-                return (NULL);
-            //printf("%s\n", new);
             new = interrogation(new, exit_code);
             if (!new)
                 return (NULL);
+            if (is_env(new, s_env) >= 0)
+            {
+                new = call_exp_env(new, s_env);
+                if (!new)
+                    return (NULL);
+            }
+            else if(new[1] >= '0' && new[1] <= '9')
+            {
+                new = handle_number(new);
+                if (!new)
+                    return (NULL);
+            }
+            else
+                new = ft_strdup("");
             new = return_new(str, new, to_replace, index.i);
             if (!new)
                 return (NULL);
-            return (new);
+            str = new;
+            index.i = 0;
         }
         index.i++;
     }
-    return (NULL);
+    return (str);
 }
