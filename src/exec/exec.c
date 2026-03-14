@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 13:42:56 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 09:36:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	if (!cmds)
 		return (exc.exit_code);
 	if (prep_exec(cmds, s_env) || expander(cmds, s_env, exc.exit_code))
-		return (free_s_env(s_env), free_cmds(cmds), 1);
+		return (1);
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
@@ -114,5 +114,6 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		exc.exit_code = 1;
 	while (wait(&status) > 0)
 		;
-	return (free_cmds(cmds), exc.exit_code);
+	//free_cmds(cmds);
+	return (exc.exit_code);
 }

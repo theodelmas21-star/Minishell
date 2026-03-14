@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 11:52:48 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 09:38:25 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_env	*find_path(t_env *envp)
 		i++;
 	}
 	envp->path_split = ft_split(envp->path + 5, ':');
-	if (!envp->path)
+	if (!envp->path_split)
 		return (NULL);
 	return (envp);
 }

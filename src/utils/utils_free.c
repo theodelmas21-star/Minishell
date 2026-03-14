@@ -50,20 +50,37 @@ void	free_list(t_list *list)
 	}
 }
 
+void	free_redir(void *content)
+{
+	t_redir *redir;
+
+	redir = (t_redir *)content;
+	if (!redir)
+		return ;
+	if (redir->target)
+		free(redir->target);
+	if (redir->delimiter)
+		free(redir->delimiter);
+	free(redir);
+}
+
 void	free_cmd(t_cmd *cmd)
 {
-	t_redir	*cur_redir;
+	t_list	*cur_redir;
 
 	if (!cmd)
 		return ;
 	free_tab(cmd->cmd);
-	cur_redir = (t_redir *)cmd->redirs;
+	cur_redir = cmd->redirs;
 	while (cur_redir)
 	{
-		if (cur_redir && cur_redir->fd)
-			close(cur_redir->fd);
-		cur_redir = (t_redir *)cmd->redirs->next;
+		if (cur_redir->content)
+			free_redir(cur_redir->content);
+		cur_redir = cur_redir->next;
 	}
+	ft_lstclear(&cmd->redirs, free_redir);
+	free(cmd->is_expand);
+	free(cmd);
 }
 
 void	free_cmds(t_list *cmds)
@@ -78,13 +95,8 @@ void	free_cmds(t_list *cmds)
 		current = cmds;
 		cur_cmd = (t_cmd *)current->content;
 		cmds = cmds->next;
-		if (cur_cmd->redirs)
-        	free_list(cur_cmd->redirs);
-		free_tab(cur_cmd->cmd);
-		/* if (cur_redir && cur_redir->fd)
-			close(cur_redir->fd); */
-		if (current)
-			free(current);
+		free_cmd(cur_cmd);
+		free(current);
 	}
 }
 

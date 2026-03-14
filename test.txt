@@ -1,6 +1,0 @@
-GNL
-includes
-libft
-Makefile
-src
-test.txt

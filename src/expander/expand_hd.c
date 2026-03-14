@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:32:32 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/04 07:47:35 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 09:57:53 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ char *expand_hd(char *res, t_env *s_env, t_exec exc)
     t_cmd *tmp;
     char    *final;
 
+    if (!res)
+        return (NULL);
+    if (ft_strchr(res, '$') == NULL)
+        return (res);
     tmp = init_tmp(res);
     if (expand_cmd(tmp, s_env, exc.exit_code) == 1)
         return (free(tmp), free_tab(tmp->cmd), NULL);

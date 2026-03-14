@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 16:00:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 17:32:15 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 09:39:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	prep_exec(t_list *cmds, t_env *s_env)
 {
-	if (!s_env->path)
+	if (!s_env->path_split)
 		return (free_s_env(s_env), free_cmds(cmds), 1);
 	if (find_all_cmd_path(cmds, s_env) == 1)
 		return (free_s_env(s_env), free_cmds(cmds), 1);

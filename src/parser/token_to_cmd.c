@@ -78,11 +78,21 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	if (redir->type == REDIR_HEREDOC)
 	{
 		new->target = NULL;
-		new->delimiter = target->arg;
+		new->delimiter = ft_strdup(target->arg);
+		if (!new->delimiter)
+		{
+			free(new);
+			return (0);
+		}
 	}
 	else
 	{
 		new->target = ft_strdup(target->arg);
+		if (!new->target)
+		{
+			free(new);
+			return (0);
+		}
 		new->delimiter = NULL;
 	}
 	new->exp_hd = target->quote_type == NO_QUOTE;
