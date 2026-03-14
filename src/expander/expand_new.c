@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 16:57:46 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 11:05:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,13 @@ char *expand_all(char *str, t_env *s_env, int exit_code)
             if (!new)
                 return NULL;
             to_replace = ft_strlen(new);
-            new = interrogation(new, exit_code);
-            if (!new)
-                return (NULL);
-            if (is_env(new, s_env) >= 0)
+            if (new[1] == '?' && new[2] == '\0')
+            {
+                new = interrogation(new, exit_code);
+                if (!new)
+                    return (NULL);
+            }
+            else if (is_env(new, s_env) >= 0)
             {
                 new = call_exp_env(new, s_env);
                 if (!new)
