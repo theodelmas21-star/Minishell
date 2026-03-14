@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 09:36:21 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 10:31:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 		dup2(current->pipefd[1], STDOUT_FILENO);
 		close(current->pipefd[1]);
 	}
-	apply_redirections(current, s_env, exc);
+	if (apply_redirections(current, s_env, exc) != 0)
+		exit(1);
 	if (current->is_builtin == 1 &&  handle_builtins(current, s_env, 0) == 1)
 		return (exit(1));
 	execve(current->cmd[0], current->cmd, s_env->env);

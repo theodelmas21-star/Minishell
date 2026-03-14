@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 09:56:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 10:43:57 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 
 	redir_R->fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (redir_R->fd < 0)
-		return (error("Open error"), 1);
+		return (perror("Open error"), 1);
 	while (1)
 	{
 		ft_putstr_fd("heredoc> ", 1);
@@ -30,11 +30,9 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{
-			printf("UNEXPANDED HD: %s\n", tmp);
             tmp = expand_hd(tmp, s_env, exc);
             if (!tmp)
                 return (1);
-			printf("EXPANDED HD: %s\n", tmp);
         }
 		ft_putstr_fd(tmp, redir_R->fd);
 		free(tmp);
@@ -54,7 +52,7 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 	else
 		fd = open(redir_R->target, O_RDONLY);
 	if (fd < 0)
-		return (error("Open Error"), 1);
+		return (perror("Open Error"), 1);
 	return (dup2(fd, STDIN_FILENO), close(fd), 0);
 }
 
@@ -64,7 +62,7 @@ int	handle_output_redir(t_redir *redir_R)
 
 	fd = open(redir_R->target, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
-		return (error("Open Error"), 1);
+		return (perror(redir_R->target), 1);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);
@@ -76,7 +74,7 @@ int	handle_append_redir(t_redir *redir_R)
 
 	fd = open(redir_R->target, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd < 0)
-		return (error("Open Error"), 1);
+		return (perror(redir_R->target), 1);
 	return (dup2(fd, STDOUT_FILENO), close(fd), 0);
 }
 

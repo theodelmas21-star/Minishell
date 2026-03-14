@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/12 09:12:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 10:46:46 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,17 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*tokens;
 	t_list	*cmd;
 	t_env	*s_env;
+	t_index	index;
+	
 
 	// int		exit_code;
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	exc.exit_code = 0;
+	index = (t_index){0};
+	index.j = dup(STDIN_FILENO);
+	index.i = dup(STDOUT_FILENO);
 	if (isatty(STDIN_FILENO))
 	{
 		init_signal();
@@ -111,6 +116,8 @@ int	main(int argc, char **argv, char **envp)
 			return (free_s_env(s_env), 1);
 		while (1)
 		{
+			dup2(index.j, STDIN_FILENO);
+			dup2(index.i, STDOUT_FILENO);
 			buffer = readline("minishell> ");
 			if (g_signal)
 			{
@@ -132,7 +139,6 @@ int	main(int argc, char **argv, char **envp)
 				add_history(buffer);
 			free(buffer);
 		}
-		free_s_env(s_env);
 	}
 	return (0);
 }
