@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 11:31:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 12:03:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@ char *create_new(char *str, int ind_str)
     new = malloc(sizeof(char) * (len + 1));
     if (!new)
         return NULL;
-    while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '*' && str[ind_str] != '@' 
+    while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '@' 
          && str[ind_str] != '!' && str[ind_str] != '-' && str[ind_str] != '}')
     {
-        if (str[ind_str] == '{')
+        if (str[ind_str] == '{' || (str[ind_str] == '*' && str[ind_str - 1] == '$'))
             ind_str++;
         new[index.i] = str[ind_str];
         index.i++;
         ind_str++;
-        if (str[ind_str] == '$')
+        if (str[ind_str] == '$' || (str[ind_str] == '*' && str[ind_str - 1] != '$'))
             break;
     }
     new[index.i] = '\0';
+    printf("new : %s\n", new);
     return (new);
 }
 
@@ -82,9 +83,13 @@ char *return_new_core(char *tmp, char *res, char *old, int dollar)
     dollar++;
     if (old[dollar] == '{')
         count++;
-    while(old[dollar] && old[dollar] != ' ' && old[dollar] != ' ' && old[dollar] != '%' && old[dollar] != '*' && old[dollar] != '@' 
+    while(old[dollar] && old[dollar] != ' ' && old[dollar] != ' ' && old[dollar] != '%' && old[dollar] != '@' 
          && old[dollar] != '!' && old[dollar] != '-' && old[dollar] != '$' && old[dollar] != '}')
-        dollar++;
+         {
+            dollar++;
+            if ((old[dollar] == '*' && old[dollar - 1] != '$'))
+                break;
+         }
     if (old[dollar] == '}' && count == 1)
         dollar++;
     while(old[dollar])
@@ -127,7 +132,7 @@ char *expand_all(char *str, t_env *s_env, int exit_code)
     index = (t_index){0};
     while (str[index.i])
     {
-        if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' ')
+        if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' ' && str[index.i + 1] != ':' && str[index.i + 1] != '%')
         {
             new = create_new(str, index.i);
             if (!new)
