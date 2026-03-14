@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 11:16:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 11:31:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char *create_new(char *str, int ind_str)
     while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '*' && str[ind_str] != '@' 
          && str[ind_str] != '!' && str[ind_str] != '-' && str[ind_str] != '}')
     {
+        if (str[ind_str] == '{')
+            ind_str++;
         new[index.i] = str[ind_str];
         index.i++;
         ind_str++;
@@ -68,16 +70,22 @@ char *replace_old(char *old, char *new)
 char *return_new_core(char *tmp, char *res, char *old, int dollar)
 {
     int i;
+    int count;
 
     i = 0;
+    count = 0;
     while (tmp[i])
     {
         res[i] = tmp[i];
         i++;
     }
     dollar++;
+    if (old[dollar] == '{')
+        count++;
     while(old[dollar] && old[dollar] != ' ' && old[dollar] != ' ' && old[dollar] != '%' && old[dollar] != '*' && old[dollar] != '@' 
          && old[dollar] != '!' && old[dollar] != '-' && old[dollar] != '$' && old[dollar] != '}')
+        dollar++;
+    if (old[dollar] == '}' && count == 1)
         dollar++;
     while(old[dollar])
     {
