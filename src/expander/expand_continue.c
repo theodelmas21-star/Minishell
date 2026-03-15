@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 14:26:14 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/14 16:00:15 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char *join_split(char *str)
     char **tmp;
     int i;
     char *res;
+    char *final;
 
     i = 0;
     if (ft_strchr(str, ' ') == NULL)
@@ -69,5 +70,8 @@ char *join_split(char *str)
             return (NULL);
         i++;
     }
-    return (free_tab(tmp), res);
+    final = ft_strdup(res);
+    if (!final)
+        return (free_tab(tmp), NULL);
+    return (free_tab(tmp), final);
 }
