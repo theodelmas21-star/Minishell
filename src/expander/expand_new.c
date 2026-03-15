@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/15 10:24:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 14:59:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char *create_new(char *str, int ind_str)
             break;
     }
     new[index.i] = '\0';
-    printf("new : %s\n", new);
     return (new);
 }
 
@@ -49,7 +48,7 @@ char *replace_old(char *old, char *new)
     index = (t_index){0};
     while (old[index.j] && old[index.j] != '$')
         index.j++;
-    tmp = malloc(sizeof(char) * index.j + 1);
+    tmp = malloc(sizeof(char) * (index.j + 1));
     if (!tmp)
         return (NULL);
     while (old[index.i] && old[index.i] != '$')
@@ -108,9 +107,7 @@ char *return_new(char *old, char *new, int to_replace, int dollar)
     int res_len;
     char *res;
     char *tmp;
-    t_index index;
 
-    index = (t_index){0};
     res_len = ft_strlen(old) + ft_strlen(new) - to_replace;
     res = malloc(sizeof(char) * (res_len + 1));
     if (!res)

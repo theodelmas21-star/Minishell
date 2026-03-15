@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/12 09:43:49 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:01:01 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	echo(t_cmd *cmd)
     }
     while (cmd->cmd[index.j])
     {
-        if (cmd->cmd[index.j + 1])
+        if (cmd->cmd[index.j][0] != '\0' &&cmd->cmd[index.j + 1])
             printf("%s ", cmd->cmd[index.j]);
         else
             printf("%s", cmd->cmd[index.j]);
