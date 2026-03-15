@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 10:46:46 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:58:26 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	print_tokens(t_list *tokens)
 				subtok->arg, subtok->type, subtok->quote_type);
 			curr_sub = curr_sub->next;
 		}
+		printf("\n");
 		current = current->next;
 	}
 }
@@ -56,6 +57,8 @@ void	print_cmds(t_list *cmds)
 		{
 			printf("%s\n", cur_cmd->cmd[i]);
 			printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
+			printf("subarg[%d] = %d\n", i, cur_cmd->sub_args[i]);
+			printf("----\n");
 			i++;
 		}
 		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
@@ -70,6 +73,7 @@ void	print_cmds(t_list *cmds)
 			printf("fd = %d \n", redir->fd);
 			cur_redir = cur_redir->next;
 		}
+		printf("\n");
 		cmds = cmds->next;
 	}
 }
@@ -96,7 +100,6 @@ int	main(int argc, char **argv, char **envp)
 	t_list	*cmd;
 	t_env	*s_env;
 	t_index	index;
-	
 
 	// int		exit_code;
 	(void)argc;
