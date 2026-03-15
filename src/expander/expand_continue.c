@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 16:00:15 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 10:04:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ char *join_split(char *str)
     i++;
     while (tmp[i])
     {
+        res = ft_strjoin_free(res, " ", res);
+        if (!res)
+            return (NULL);
         res = ft_strjoin_free(res, tmp[i], res);
         if (!res)
             return (NULL);

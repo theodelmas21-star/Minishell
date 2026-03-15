@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/15 09:29:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 10:13:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             if (!cmd->cmd[index.i])
                 return (1);
         }
-        if (cmd->is_expand[index.i] == 1)
+        if (ft_strncmp(cmd->cmd[0], "echo", ft_strlen(cmd->cmd[0])) == 0 && cmd->is_expand[index.i] == 2)
         {
             cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
             if (!cmd->cmd[index.i])
