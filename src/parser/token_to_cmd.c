@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 11:54:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:58:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@ static t_cmd	*init_cmd(void)
 	cmd->is_expand = malloc(sizeof(int));
 	if (!cmd->is_expand)
 		return (free(cmd->cmd), free(cmd), NULL);
+	cmd->sub_args = malloc(sizeof(int));
+	if (!cmd->sub_args)
+		return (free(cmd->cmd), free(cmd), free(cmd->is_expand), NULL);
 	cmd->cmd[0] = NULL;
 	cmd->is_expand[0] = 0;
+	cmd->sub_args[0] = 0;
 	cmd->redirs = NULL;
 	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
@@ -38,6 +42,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
 {
 	char	**new;
 	int		*new_expand;
+	int		*new_subarg;
 	int		i;
 
 	i = 0;
@@ -49,6 +54,9 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
 	new_expand = malloc(sizeof(int) * (i + 1));
 	if (!new_expand)
 		return (free(new), 0);
+	new_subarg = malloc(sizeof(int) * (i + 1));
+	if (!new_subarg)
+		return (free(new), free(new_expand), 0);
 	i = 0;
 	while (cmd->cmd[i])
 	{
@@ -58,11 +66,13 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
 	}
 	new[i] = ft_strdup(arg);
 	new_expand[i] = is_expandable(arg) && quote_type != SQUOTE;
+	new_subarg[i] = 1;
 	new[i + 1] = NULL;
 	free(cmd->cmd);
 	free(cmd->is_expand);
 	cmd->cmd = new;
 	cmd->is_expand = new_expand;
+	cmd->sub_args = new_subarg;
 	cmd->is_builtin = is_builtin(cmd->cmd[0]);
 	return (1);
 }
@@ -80,19 +90,13 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 		new->target = NULL;
 		new->delimiter = ft_strdup(target->arg);
 		if (!new->delimiter)
-		{
-			free(new);
-			return (0);
-		}
+			return (free(new), 0);
 	}
 	else
 	{
 		new->target = ft_strdup(target->arg);
 		if (!new->target)
-		{
-			free(new);
-			return (0);
-		}
+			return (free(new), 0);
 		new->delimiter = NULL;
 	}
 	new->exp_hd = target->quote_type == NO_QUOTE;
