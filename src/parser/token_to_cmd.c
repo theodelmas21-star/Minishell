@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 16:09:21 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:58:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static t_cmd	*init_cmd(void)
 	return (cmd);
 }
 
-static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
+static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
+		int is_new_arg)
 {
 	char	**new;
 	int		*new_expand;
@@ -72,12 +73,16 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
 	{
 		new[i] = cmd->cmd[i];
 		new_expand[i] = cmd->is_expand[i];
+		new_subarg[i] = cmd->sub_args[i];
 		new_dquote[i] = cmd->is_d_quote[i];
 		i++;
 	}
 	new[arg_len] = ft_strdup(arg);
 	new_expand[arg_len] = is_expandable(arg) && quote_type != SQUOTE;
-	new_subarg[arg_len] = 1;
+	if (is_new_arg)
+		new_subarg[arg_len] = (new_subarg[arg_len - 1] + 1);
+	else
+		new_subarg[arg_len] = new_subarg[arg_len - 1];
 	new_dquote[arg_len] = quote_type == DQUOTE;
 	new[arg_len + 1] = NULL;
 	free(cmd->cmd);
@@ -128,21 +133,34 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	t_token	*subtok_content;
 	char	*arg;
 	t_quote	quote_type;
+	int		is_new_arg;
 
 	arg = tok->arg;
 	subtoken = tok->subtokens;
 	quote_type = tok->quote_type;
+	is_new_arg = 1;
 	if (tok->type == WORD)
 	{
 		if (ft_strlen(arg) > 0)
-			cmd_add_arg(*cmd, tok->arg, tok->quote_type);
+		{
+			cmd_add_arg(*cmd, tok->arg, tok->quote_type, is_new_arg);
+			is_new_arg = 0;
+		}
 		while (subtoken)
 		{
 			subtok_content = (t_token *)subtoken->content;
 			arg = subtok_content->arg;
 			quote_type = subtok_content->quote_type;
 			if (ft_strlen(arg) > 0)
-				cmd_add_arg(*cmd, arg, quote_type);
+			{
+				if (ft_strlen(tok->arg) < 1 && is_new_arg)
+				{
+					cmd_add_arg(*cmd, arg, quote_type, is_new_arg);
+					is_new_arg = 0;
+				}
+				else
+					cmd_add_arg(*cmd, arg, quote_type, is_new_arg);
+			}
 			subtoken = subtoken->next;
 		}
 		return (1);
