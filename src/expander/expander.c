@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 11:23:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/16 14:44:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
         printf("cmd->cmd[%d] : %s\n", index.i, cmd->cmd[index.i]);
         if (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
         {
-            cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &index.j);
-            if (!cmd->cmd[index.i] && index.j == 0)
+            cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &cmd->is_d_quote[index.i]);
+            if (!cmd->cmd[index.i] && cmd->is_d_quote[index.i] < 2)
                 return (1);
         }
-        if (ft_strncmp(cmd->cmd[0], "echo", ft_strlen(cmd->cmd[0])) == 0 && cmd->is_expand[index.i] == 2 && index.j == 0)
+        if (ft_strncmp(cmd->cmd[0], "echo", ft_strlen(cmd->cmd[0])) == 0 && cmd->is_expand[index.i] == 2 && cmd->is_d_quote[index.i] < 0)
         {
             cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
             if (!cmd->cmd[index.i])
