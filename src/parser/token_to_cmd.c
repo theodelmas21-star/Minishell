@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 11:58:39 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/16 16:09:21 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ static t_cmd	*init_cmd(void)
 	cmd->sub_args = malloc(sizeof(int));
 	if (!cmd->sub_args)
 		return (free(cmd->cmd), free(cmd), free(cmd->is_expand), NULL);
+	cmd->is_d_quote = malloc(sizeof(int));
+	if (!cmd->is_d_quote)
+		return (free(cmd->cmd), free(cmd), free(cmd->is_expand),
+			free(cmd->sub_args), NULL);
 	cmd->cmd[0] = NULL;
 	cmd->is_expand[0] = 0;
 	cmd->sub_args[0] = 0;
+	cmd->is_d_quote[0] = 0;
 	cmd->redirs = NULL;
 	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
@@ -43,36 +48,46 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type)
 	char	**new;
 	int		*new_expand;
 	int		*new_subarg;
+	int		*new_dquote;
+	int		arg_len;
 	int		i;
 
-	i = 0;
-	while (cmd->cmd[i])
-		i++;
-	new = malloc(sizeof(char *) * (i + 2));
+	arg_len = 0;
+	while (cmd->cmd[arg_len])
+		arg_len++;
+	new = malloc(sizeof(char *) * (arg_len + 2));
 	if (!new)
 		return (0);
-	new_expand = malloc(sizeof(int) * (i + 1));
+	new_expand = malloc(sizeof(int) * (arg_len + 1));
 	if (!new_expand)
 		return (free(new), 0);
-	new_subarg = malloc(sizeof(int) * (i + 1));
+	new_subarg = malloc(sizeof(int) * (arg_len + 1));
 	if (!new_subarg)
 		return (free(new), free(new_expand), 0);
+	new_dquote = malloc(sizeof(int) * (arg_len + 1));
+	if (!new_dquote)
+		return (free(new), free(new_expand), free(new_subarg), 0);
 	i = 0;
-	while (cmd->cmd[i])
+	while (i < arg_len)
 	{
 		new[i] = cmd->cmd[i];
 		new_expand[i] = cmd->is_expand[i];
+		new_dquote[i] = cmd->is_d_quote[i];
 		i++;
 	}
-	new[i] = ft_strdup(arg);
-	new_expand[i] = is_expandable(arg) && quote_type != SQUOTE;
-	new_subarg[i] = 1;
-	new[i + 1] = NULL;
+	new[arg_len] = ft_strdup(arg);
+	new_expand[arg_len] = is_expandable(arg) && quote_type != SQUOTE;
+	new_subarg[arg_len] = 1;
+	new_dquote[arg_len] = quote_type == DQUOTE;
+	new[arg_len + 1] = NULL;
 	free(cmd->cmd);
 	free(cmd->is_expand);
+	free(cmd->sub_args);
+	free(cmd->is_d_quote);
 	cmd->cmd = new;
 	cmd->is_expand = new_expand;
 	cmd->sub_args = new_subarg;
+	cmd->is_d_quote = new_dquote;
 	cmd->is_builtin = is_builtin(cmd->cmd[0]);
 	return (1);
 }
@@ -119,21 +134,17 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 	quote_type = tok->quote_type;
 	if (tok->type == WORD)
 	{
-		if (ft_strlen(arg) < 1)
-		{
-			while (subtoken && ft_strlen(arg) < 1)
-			{
-				subtok_content = (t_token *)subtoken->content;
-				arg = subtok_content->arg;
-				quote_type = subtok_content->quote_type;
-				subtoken = subtoken->next;
-			}
-			printf("ARG == '%s'a\n", arg);
-			cmd_add_arg(*cmd, arg, quote_type);
-			return (1);
-		}
-		else
+		if (ft_strlen(arg) > 0)
 			cmd_add_arg(*cmd, tok->arg, tok->quote_type);
+		while (subtoken)
+		{
+			subtok_content = (t_token *)subtoken->content;
+			arg = subtok_content->arg;
+			quote_type = subtok_content->quote_type;
+			if (ft_strlen(arg) > 0)
+				cmd_add_arg(*cmd, arg, quote_type);
+			subtoken = subtoken->next;
+		}
 		return (1);
 	}
 	else if (is_redirection(tok->type))

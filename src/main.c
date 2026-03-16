@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/15 15:58:26 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/16 15:27:00 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	print_cmds(t_list *cmds)
 			printf("%s\n", cur_cmd->cmd[i]);
 			printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
 			printf("subarg[%d] = %d\n", i, cur_cmd->sub_args[i]);
+			printf("is_d_quote[%d] = %d\n", i, cur_cmd->is_d_quote[i]);
 			printf("----\n");
 			i++;
 		}
