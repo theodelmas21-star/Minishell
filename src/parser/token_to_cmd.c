@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 17:10:52 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:54:10 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 				quote_type = subtok_content->quote_type;
 				subtoken = subtoken->next;
 			}
+			printf("ARG == '%s'a\n", arg);
 			cmd_add_arg(*cmd, arg, quote_type);
 			return (1);
 		}

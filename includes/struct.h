@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/12 09:02:44 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/15 15:32:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd
 	int				is_builtin;
 	int				pipefd[2];
 	int				*is_expand;
+	int 			*sub_args;
 }					t_cmd;
 
 typedef struct s_env

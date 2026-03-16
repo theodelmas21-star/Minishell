@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/15 14:59:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:45:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,19 @@ char *create_new(char *str, int ind_str)
     new = malloc(sizeof(char) * (len + 1));
     if (!new)
         return NULL;
-    while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '@' 
+    while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '@' && str[ind_str] != '*'
          && str[ind_str] != '!' && str[ind_str] != '-' && str[ind_str] != '}' && str[ind_str] != ']')
     {
-        if (str[ind_str] == '{' || (str[ind_str] == '*' && str[ind_str - 1] == '$'))
+        if (str[ind_str] == '{')
             ind_str++;
         new[index.i] = str[ind_str];
         index.i++;
         ind_str++;
-        if (str[ind_str] == '$' || (str[ind_str] == '*' && str[ind_str - 1] != '$'))
+        if (str[ind_str] == '$')
             break;
     }
     new[index.i] = '\0';
+    printf("create new : %s\n", new);
     return (new);
 }
 
@@ -67,7 +68,7 @@ char *replace_old(char *old, char *new)
     return (tmp);
 }
 
-char *return_new_core(char *tmp, char *res, char *old, int dollar)
+char *return_new_core(char *tmp, char *res, char *old, int *dollar)
 {
     int i;
     int count;
@@ -79,30 +80,26 @@ char *return_new_core(char *tmp, char *res, char *old, int dollar)
         res[i] = tmp[i];
         i++;
     }
-    dollar++;
-    if (old[dollar] == '{' || old[dollar] == '[')
+    (*dollar)++;
+    if (old[*dollar] == '{' || old[*dollar] == '[')
         count++;
-    while(old[dollar] && old[dollar] != ' ' && old[dollar] != ' ' 
-         && old[dollar] != '%' && old[dollar] != '@' && old[dollar] != '!' && old[dollar] != '-' 
-         && old[dollar] != '$' && old[dollar] != '}' && old[dollar] != ']')
-         {
-            dollar++;
-            if ((old[dollar] == '*' && old[dollar - 1] != '$'))
-                break;
-         }
-    if ((old[dollar] == '}' || old[dollar] == ']') && count == 1)
-        dollar++;
-    while(old[dollar])
+    while(old[*dollar] && old[*dollar] != ' ' && old[*dollar] != ' ' && old[*dollar] != '*'
+         && old[*dollar] != '%' && old[*dollar] != '@' && old[*dollar] != '!' && old[*dollar] != '-' 
+         && old[*dollar] != '$' && old[*dollar] != '}' && old[*dollar] != ']')
+            (*dollar)++;
+    if ((old[*dollar] == '}' || old[*dollar] == ']') && count == 1)
+        (*dollar)++;
+    while(old[*dollar])
     {
-        res[i] = old[dollar];
+        res[i] = old[*dollar];
         i++;
-        dollar++;
+        (*dollar)++;
     }
     res[i] = '\0';
     return (res);
 }
 
-char *return_new(char *old, char *new, int to_replace, int dollar)
+char *return_new(char *old, char *new, int to_replace, int *dollar)
 {
     int res_len;
     char *res;
@@ -121,7 +118,7 @@ char *return_new(char *old, char *new, int to_replace, int dollar)
     return (free(old), free(tmp), res);
 }
 
-char *expand_all(char *str, t_env *s_env, int exit_code)
+char *expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 {
     t_index index;
     char *new;
@@ -132,6 +129,7 @@ char *expand_all(char *str, t_env *s_env, int exit_code)
     {
         if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' ' && str[index.i + 1] != ':' && str[index.i + 1] != '%')
         {
+            printf("str in loop: %s\n", str);
             new = create_new(str, index.i);
             if (!new)
                 return NULL;
@@ -155,14 +153,24 @@ char *expand_all(char *str, t_env *s_env, int exit_code)
                     return (NULL);
             }
             else
+            {
                 new = ft_strdup("");
-            new = return_new(str, new, to_replace, index.i);
+                index.k = 1;
+            }
+            index.j = ft_strlen(new);
+            new = return_new(str, new, to_replace, &index.i);
             if (!new)
                 return (NULL);
             str = new;
-            index.i = 0;
+            printf("str : %s\n", str);
+            index.i = -1;
         }
         index.i++;
+    }
+    if (index.k == 1 && str[0] == '\0')
+    {
+        (*checker) = 1;
+        return (free(str), NULL);
     }
     return (str);
 }

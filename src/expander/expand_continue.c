@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/15 10:04:48 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/16 11:45:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int len_new(char *str, int ind_str)
     int i;
     
     i = 0;
-    if (str[i] >= '0' && str[i] <= '9')
-        return (0);
     while (str[ind_str] && str[ind_str] != ' ')
     {
         i++;
