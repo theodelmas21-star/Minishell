@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 16:58:53 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/17 09:47:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,10 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 	}
 	new[arg_len] = ft_strdup(arg);
 	new_expand[arg_len] = is_expandable(arg) && quote_type != SQUOTE;
-	if (is_new_arg)
+	if (is_new_arg && arg_len > 0)
 		new_subarg[arg_len] = (new_subarg[arg_len - 1] + 1);
+	else if (is_new_arg && arg_len == 0)
+		new_subarg[arg_len] = arg_len;
 	else
 		new_subarg[arg_len] = new_subarg[arg_len - 1];
 	new_dquote[arg_len] = quote_type == DQUOTE;
