@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 10:59:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/17 14:48:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,19 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
         printf("cmd->cmd[%d] : %s\n", index.i, cmd->cmd[index.i]);
         if (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
         {
-            cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &cmd->is_d_quote[index.i]);
-            if (!cmd->cmd[index.i] && cmd->is_d_quote[index.i] < 2)
-                return (1);
+            if (cmd->cmd[index.i + 1] && ft_strncmp("?", cmd->cmd[index.i], ft_strlen(cmd->cmd[index.i])) == 0 && cmd->sub_args[index.i] == cmd->sub_args[index.i + 1])
+            {
+                free (cmd->cmd[index.i]);
+                cmd->cmd[index.i] = NULL;
+            }
+            else
+            {
+                cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &cmd->quote_type[index.i]);
+                if (!cmd->cmd[index.i] && cmd->quote_type[index.i] != 2)
+                    return (1);
+            }
         }
-        if (ft_strncmp(cmd->cmd[0], "echo", ft_strlen(cmd->cmd[0])) == 0 && cmd->is_expand[index.i] == 2 && cmd->is_d_quote[index.i] < 0)
+        if (cmd->is_expand[index.i] == 2)
         {
             cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
             if (!cmd->cmd[index.i])
@@ -111,9 +119,9 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
     while (cur_list)
     {
         cur_cmd = ((t_cmd *)cur_list->content);
-        cur_cmd->cmd = join_sub_args(cur_cmd);
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
+        cur_cmd->cmd = join_sub_args(cur_cmd);
         cur_list = cur_list->next;
     }
     return (0);
