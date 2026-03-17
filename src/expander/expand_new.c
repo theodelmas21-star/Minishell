@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 15:25:18 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:40:55 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 	while (str[index.i])
 	{
 		if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' '
-			&& str[index.i + 1] != ':' && str[index.i + 1] != '%')
+			&& str[index.i + 1] != ':' && str[index.i + 1] != '%' && str[index.i + 1] != '\'')
 		{
 			printf("str in loop: %s\n", str);
 			new = create_new(str, index.i);
