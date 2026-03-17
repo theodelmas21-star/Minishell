@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 09:47:21 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/17 11:55:03 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static t_cmd	*init_cmd(void)
 	cmd->sub_args = malloc(sizeof(int));
 	if (!cmd->sub_args)
 		return (free(cmd->cmd), free(cmd), free(cmd->is_expand), NULL);
-	cmd->is_d_quote = malloc(sizeof(int));
-	if (!cmd->is_d_quote)
+	cmd->quote_type = malloc(sizeof(int));
+	if (!cmd->quote_type)
 		return (free(cmd->cmd), free(cmd), free(cmd->is_expand),
 			free(cmd->sub_args), NULL);
 	cmd->cmd[0] = NULL;
 	cmd->is_expand[0] = 0;
 	cmd->sub_args[0] = 0;
-	cmd->is_d_quote[0] = 0;
+	cmd->quote_type[0] = 0;
 	cmd->redirs = NULL;
 	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
@@ -74,7 +74,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 		new[i] = cmd->cmd[i];
 		new_expand[i] = cmd->is_expand[i];
 		new_subarg[i] = cmd->sub_args[i];
-		new_dquote[i] = cmd->is_d_quote[i];
+		new_dquote[i] = cmd->quote_type[i];
 		i++;
 	}
 	new[arg_len] = ft_strdup(arg);
@@ -85,16 +85,16 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 		new_subarg[arg_len] = arg_len;
 	else
 		new_subarg[arg_len] = new_subarg[arg_len - 1];
-	new_dquote[arg_len] = quote_type == DQUOTE;
+	new_dquote[arg_len] = quote_type;
 	new[arg_len + 1] = NULL;
 	free(cmd->cmd);
 	free(cmd->is_expand);
 	free(cmd->sub_args);
-	free(cmd->is_d_quote);
+	free(cmd->quote_type);
 	cmd->cmd = new;
 	cmd->is_expand = new_expand;
 	cmd->sub_args = new_subarg;
-	cmd->is_d_quote = new_dquote;
+	cmd->quote_type = new_dquote;
 	cmd->is_builtin = is_builtin(cmd->cmd[0]);
 	return (1);
 }
