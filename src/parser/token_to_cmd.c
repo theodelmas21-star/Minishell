@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 14:21:59 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:13:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 	new_expand = malloc(sizeof(int) * (arg_len + 1));
 	if (!new_expand)
 		return (free(new), 0);
-	new_subarg = malloc(sizeof(int) * (arg_len + 1));
+	new_subarg = malloc(sizeof(int) * (arg_len + 2));
 	if (!new_subarg)
 		return (free(new), free(new_expand), 0);
 	new_dquote = malloc(sizeof(int) * (arg_len + 1));
@@ -85,6 +85,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 		new_subarg[arg_len] = arg_len;
 	else
 		new_subarg[arg_len] = new_subarg[arg_len - 1];
+	new_subarg[arg_len + 1] = -1;
 	new_dquote[arg_len] = quote_type;
 	new[arg_len + 1] = NULL;
 	free(cmd->cmd);

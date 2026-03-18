@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 15:11:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:14:20 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ char *interrogation(char *cmd, int exit_code)
 int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
 {
     t_index index;
+    int     x;
 
     index = (t_index){0};
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
-        printf("cmd->cmd[%d] : %s\n", index.i, cmd->cmd[index.i]);
         if (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
         {
             if (cmd->cmd[index.i + 1] && ft_strncmp("$", cmd->cmd[index.i], ft_strlen(cmd->cmd[index.i])) == 0 && cmd->sub_args[index.i] == cmd->sub_args[index.i + 1])
@@ -102,10 +102,14 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             cmd->cmd = without_null(cmd->cmd, index.i);
             if (!cmd->cmd)
                 return (1);
-            printf("cmd->cmd[%d] : %s\n", index.i, cmd->cmd[index.i]);
+            x = index.i;
+            while (cmd->sub_args[x + 1] != -1)
+            {
+                cmd->sub_args[x] = cmd->sub_args[x + 1];
+                x++;
+            }
         }
-        else
-            index.i++;
+        index.i++;
     }
     return (0);
 }
@@ -122,6 +126,8 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
         cur_cmd->cmd = join_sub_args(cur_cmd);
+        printf("AFTER JOIN SUB_ARGS\n");
+        print_env(cur_cmd->cmd);
         cur_list = cur_list->next;
     }
     return (0);

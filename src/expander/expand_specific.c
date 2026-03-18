@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:34:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 10:58:47 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 10:55:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ char	**join_sub_args(t_cmd *cmd)
 			new = ft_strjoin_free(new, cmd->cmd[index.j], new);
 			if (!new)
 				return (free(res), NULL);
+			printf("New : %s\n", new);
+			printf("cmd->cmd[%d] : %s, sub_args[%d]\n", index.i, cmd->cmd[index.i], cmd->sub_args[index.i]);
+			printf("cmd->cmd[%d] : %s, sub_args[%d]\n", index.j, cmd->cmd[index.j], cmd->sub_args[index.j]);
 			index.j++;
 		}
 		res[index.k] = new;
@@ -91,55 +94,58 @@ char	**join_sub_args(t_cmd *cmd)
 	return (res);
 }
 
-int	len_free_without_null(char **cmd, int i)
+char **rest_cmd(char **cmd, int len, char **new)
 {
+	char **rest;
 	t_index	index;
-
+	
 	index = (t_index){0};
-	while (cmd[index.i] && i == 0)
+	index.i = len + 1;
+	while (cmd[index.i])
 		index.i++;
-	if (index.i == i && i == 0)
-		index.i++;
-	while (cmd[index.i] && i == 0)
-		index.i++;
-	while (cmd[index.i] && i == 1)
+	rest = malloc(sizeof(char *) * index.i);
+	if (!rest)
+		return NULL;
+	while (new[index.j])
 	{
-		free(cmd[index.i]);
-		index.i++;
+		rest[index.j] = ft_strdup(new[index.j]);
+		if (!new)
+			return NULL;
+		index.j++;
 	}
-	if (index.i == i && i == 1)
-		index.i++;
-	while (cmd[index.i] && i == 1)
+	while (cmd[index.k + len + 1])
 	{
-		free(cmd[index.i]);
-		index.i++;
+		rest[index.j] = ft_strdup(cmd[index.k + len + 1]);
+		if (!new)
+			return NULL;
+		index.j++;
+		index.k++;
 	}
-	if (i == 1)
-		free(cmd);
-	return (i);
+	rest[index.j] = NULL;
+	return (rest);
 }
 
-char	**without_null(char **cmd, int i)
+char	**without_null(char **cmd, int len)
 {
 	t_index	index;
 	char	**new;
+	char 	**res;
 
 	index = (t_index){0};
-	index.i = len_free_without_null(cmd, 0);
-	new = malloc(sizeof(char *) * index.i);
+	new = malloc(sizeof(char *) * (len + 1));
 	if (!new)
 		return (NULL);
 	while (cmd[index.j])
 	{
-		if (index.j == i)
-			index.j++;
 		new[index.k] = ft_strdup(cmd[index.j]);
 		index.j++;
 		index.k++;
-		if (index.j == i)
-			index.j++;
 	}
 	new[index.k] = NULL;
-	index.i = len_free_without_null(cmd, 1);
-	return (new);
+	res = rest_cmd(cmd, len, new);
+	if (!res)
+		return NULL;
+	free_tab(cmd);
+	free_tab(new);
+	return (res);
 }
