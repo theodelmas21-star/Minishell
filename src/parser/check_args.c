@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/26 14:44:34 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:31:09 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,19 @@ static int	check_pipe(t_token *tok, t_token *next)
 	}
 	return (0);
 }
-
 static int	check_redir(t_token *tok, t_token *next)
 {
 	if (is_redirection(tok->type))
 	{
 		if (!next)
-			return (printf("syntax error near unexpected token 'newline'"), 1);
+			return (printf("bash: syntax error near unexpected token 'newline'\n"),
+				1);
 		if (next->type != WORD)
-			return (printf("syntax error near unexpected token '%s'",
+			return (printf("bash: syntax error near unexpected token '%s'\n",
 					next->arg), 1);
 	}
 	return (0);
 }
-
 int	check_args(t_list *tokens)
 {
 	t_token	*tok;
@@ -47,7 +46,7 @@ int	check_args(t_list *tokens)
 	tok = tokens->content;
 	next = NULL;
 	if (tok->type == PIPE)
-		return (printf("syntax error near unexpected token '|'"), 0);
+		return (printf("bash: syntax error near unexpected token '|'\n"), 0);
 	while (tokens)
 	{
 		tok = tokens->content;
