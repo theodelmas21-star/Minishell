@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:34:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 10:55:22 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:18:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,6 @@ char	**join_sub_args(t_cmd *cmd)
 			new = ft_strjoin_free(new, cmd->cmd[index.j], new);
 			if (!new)
 				return (free(res), NULL);
-			printf("New : %s\n", new);
-			printf("cmd->cmd[%d] : %s, sub_args[%d]\n", index.i, cmd->cmd[index.i], cmd->sub_args[index.i]);
-			printf("cmd->cmd[%d] : %s, sub_args[%d]\n", index.j, cmd->cmd[index.j], cmd->sub_args[index.j]);
 			index.j++;
 		}
 		res[index.k] = new;

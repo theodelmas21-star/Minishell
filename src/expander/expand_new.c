@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/17 14:49:43 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:30:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*create_new(char *str, int ind_str)
 		return (NULL);
 	while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%'
 		&& str[ind_str] != '@' && str[ind_str] != '*' && str[ind_str] != '!'
-		&& str[ind_str] != '-' && str[ind_str] != '}' && str[ind_str] != ']')
+		&& str[ind_str] != '-' && str[ind_str] != '}' && str[ind_str] != ']' && str[ind_str] != '\'')
 	{
 		if (str[ind_str] == '{')
 			ind_str++;
@@ -38,7 +38,6 @@ char	*create_new(char *str, int ind_str)
 			break ;
 	}
 	new[index.i] = '\0';
-	printf("create new : %s\n", new);
 	return (new);
 }
 
@@ -87,7 +86,7 @@ char	*return_new_core(char *tmp, char *res, char *old, int *dollar)
 	while (old[*dollar] && old[*dollar] != ' ' && old[*dollar] != ' ' && old[*dollar] != '?'
 		&& old[*dollar] != '*' && old[*dollar] != '%' && old[*dollar] != '@'
 		&& old[*dollar] != '!' && old[*dollar] != '-' && old[*dollar] != '$'
-		&& old[*dollar] != '}' && old[*dollar] != ']')
+		&& old[*dollar] != '}' && old[*dollar] != ']' && old[*dollar] != '\'')
 		(*dollar)++;
 	if ((old[*dollar] == '}' || old[*dollar] == ']') && count == 1)
 		(*dollar)++;
@@ -134,7 +133,6 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 		if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' '
 			&& str[index.i + 1] != ':' && str[index.i + 1] != '%' && str[index.i + 1] != '\'')
 		{
-			printf("str in loop: %s\n", str);
 			new = create_new(str, index.i);
 			if (!new)
 				return (NULL);
@@ -167,7 +165,6 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 			if (!new)
 				return (NULL);
 			str = new;
-			printf("str : %s\n", str);
 			index.i = -1;
 		}
 		index.i++;

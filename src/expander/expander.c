@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 11:14:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:18:01 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
         cur_cmd->cmd = join_sub_args(cur_cmd);
-        printf("AFTER JOIN SUB_ARGS\n");
-        print_env(cur_cmd->cmd);
         cur_list = cur_list->next;
     }
     return (0);
