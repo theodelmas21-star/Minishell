@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/16 14:21:14 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:46:14 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 		exit(1);
 	if (current->is_builtin == 1 &&  handle_builtins(current, s_env, 0) == 1)
 		return (exit(1));
+	if (current->cmd[0] == NULL)
+	{
+		exc.exit_code = 0;
+		exit(0);
+	}
 	execve(current->cmd[0], current->cmd, s_env->env);
-	error("Execve error");
 }
 
 void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)

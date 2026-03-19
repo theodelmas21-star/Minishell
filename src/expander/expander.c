@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 11:18:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 09:56:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             else
             {
                 cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &cmd->quote_type[index.i]);
-                if (!cmd->cmd[index.i] && cmd->quote_type[index.i] != 2)
+                if (!cmd->cmd[index.i] && cmd->quote_type[index.i] == 2)
                     return (1);
             }
         }
-        if (cmd->is_expand[index.i] == 2)
+        if (cmd->cmd[index.i] && cmd->is_expand[index.i] == 2)
         {
             cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
             if (!cmd->cmd[index.i])
@@ -113,6 +113,8 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     }
     return (0);
 }
+
+
 
 int expander(t_list *cmds, t_env *s_env, int exit_code)
 {

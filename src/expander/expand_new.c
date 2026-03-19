@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 14:13:04 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 09:55:37 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,7 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 		}
 		index.i++;
 	}
-	if (index.k == 1 && str[0] == '\0' && (*checker) == 1)
-	{
-		(*checker) = 2;
+	if (index.k == 1 && str[0] == '\0' && (*checker) != 2)
 		return (free(str), NULL);
-	}
 	return (str);
 }
