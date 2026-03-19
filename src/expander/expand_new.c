@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 11:02:47 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:50:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*create_new(char *str, int ind_str)
 			break ;
 	}
 	new[index.i] = '\0';
-	printf("New : %s\n", new);
 	return (new);
 }
 
@@ -166,7 +165,7 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 			if (!new)
 				return (NULL);
 			str = new;
-			index.i = -1;
+			index.i += index.j - 1;
 		}
 		index.i++;
 	}

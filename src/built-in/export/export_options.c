@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 11:51:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/12 10:54:10 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:25:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int parser_export(char *cmd)
     int i;
     
     i = 0;
-    if ((cmd[i] < 'a' || cmd[i] > 'z') && 
-        (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_')
+    if (cmd[i] == '\0' || cmd[i] == '=' || ((cmd[i] < 'a' || cmd[i] > 'z') &&
+        (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_'))
         return (1);
     while (cmd[i] && cmd[i] != '=')
     {
-        if ((cmd[i] < 'a' || cmd[i] > 'z') && 
+        if ((cmd[i] == '+' && cmd[i + 1] != '=') || ((cmd[i] < 'a' || cmd[i] > 'z') && 
             (cmd[i] < 'A' || cmd[i] > 'Z') && cmd[i] != '_'
-            && (cmd[i] < '0' || cmd[i] > '9') && cmd[i] != '+')
+            && (cmd[i] < '0' || cmd[i] > '9') && cmd[i] != '+'))
             return (1);
         i++;
     }

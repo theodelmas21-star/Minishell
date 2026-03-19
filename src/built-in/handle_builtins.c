@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:34:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 15:40:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 11:55:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int handle_builtins(t_cmd *cmd, t_env *s_env, int pid)
     {
         if (cmd->cmd[1])
         {
-            printf("Only env without options or args is handled here.");
-            exit(1);
+            printf("Only env without options or args is handled here.\n");
+            if (pid == 0)
+                exit(1);
+            return (1);
         }
         if (pid == 0)
             exit(env(s_env));

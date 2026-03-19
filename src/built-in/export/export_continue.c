@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:02:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/12 10:51:33 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 12:05:43 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx)
     int var_len;
     int var_idx;
 
-    if (!ft_strchr(cmd->cmd[arg_idx], '='))
-        return (0);
     if (parser_export(cmd->cmd[arg_idx]) == 1)
     {
         printf("minishell : %s: not a valid identifier\n", cmd->cmd[arg_idx]);
         return (0);
     }
+    if (!ft_strchr(cmd->cmd[arg_idx], '='))
+        return (0);
     var_len = get_var_name_len(cmd->cmd[arg_idx]);
     var_idx = check_var_in_env(cmd->cmd[arg_idx], s_env->env, var_len);
     if (var_idx != -1)
