@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 09:55:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 11:02:47 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,11 @@ char	*create_new(char *str, int ind_str)
 		new[index.i] = str[ind_str];
 		index.i++;
 		ind_str++;
-		if (str[ind_str] == '$' || str[ind_str] == '?')
+		if (str[ind_str] == '$' || str[ind_str - 1] == '?')
 			break ;
 	}
 	new[index.i] = '\0';
+	printf("New : %s\n", new);
 	return (new);
 }
 
