@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/19 11:14:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:17:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	check_pipe(t_token *tok, t_token *next)
 		if (!next)
 			return (printf(">"), 1);
 		if (next->type == PIPE)
-			return (printf(">"), 1);
+			return (printf("minishell: syntax error near unexpected token '%s'\n",
+					next->arg), 1);
 	}
 	return (0);
 }
