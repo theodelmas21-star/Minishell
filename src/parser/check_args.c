@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/18 15:35:27 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/19 11:14:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,10 @@ static int	check_redir(t_token *tok, t_token *next)
 
 static int	check_char(t_token *tok)
 {
-	if (ft_strncmp(tok->arg, ":", ft_strlen(tok->arg)) == 0
-		|| ft_strncmp(tok->arg, "!", ft_strlen(tok->arg)) == 0)
-		return (1);
+	if (ft_strlen(tok->arg) > 0)
+		if (ft_strncmp(tok->arg, ":", ft_strlen(tok->arg)) == 0
+			|| ft_strncmp(tok->arg, "!", ft_strlen(tok->arg)) == 0)
+			return (1);
 	return (0);
 }
 
