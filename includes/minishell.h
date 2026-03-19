@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/17 09:17:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:43:04 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
 int				is_redirection(t_token_type type);
 int				is_builtin(char *cmd);
+int				is_subarg(int curr_subarg, int next_subarg);
 
 // signals
 void			init_signal(void);

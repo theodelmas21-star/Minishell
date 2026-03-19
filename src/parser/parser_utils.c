@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:35:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/13 15:20:38 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:42:46 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,9 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-/* int	get_quote_type(t_token *token)
+int	is_subarg(int curr_subarg, int next_subarg)
 {
-	t_list	*current;
-	t_token	*subtoken;
-	t_list	*cmd_list;
-	t_cmd	*cmd;
-	t_token	*tok;
-	t_list	*cmd_list;
-	t_cmd	*cmd;
-	t_token	*tok;
-
-	if (!token)
+	if (next_subarg == curr_subarg)
 		return (1);
-	if (token->quote_type == DQUOTE)
-		return (2);
-	current = token->subtokens;
-	while (current)
-	{
-		subtoken = (t_token *)current->content;
-		if (subtoken && subtoken->quote_type == DQUOTE)
-			return (2);
-		current = current->next;
-	}
-	return (1);
-}*/
+	return (0);
+}

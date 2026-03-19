@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 14:05:22 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:52:12 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
 	cmd->is_expand = new_expand;
 	cmd->sub_args = new_subarg;
 	cmd->quote_type = new_dquote;
-	cmd->is_builtin = is_builtin(cmd->cmd[0]);
+	cmd->is_builtin = is_builtin(cmd->cmd[0])  && !is_subarg(cmd->sub_args[0], cmd->sub_args[1]);
 	return (1);
 }
 
