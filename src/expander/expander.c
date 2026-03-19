@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 09:56:23 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 10:17:14 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
                 x++;
             }
         }
-        index.i++;
+        else
+            index.i++;
     }
     return (0);
 }
