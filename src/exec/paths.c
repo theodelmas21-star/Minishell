@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 10:48:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 11:10:44 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 	int		i;
 
 	i = 0;
-	if (cmd->cmd[0] == NULL)
+	if (cmd->cmd[0] == NULL || cmd->cmd[0][0] == '\0')
 	{
 		printf("minishell: %s: command not found\n", cmd->cmd[0]);
 		return NULL;
