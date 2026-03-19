@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:56:14 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 13:55:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:17:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ int unset(t_cmd *cmd, t_env *s_env)
             s_env->env = replace(s_env, valid);
             if (!s_env->env)
                 return (1);
+            if (ft_strncmp(cmd->cmd[index.i], "PATH", ft_strlen(cmd->cmd[index.i])) == 0)
+            {
+                free_tab(s_env->path_split);
+                s_env->path_split = NULL;
+            }
         }
         index.i++;
     }
