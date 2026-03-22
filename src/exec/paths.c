@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 18:03:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/22 18:20:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,20 @@ t_env	*find_path(t_env *envp)
 	return (envp);
 }
 
-char	*find_cmd_path(t_env *envp,t_cmd *cmd)
+static int	is_directory(char *path)
+{
+	DIR	*dir;
+
+	dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
+		return (1);
+	}
+	return (0);
+}
+
+char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 {
 	char	*test_path;
 	char	*temp_path;
@@ -47,11 +60,16 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 
 	i = 0;
 	if (cmd->cmd[0] == NULL)
-		return NULL;
-	if (cmd->cmd[0] == NULL || cmd->cmd[0][0] == '\0')
+		return (NULL);
+	if (cmd->cmd[0][0] == '\0')
 	{
 		printf("minishell: %s: command not found\n", cmd->cmd[0]);
 		return (free_tab(cmd->cmd), NULL);
+	}
+	if (is_directory(cmd->cmd[0]))
+	{
+		printf("minishell: %s: is a directory\n", cmd->cmd[0]);
+		return (NULL);
 	}
 	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
