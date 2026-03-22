@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 11:56:14 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 18:17:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:54:39 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,37 @@ int unset(t_cmd *cmd, t_env *s_env)
 {
     t_index index;
     int     valid;
+    int     ret;
 
     index = (t_index){1, 0, 0};
+    ret = 0;
     while (cmd->cmd[index.i])
     {
-        valid = is_valid(cmd->cmd[index.i], s_env);
-        if (valid != -1)
+        if (cmd->cmd[index.i][0] == '\0'
+            || !ft_isalpha(cmd->cmd[index.i][0]))
         {
-            s_env->env = replace(s_env, valid);
-            if (!s_env->env)
-                return (1);
-            if (ft_strncmp(cmd->cmd[index.i], "PATH", ft_strlen(cmd->cmd[index.i])) == 0)
+            ft_putstr_fd("minishell: unset: `", 2);
+            ft_putstr_fd(cmd->cmd[index.i], 2);
+            ft_putstr_fd("': not a valid identifier\n", 2);
+            ret = 1;
+        }
+        else
+        {
+            valid = is_valid(cmd->cmd[index.i], s_env);
+            if (valid != -1)
             {
-                free_tab(s_env->path_split);
-                s_env->path_split = NULL;
+                s_env->env = replace(s_env, valid);
+                if (!s_env->env)
+                    return (1);
+                if (ft_strncmp(cmd->cmd[index.i], "PATH",
+                        ft_strlen(cmd->cmd[index.i])) == 0)
+                {
+                    free_tab(s_env->path_split);
+                    s_env->path_split = NULL;
+                }
             }
         }
         index.i++;
     }
-    return (0);
+    return (ret);
 }
