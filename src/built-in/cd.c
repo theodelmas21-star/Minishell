@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:38:04 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 22:31:12 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/22 23:04:54 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,14 @@ int cd(t_cmd *cmd, t_env *s_env)
         if (!find_env_value(s_env, "HOME"))
                 return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
         cmd->cmd[1] = find_env_value(s_env, "HOME");
+    }
+    if (ft_strncmp(cmd->cmd[1], "-", 2) == 0)
+    {
+        if (!find_env_value(s_env, "OLDPWD"))
+            return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
+        cmd->cmd[1] = find_env_value(s_env, "OLDPWD");
+        ft_putstr_fd(cmd->cmd[1], 1);
+        ft_putstr_fd("\n", 1);
     }
     oldpwd = getcwd(NULL, 0);
     if (!oldpwd)
