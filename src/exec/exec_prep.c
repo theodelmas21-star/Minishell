@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_prep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 16:00:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 15:49:45 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:51:49 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	prep_exec(t_list *cmds, t_env *s_env)
 {
-	if (!s_env->path_split)
-		return (1);
 	if (find_all_cmd_path(cmds, s_env) == 1)
 		return (1);
 	return (0);

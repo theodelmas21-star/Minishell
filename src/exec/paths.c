@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 18:20:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:52:01 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 	}
 	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
+	if (!envp->path_split)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd->cmd[0]);
+		return (NULL);
+	}
 	while (envp->path_split[i])
 	{
 		temp_path = ft_strjoin(envp->path_split[i], "/");

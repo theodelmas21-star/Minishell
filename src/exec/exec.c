@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 15:31:21 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/22 20:51:44 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 
 	if (!cmds)
 		return (exc.exit_code);
-	if (expander(cmds, s_env, exc.exit_code) || prep_exec(cmds, s_env))
+	if (expander(cmds, s_env, exc.exit_code))
 		return (1);
+	if (prep_exec(cmds, s_env))
+		return (127);
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
