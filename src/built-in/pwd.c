@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:42:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 09:38:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/22 23:20:25 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int pwd(t_cmd *cmd)
     
     if (cmd->cmd[1])
     {
-        printf("Only pwd without options or args is handled here.");
+        printf("minishell: Only pwd without options or args is handled here.\n");
         return (1);
     }
     result = getcwd(NULL, 0);
