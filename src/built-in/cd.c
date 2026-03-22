@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:38:04 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 20:58:12 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/22 22:31:12 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int cd(t_cmd *cmd, t_env *s_env)
     char    *newpwd;
 
     if (cmd->cmd[1] && cmd->cmd[2])
-        return (write(2, "cd: invalid arguments\n", 22), 1);
+        return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
     if (!cmd->cmd[1])
     {
         if (!find_env_value(s_env, "HOME"))
-            return (write(2, "cd: HOME not set\n", 17), 1);
+                return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
         cmd->cmd[1] = find_env_value(s_env, "HOME");
     }
     oldpwd = getcwd(NULL, 0);
@@ -70,7 +70,9 @@ int cd(t_cmd *cmd, t_env *s_env)
         return (1);
     if (chdir(cmd->cmd[1]) == -1)
     {
-        perror("cd");
+        ft_putstr_fd("minishell: cd: ", 2);
+        ft_putstr_fd(cmd->cmd[1], 2);
+        perror(": ");
         free(oldpwd);
         return (1);
     }
