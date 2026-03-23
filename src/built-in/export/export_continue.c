@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_continue.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 15:02:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 12:05:43 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/23 14:24:48 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx)
 
     if (parser_export(cmd->cmd[arg_idx]) == 1)
     {
-        printf("minishell : %s: not a valid identifier\n", cmd->cmd[arg_idx]);
+        ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[arg_idx], 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
         return (0);
     }
     if (!ft_strchr(cmd->cmd[arg_idx], '='))
