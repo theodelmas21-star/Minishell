@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/23 21:21:34 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:03:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int				env(t_env *s_env);
 int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
-void			is_exit(t_list *cmd, t_env *s_env, int exit_code);
+int				is_exit(t_list *cmd, t_env *s_env, int exit_code);
 char			*remove_concat_operator(char *cmd);
 int				parser_export(char *cmd);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);

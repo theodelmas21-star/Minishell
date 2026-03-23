@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 16:00:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 21:21:09 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:03:35 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc)
 	ret = handle_builtins(cmd, s_env, 1);
 	if (ret == 1)
 		is_exit(cmds, s_env, 1);
-	else
-		is_exit(cmds, s_env, exc.exit_code);
+	else if (is_exit(cmds, s_env, exc.exit_code))
+		ret = 1;
 	//free_cmds(cmds);
 	dup2(index.j, STDIN_FILENO);
 	dup2(index.i, STDOUT_FILENO);
