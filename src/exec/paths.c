@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 14:20:28 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 21:21:13 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_env	*find_path(t_env *envp)
 	return (envp);
 }
 
-static int	is_directory(char *path)
+int	is_directory(char *path)
 {
 	DIR	*dir;
 

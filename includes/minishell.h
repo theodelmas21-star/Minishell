@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/23 16:49:06 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 21:21:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ char			**without_null(char **cmd, int i);
 void			error(char *error_message);
 int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
+int				is_directory(char *path);
 t_env			*find_path(t_env *envp);
 int				call_exec(t_list *cmds, t_env *s_env, t_exec exc);
 int				apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
 int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc);
 int				env_init(t_env *s_env, char **envp);
 int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
-int				prep_exec(t_list *cmds, t_env *s_env);
 int				find_all_cmd_path(t_list *cmds, t_env *env);
 char			**join_sub_args(t_cmd *cmd);
 
