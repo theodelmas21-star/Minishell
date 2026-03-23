@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/19 14:17:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 13:25:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ static int	check_redir(t_token *tok, t_token *next)
 static int	check_char(t_token *tok)
 {
 	if (ft_strlen(tok->arg) > 0)
-		if (ft_strncmp(tok->arg, ":", ft_strlen(tok->arg)) == 0
-			|| ft_strncmp(tok->arg, "!", ft_strlen(tok->arg)) == 0)
+	{
+		if (ft_strncmp(tok->arg, ":", ft_strlen(tok->arg)) == 0)
 			return (1);
+		if (ft_strncmp(tok->arg, "!", ft_strlen(tok->arg)) == 0)
+			return (2);
+	}
 	return (0);
 }
 
@@ -51,6 +54,7 @@ int	check_args(t_list *tokens)
 {
 	t_token	*tok;
 	t_token	*next;
+	int		ret;
 
 	if (!tokens)
 		return (0);
@@ -58,7 +62,7 @@ int	check_args(t_list *tokens)
 	next = NULL;
 	if (tok->type == PIPE)
 		return (printf("minishell: syntax error near unexpected token '|'\n"),
-			0);
+			-2);
 	while (tokens)
 	{
 		tok = tokens->content;
@@ -66,8 +70,13 @@ int	check_args(t_list *tokens)
 			next = tokens->next->content;
 		else
 			next = NULL;
-		if (check_char(tok) || check_pipe(tok, next) || check_redir(tok, next))
+		ret = check_char(tok);
+		if (ret == 1)
 			return (0);
+		if (ret == 2)
+			return (-1);
+		if (check_pipe(tok, next) || check_redir(tok, next))
+			return (-2);
 		tokens = tokens->next;
 	}
 	return (1);

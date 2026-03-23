@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/19 14:43:04 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 13:25:24 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int				is_space(char c);
 int				is_operator(char c);
 
 // parser
-t_list			*parsed_cmds(t_list *tokens);
+t_list			*parsed_cmds(t_list *tokens, int *exit_code);
 int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
 int				is_redirection(t_token_type type);
