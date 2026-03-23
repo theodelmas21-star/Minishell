@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libraries.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/01 16:11:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/24 00:00:55 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ extern volatile __sig_atomic_t g_signal;
 # include <termcap.h>
 # include <termios.h>
 # include <unistd.h>
-#include <signal.h>
 
 #endif
