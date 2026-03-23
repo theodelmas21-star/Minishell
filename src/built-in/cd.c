@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:38:04 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 12:17:28 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 12:50:20 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int cd(t_cmd *cmd, t_env *s_env)
         ft_putstr_fd("\n", 1);
     }
     oldpwd = getcwd(NULL, 0);
+    if (!oldpwd && find_env_value(s_env, "PWD"))
+        oldpwd = ft_strdup(find_env_value(s_env, "PWD"));
     if (chdir(cmd->cmd[1]) == -1)
     {
         ft_putstr_fd("minishell: cd: ", 2);
