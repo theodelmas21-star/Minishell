@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:38:04 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 23:04:54 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 12:17:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,23 +74,29 @@ int cd(t_cmd *cmd, t_env *s_env)
         ft_putstr_fd("\n", 1);
     }
     oldpwd = getcwd(NULL, 0);
-    if (!oldpwd)
-        return (1);
     if (chdir(cmd->cmd[1]) == -1)
     {
         ft_putstr_fd("minishell: cd: ", 2);
         ft_putstr_fd(cmd->cmd[1], 2);
-        perror(": ");
+        ft_putstr_fd(": ", 2);
+        perror("");
         free(oldpwd);
         return (1);
     }
     newpwd = getcwd(NULL, 0);
     if (!newpwd)
-        return (free(oldpwd), 1);
-    if (update_env(s_env, "OLDPWD=", oldpwd) == 1)
-        return (free(oldpwd), 1);
+    {
+        ft_putstr_fd("minishell: cd: ", 2);
+        ft_putstr_fd(cmd->cmd[1], 2);
+        ft_putstr_fd(": ", 2);
+        perror("");
+        free(oldpwd);
+        return (1);
+    }
+    if (oldpwd && update_env(s_env, "OLDPWD=", oldpwd) == 1)
+        return (free(oldpwd), free(newpwd), 1);
     if (update_env(s_env, "PWD=", newpwd) == 1)
-        return (free(oldpwd), 1);
+        return (free(oldpwd), free(newpwd), 1);
     free(newpwd);
     free(oldpwd);
     return (0);
