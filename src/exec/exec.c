@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 15:31:21 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 21:21:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,20 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 {
 	t_cmd	*current;
 	t_list	*cur_cmd;
+	int		is_dir;
 
 	cur_cmd = cmds;
 	while (cur_cmd)
 	{
 		current = (t_cmd *)cur_cmd->content;
+		is_dir = (current->cmd[0] && is_directory(current->cmd[0]));
 		current->cmd[0] = find_cmd_path(env, current);
 		if (!current->cmd[0])
-			return (1);
+		{
+			if (is_dir)
+				return (126);
+			return (127);
+		}
 		cur_cmd = cur_cmd->next;
 	}
 	return (0);
@@ -107,8 +113,11 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 
 	if (!cmds)
 		return (exc.exit_code);
-	if (expander(cmds, s_env, exc.exit_code) || prep_exec(cmds, s_env))
+	if (expander(cmds, s_env, exc.exit_code))
 		return (1);
+	status = find_all_cmd_path(cmds, s_env);
+	if (status)
+		return (status);
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);

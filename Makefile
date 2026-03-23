@@ -12,6 +12,7 @@ MY_SOURCES = src/main.c \
 	src/parser/parsed_cmds.c \
 	src/parser/check_args.c \
 	src/parser/token_to_cmd.c \
+	src/parser/token_to_cmd_utils.c \
 	src/parser/parser_utils.c \
 	src/exec/exec.c \
 	src/exec/exec_prep.c \

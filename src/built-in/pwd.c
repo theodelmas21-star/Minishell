@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:42:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 09:38:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/23 11:58:08 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int pwd(t_cmd *cmd)
     
     if (cmd->cmd[1])
     {
-        printf("Only pwd without options or args is handled here.");
+        printf("minishell: Only pwd without options is handled here.\n");
         return (1);
     }
     result = getcwd(NULL, 0);
     if (!result)
     {
-        perror("PWD Error");
+        ft_putstr_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
         return (1);
     }
     printf("%s\n", result);

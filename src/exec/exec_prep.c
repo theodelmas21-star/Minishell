@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_prep.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 16:00:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 15:49:45 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:03:35 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	prep_exec(t_list *cmds, t_env *s_env)
-{
-	if (!s_env->path_split)
-		return (1);
-	if (find_all_cmd_path(cmds, s_env) == 1)
-		return (1);
-	return (0);
-}
 
 int	exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc)
 {
@@ -36,8 +27,8 @@ int	exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc)
 	ret = handle_builtins(cmd, s_env, 1);
 	if (ret == 1)
 		is_exit(cmds, s_env, 1);
-	else
-		is_exit(cmds, s_env, exc.exit_code);
+	else if (is_exit(cmds, s_env, exc.exit_code))
+		ret = 1;
 	//free_cmds(cmds);
 	dup2(index.j, STDIN_FILENO);
 	dup2(index.i, STDOUT_FILENO);

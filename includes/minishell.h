@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/19 14:43:04 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 23:03:34 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ int				is_space(char c);
 int				is_operator(char c);
 
 // parser
-t_list			*parsed_cmds(t_list *tokens);
+t_list			*parsed_cmds(t_list *tokens, int *exit_code);
 int				check_args(t_list *tokens);
 t_list			*token_to_cmd(t_list *tokens);
+t_cmd			*init_cmd(void);
+int				cmd_add_arg(t_cmd *cmd, char *arg, t_quote qt, int is_new);
 int				is_redirection(t_token_type type);
 int				is_builtin(char *cmd);
 int				is_subarg(int curr_subarg, int next_subarg);
@@ -69,13 +71,13 @@ char			**without_null(char **cmd, int i);
 void			error(char *error_message);
 int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
+int				is_directory(char *path);
 t_env			*find_path(t_env *envp);
 int				call_exec(t_list *cmds, t_env *s_env, t_exec exc);
 int				apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
 int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc);
 int				env_init(t_env *s_env, char **envp);
 int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
-int				prep_exec(t_list *cmds, t_env *s_env);
 int				find_all_cmd_path(t_list *cmds, t_env *env);
 char			**join_sub_args(t_cmd *cmd);
 
@@ -90,7 +92,7 @@ int				env(t_env *s_env);
 int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
-void			is_exit(t_list *cmd, t_env *s_env, int exit_code);
+int				is_exit(t_list *cmd, t_env *s_env, int exit_code);
 char			*remove_concat_operator(char *cmd);
 int				parser_export(char *cmd);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/02 15:04:27 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/22 16:06:20 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,9 @@ int create_var(char *var, t_env *s_env)
 {
     char    **new_env;
     char    **tmp;
-    int    i;
     int     count;
 
     count = 0;
-    i = 0;
     while (s_env->env && s_env->env[count])
         count++;
     new_env = core_create_var(var, s_env, count);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 18:03:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/23 21:21:13 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,20 @@ t_env	*find_path(t_env *envp)
 	return (envp);
 }
 
-char	*find_cmd_path(t_env *envp,t_cmd *cmd)
+int	is_directory(char *path)
+{
+	DIR	*dir;
+
+	dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
+		return (1);
+	}
+	return (0);
+}
+
+char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 {
 	char	*test_path;
 	char	*temp_path;
@@ -47,14 +60,30 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 
 	i = 0;
 	if (cmd->cmd[0] == NULL)
-		return NULL;
-	if (cmd->cmd[0] == NULL || cmd->cmd[0][0] == '\0')
+		return (NULL);
+	if (cmd->cmd[0][0] == '\0')
 	{
-		printf("minishell: %s: command not found\n", cmd->cmd[0]);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (free_tab(cmd->cmd), NULL);
+	}
+	if (is_directory(cmd->cmd[0]))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		return (NULL);
 	}
 	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
+	if (!envp->path_split)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (NULL);
+	}
 	while (envp->path_split[i])
 	{
 		temp_path = ft_strjoin(envp->path_split[i], "/");
@@ -69,6 +98,8 @@ char	*find_cmd_path(t_env *envp,t_cmd *cmd)
 		free(test_path);
 		i++;
 	}
-	printf("minishell: %s: command not found\n", cmd->cmd[0]);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd->cmd[0], 2);
+	ft_putstr_fd(": command not found\n", 2);
 	return (NULL);
 }

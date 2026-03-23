@@ -6,108 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 14:52:12 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/23 16:51:54 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static t_cmd	*init_cmd(void)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->cmd = malloc(sizeof(char *));
-	if (!cmd->cmd)
-		return (free(cmd), NULL);
-	cmd->is_expand = malloc(sizeof(int));
-	if (!cmd->is_expand)
-		return (free(cmd->cmd), free(cmd), NULL);
-	cmd->sub_args = malloc(sizeof(int));
-	if (!cmd->sub_args)
-		return (free(cmd->cmd), free(cmd), free(cmd->is_expand), NULL);
-	cmd->quote_type = malloc(sizeof(int));
-	if (!cmd->quote_type)
-		return (free(cmd->cmd), free(cmd), free(cmd->is_expand),
-			free(cmd->sub_args), NULL);
-	cmd->cmd[0] = NULL;
-	cmd->is_expand[0] = 0;
-	cmd->sub_args[0] = 0;
-	cmd->quote_type[0] = 0;
-	cmd->redirs = NULL;
-	cmd->is_builtin = 0;
-	cmd->pipefd[0] = -1;
-	cmd->pipefd[1] = -1;
-	return (cmd);
-}
-
-static int	get_expand_type(char *arg, t_quote quote_type)
-{
-	if (is_expandable(arg) && quote_type == DQUOTE)
-		return (1);
-	else if (is_expandable(arg) && quote_type != SQUOTE)
-		return (2);
-	return (0);
-}
-
-static int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote quote_type,
-		int is_new_arg)
-{
-	char	**new;
-	int		*new_expand;
-	int		*new_subarg;
-	int		*new_dquote;
-	int		arg_len;
-	int		i;
-
-	arg_len = 0;
-	while (cmd->cmd[arg_len])
-		arg_len++;
-	new = malloc(sizeof(char *) * (arg_len + 2));
-	if (!new)
-		return (0);
-	new_expand = malloc(sizeof(int) * (arg_len + 1));
-	if (!new_expand)
-		return (free(new), 0);
-	new_subarg = malloc(sizeof(int) * (arg_len + 2));
-	if (!new_subarg)
-		return (free(new), free(new_expand), 0);
-	new_dquote = malloc(sizeof(int) * (arg_len + 1));
-	if (!new_dquote)
-		return (free(new), free(new_expand), free(new_subarg), 0);
-	i = 0;
-	while (i < arg_len)
-	{
-		new[i] = cmd->cmd[i];
-		new_expand[i] = cmd->is_expand[i];
-		new_subarg[i] = cmd->sub_args[i];
-		new_dquote[i] = cmd->quote_type[i];
-		i++;
-	}
-	new[arg_len] = ft_strdup(arg);
-	new_expand[arg_len] = get_expand_type(arg, quote_type);
-	if (is_new_arg && arg_len > 0)
-		new_subarg[arg_len] = (new_subarg[arg_len - 1] + 1);
-	else if (is_new_arg && arg_len == 0)
-		new_subarg[arg_len] = arg_len;
-	else
-		new_subarg[arg_len] = new_subarg[arg_len - 1];
-	new_subarg[arg_len + 1] = -1;
-	new_dquote[arg_len] = quote_type;
-	new[arg_len + 1] = NULL;
-	free(cmd->cmd);
-	free(cmd->is_expand);
-	free(cmd->sub_args);
-	free(cmd->quote_type);
-	cmd->cmd = new;
-	cmd->is_expand = new_expand;
-	cmd->sub_args = new_subarg;
-	cmd->quote_type = new_dquote;
-	cmd->is_builtin = is_builtin(cmd->cmd[0])  && !is_subarg(cmd->sub_args[0], cmd->sub_args[1]);
-	return (1);
-}
 
 static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 {
@@ -137,55 +40,61 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	return (1);
 }
 
+static void	add_subtokens(t_cmd *cmd, t_token *tok, int *is_new)
+{
+	t_list	*sub_tok;
+	t_token	*sub_tok_content;
+
+	sub_tok = tok->subtokens;
+	while (sub_tok)
+	{
+		sub_tok_content = (t_token *)sub_tok->content;
+		if (ft_strlen(sub_tok_content->arg) > 0)
+		{
+			cmd_add_arg(cmd, sub_tok_content->arg, sub_tok_content->quote_type, *is_new);
+			*is_new = 0;
+		}
+		sub_tok = sub_tok->next;
+	}
+}
+
+static int	handle_word_tok(t_cmd *cmd, t_token *tok)
+{
+	int		is_new;
+	char	*arg;
+	t_quote	qt;
+	t_list	*last;
+
+	is_new = 1;
+	arg = tok->arg;
+	qt = tok->quote_type;
+	if (ft_strlen(arg) > 0)
+	{
+		cmd_add_arg(cmd, arg, qt, 1);
+		is_new = 0;
+	}
+	add_subtokens(cmd, tok, &is_new);
+	last = ft_lstlast(tok->subtokens);
+	if (last)
+	{
+		arg = ((t_token *)last->content)->arg;
+		qt = ((t_token *)last->content)->quote_type;
+	}
+	if (ft_strlen(arg) < 1)
+		cmd_add_arg(cmd, arg, qt, is_new);
+	return (1);
+}
+
 static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 		t_list **cmd_list)
 {
-	t_token	*target;
-	t_list	*subtoken;
-	t_token	*subtok_content;
-	char	*arg;
-	t_quote	quote_type;
-	int		is_new_arg;
-
-	arg = tok->arg;
-	subtoken = tok->subtokens;
-	quote_type = tok->quote_type;
-	is_new_arg = 1;
 	if (tok->type == WORD)
-	{
-		if (ft_strlen(arg) > 0)
-		{
-			cmd_add_arg(*cmd, tok->arg, tok->quote_type, is_new_arg);
-			is_new_arg = 0;
-		}
-		while (subtoken)
-		{
-			subtok_content = (t_token *)subtoken->content;
-			arg = subtok_content->arg;
-			quote_type = subtok_content->quote_type;
-			if (ft_strlen(arg) > 0)
-			{
-				if (ft_strlen(tok->arg) < 1 && is_new_arg)
-				{
-					cmd_add_arg(*cmd, arg, quote_type, is_new_arg);
-					is_new_arg = 0;
-				}
-				else
-					cmd_add_arg(*cmd, arg, quote_type, is_new_arg);
-			}
-			subtoken = subtoken->next;
-		}
-		if (ft_strlen(arg) < 1)
-			cmd_add_arg(*cmd, arg, quote_type, is_new_arg);
-		return (1);
-	}
+		return (handle_word_tok(*cmd, tok));
 	else if (is_redirection(tok->type))
 	{
 		if (!tokens->next)
 			return (0);
-		target = tokens->next->content;
-		add_redirection(*cmd, tok, target);
-		return (1);
+		return (add_redirection(*cmd, tok, tokens->next->content));
 	}
 	else if (tok->type == PIPE)
 	{
@@ -193,7 +102,6 @@ static int	create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 		*cmd = init_cmd();
 		if (!*cmd)
 			return (0);
-		return (1);
 	}
 	return (1);
 }
