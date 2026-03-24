@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 21:21:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:34:49 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_env	*find_path(t_env *envp)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	envp->path = "PATH=";
@@ -95,6 +95,13 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 			return (NULL);
 		if (access(test_path, X_OK) == 0)
 			return (free(cmd->cmd[0]), test_path);
+		else
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(cmd->cmd[0], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			return (free(cmd->cmd[0]), test_path);
+		}
 		free(test_path);
 		i++;
 	}

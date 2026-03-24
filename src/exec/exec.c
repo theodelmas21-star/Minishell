@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 21:21:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:36:53 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 		current = (t_cmd *)cur_cmd->content;
 		is_dir = (current->cmd[0] && is_directory(current->cmd[0]));
 		current->cmd[0] = find_cmd_path(env, current);
+		printf("current->cmd[0] = %s\n", current->cmd[0]);
 		if (!current->cmd[0])
 		{
 			if (is_dir)
