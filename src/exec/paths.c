@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/24 15:34:49 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/24 20:26:39 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,13 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 	}
 	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
+	if (ft_strchr(cmd->cmd[0], '/'))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd->cmd[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (NULL);
+	}
 	if (!envp->path_split)
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -95,13 +102,6 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 			return (NULL);
 		if (access(test_path, X_OK) == 0)
 			return (free(cmd->cmd[0]), test_path);
-		else
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd->cmd[0], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			return (free(cmd->cmd[0]), test_path);
-		}
 		free(test_path);
 		i++;
 	}
