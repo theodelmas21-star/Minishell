@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 14:50:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:28:45 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*return_new_core(char *tmp, char *res, char *old, int *dollar)
 	return (res);
 }
 
-char	*return_new(char *old, char *new, int to_replace, int *dollar)
+char	*return_new(char *old, char *new, int to_replace, int dollar)
 {
 	int		res_len;
 	char	*res;
@@ -115,7 +115,7 @@ char	*return_new(char *old, char *new, int to_replace, int *dollar)
 	tmp = replace_old(old, new);
 	if (!tmp)
 		return (free(res), NULL);
-	res = return_new_core(tmp, res, old, dollar);
+	res = return_new_core(tmp, res, old, &dollar);
 	if (!res)
 		return (0);
 	return (free(old), free(tmp), res);
@@ -161,7 +161,7 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 				index.k = 1;
 			}
 			index.j = ft_strlen(new);
-			new = return_new(str, new, to_replace, &index.i);
+			new = return_new(str, new, to_replace, index.i);
 			if (!new)
 				return (NULL);
 			str = new;

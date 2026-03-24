@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/19 10:17:14 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:52:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,131 @@ char *interrogation(char *cmd, int exit_code)
     return (cmd);
 }
 
+int *adapt_is_exp(int pos, int len, t_cmd *cmd)
+{
+    int *new_is_expand;
+    t_index index;
+    
+    index = (t_index){0};
+    while (cmd->is_expand[index.i] != -1)
+        index.i++;
+    new_is_expand = malloc(sizeof(int) * (index.i + len));
+    if (!new_is_expand)
+        return NULL;
+    while(index.j < pos)
+    {
+        new_is_expand[index.j] = cmd->is_expand[index.j];
+        index.j++;
+    }
+    while (len > 0)
+    {
+        new_is_expand[index.j] = 0;
+        index.j++;
+        len--;
+    }
+    pos += 1;
+    while (cmd->is_expand[pos] != -1)
+    {
+        new_is_expand[index.j] = cmd->is_expand[pos];
+        index.j++;
+        pos++;
+    }
+    new_is_expand[index.j] = cmd->is_expand[pos];
+    return (free(cmd->is_expand), new_is_expand);
+}
+
+int *adapt_sub_args(int pos, int len, t_cmd *cmd)
+{
+    int *new_sub_args;
+    t_index index;
+    
+    index = (t_index){0};
+    while (cmd->sub_args[index.i] != -1)
+        index.i++;
+    new_sub_args = malloc(sizeof(int) * (index.i + len));
+    if (!new_sub_args)
+        return NULL;
+    while(index.j < pos)
+    {
+        new_sub_args[index.j] = cmd->sub_args[index.j];
+        index.j++;
+    }
+    new_sub_args[index.j] = cmd->sub_args[index.j];
+    index.j++;
+    len--;
+    while (len > 1)
+    {
+        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
+        index.j++;
+        len--;
+    }
+    if (cmd->sub_args[pos] == cmd->sub_args[pos + 1])
+        new_sub_args[index.j] = cmd->sub_args[pos + 1];
+    else
+        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
+    index.j++;
+    pos += 1;
+    while (cmd->is_expand[pos] != -1)
+    {
+        new_sub_args[index.j] = cmd->sub_args[pos];
+        index.j++;
+        pos++;
+    }
+    new_sub_args[index.j] = cmd->sub_args[pos];
+    return (free(cmd->is_expand), new_sub_args);
+}
+
+int *adapt_quote_type(int pos, int len, t_cmd *cmd)
+{
+    int *new;
+    t_index index;
+    
+    index = (t_index){0};
+    while (cmd->quote_type[index.i] != -1)
+        index.i++;
+    new = malloc(sizeof(int) * (index.i + len));
+    if (!new)
+        return NULL;
+    while(index.j < pos)
+    {
+        new[index.j] = cmd->quote_type[index.j];
+        index.j++;
+    }
+    while (len > 0)
+    {
+        new[index.j] = 1;
+        index.j++;
+        len--;
+    }
+    pos += 1;
+    while (cmd->quote_type[pos] != -1)
+    {
+        new[index.j] = cmd->quote_type[pos];
+        index.j++;
+        pos++;
+    }
+    new[index.j] = cmd->quote_type[pos];
+    return (free(cmd->is_expand), new);
+}
+
+int adapt_data(int pos, int len, t_cmd *cmd)
+{
+    t_index index;
+
+    index = (t_index){0};
+
+    cmd->is_expand = adapt_is_exp(pos, len, cmd);
+    if (!cmd->is_expand)
+        return (1);
+    cmd->sub_args = adapt_sub_args(pos, len, cmd);
+    if (!cmd->sub_args)
+        return (1);
+    cmd->sub_args = adapt_quote_type(pos, len, cmd);
+    if (!cmd->quote_type)
+        return (1);
+    return (0);
+}
+
 int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
 {
     t_index index;
@@ -93,9 +218,15 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
         }
         if (cmd->cmd[index.i] && cmd->is_expand[index.i] == 2)
         {
-            cmd->cmd[index.i] = join_split(cmd->cmd[index.i]);
-            if (!cmd->cmd[index.i])
+            index.j = index.i;
+            index.k = count_words(cmd->cmd[index.i], ' ');
+            cmd->cmd = join_split(cmd->cmd[index.j], cmd->cmd);
+            if (!cmd->cmd)
                 return (1);
+            index.i += index.k;
+            /*if (adapt_data(index.j, index.k, cmd) == 0)
+                return (1);*/
+            continue ;
         }
         if (cmd->cmd[index.i] == NULL)
         {
@@ -114,8 +245,6 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
     }
     return (0);
 }
-
-
 
 int expander(t_list *cmds, t_env *s_env, int exit_code)
 {
