@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/24 20:26:39 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:46:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return (free_tab(cmd->cmd), NULL);
+		return (NULL);
 	}
 	if (is_directory(cmd->cmd[0]))
 	{

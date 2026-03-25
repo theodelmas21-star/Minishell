@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 09:19:51 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:32:06 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
                     return (1);
             }
         }
-        if (cmd->cmd[index.i] && cmd->is_expand[index.i] == 2)
+        if (cmd->cmd[index.i] && cmd->cmd[index.i][0] != '\0' && cmd->is_expand[index.i] == 2)
         {
             index.j = index.i;
             index.k = count_words(cmd->cmd[index.i], ' ');
