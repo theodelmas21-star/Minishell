@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 10:34:23 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 10:49:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*create_new(char *str, int ind_str)
 	new = malloc(sizeof(char) * (len + 1));
 	if (!new)
 		return (NULL);
-	while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%'
+	while (str[ind_str] && str[ind_str] != ' ' && str[ind_str] != '%' && str[ind_str] != '='
 		&& str[ind_str] != '@' && str[ind_str] != '*' && str[ind_str] != '!'
 		&& str[ind_str] != '-' && str[ind_str] != '}' && str[ind_str] != ']' && str[ind_str] != '\'')
 	{
@@ -86,7 +86,7 @@ char	*return_new_core(char *tmp, char *res, char *old, int *dollar)
 	while (old[*dollar] && old[*dollar] != ' ' && old[*dollar] != ' ' && old[*dollar] != '?'
 		&& old[*dollar] != '*' && old[*dollar] != '%' && old[*dollar] != '@'
 		&& old[*dollar] != '!' && old[*dollar] != '-' && old[*dollar] != '$'
-		&& old[*dollar] != '}' && old[*dollar] != ']' && old[*dollar] != '\'')
+		&& old[*dollar] != '}' && old[*dollar] != ']' && old[*dollar] != '\'' && old[*dollar] != '=')
 		(*dollar)++;
 	if ((old[*dollar] == '}' || old[*dollar] == ']') && count == 1)
 		(*dollar)++;
