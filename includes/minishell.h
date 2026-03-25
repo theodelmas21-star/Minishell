@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/24 09:06:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:41:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ char			*call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
 char			*expand_hd(char *res, t_env *s_env, t_exec exc);
 int				is_expand(t_cmd *cmd, int ind_cmd);
-char			*expand_all(char *str, t_env *s_env, int exit_code,
-					int *checker);
+char			*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str);
 int				is_env(char *cmd, t_env *s_env);
 char			*interrogation(char *cmd, int exit_code);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);

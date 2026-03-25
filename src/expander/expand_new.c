@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 10:57:06 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:48:11 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,19 +121,19 @@ char	*return_new(char *old, char *new, int to_replace, int dollar)
 	return (free(old), free(tmp), res);
 }
 
-char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
+char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 {
 	t_index	index;
 	char	*new;
 	int		to_replace;
 
 	index = (t_index){0};
-	while (str[index.i])
+	while (cmd->cmd[str][index.i])
 	{
-		if (str[index.i] == '$' && str[index.i + 1] && str[index.i + 1] != ' ' && str[index.i + 1] != '='
-			&& str[index.i + 1] != ':' && str[index.i + 1] != '%' && str[index.i + 1] != '\'')
+		if (cmd->cmd[str][index.i] == '$' && cmd->cmd[str][index.i + 1] && cmd->cmd[str][index.i + 1] != ' ' && cmd->cmd[str][index.i + 1] != '='
+			&& cmd->cmd[str][index.i + 1] != ':' && cmd->cmd[str][index.i + 1] != '%' && cmd->cmd[str][index.i + 1] != '\'')
 		{
-			new = create_new(str, index.i);
+			new = create_new(cmd->cmd[str], index.i);
 			if (!new)
 				return (NULL);
 			to_replace = ft_strlen(new);
@@ -161,15 +161,26 @@ char	*expand_all(char *str, t_env *s_env, int exit_code, int *checker)
 				index.k = 1;
 			}
 			index.j = ft_strlen(new);
-			new = return_new(str, new, to_replace, index.i);
+			new = return_new(cmd->cmd[str], new, to_replace, index.i);
 			if (!new)
 				return (NULL);
-			str = new;
+			cmd->cmd[str] = new;
+			index.i += index.j - 1;
+		}
+		else if (cmd->cmd[str][index.i] == '$' && !cmd->cmd[str][index.i + 1] && cmd->quote_type[str + 1] == 2)
+		{
+			new = ft_strdup("");
+			index.k = 1;
+			index.j = ft_strlen(new);
+			new = return_new(cmd->cmd[str], new, to_replace, index.i);
+			if (!new)
+				return (NULL);
+			cmd->cmd[str] = new;
 			index.i += index.j - 1;
 		}
 		index.i++;
 	}
-	if (index.k == 1 && str[0] == '\0' && (*checker) != 2)
-		return (free(str), NULL);
-	return (str);
+	if (index.k == 1 && cmd->cmd[str][0] == '\0' && cmd->quote_type[index.i] != 2)
+		return (free(cmd->cmd[str]), NULL);
+	return (cmd->cmd[str]);
 }

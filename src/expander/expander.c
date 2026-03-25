@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 11:15:03 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:41:00 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,13 +207,12 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             if (cmd->cmd[index.i + 1] && ft_strncmp("$", cmd->cmd[index.i], ft_strlen(cmd->cmd[index.i])) == 0 
                 && cmd->sub_args[index.i] == cmd->sub_args[index.i + 1] && cmd->quote_type[index.i] != 2)
             {
-                printf("cmd->cmd[%d] : %s\n",index.i, cmd->cmd[index.i]);
                 free (cmd->cmd[index.i]);
                 cmd->cmd[index.i] = NULL;
             }
             else
             {
-                cmd->cmd[index.i] = expand_all(cmd->cmd[index.i], s_env, exit_code, &cmd->quote_type[index.i]);
+                cmd->cmd[index.i] = expand_all(cmd, s_env, exit_code, index.i);
                 if (!cmd->cmd[index.i] && cmd->quote_type[index.i] == 2)
                     return (1);
             }
