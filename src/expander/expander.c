@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/24 14:52:49 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:19:51 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
     index = (t_index){0};
     while (cmd->sub_args[index.i] != -1)
         index.i++;
-    new_sub_args = malloc(sizeof(int) * (index.i + len));
+    new_sub_args = malloc(sizeof(int) * (index.i + len + 1));
     if (!new_sub_args)
         return NULL;
     while(index.j < pos)
@@ -132,14 +132,14 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
         new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
     index.j++;
     pos += 1;
-    while (cmd->is_expand[pos] != -1)
+    while (cmd->sub_args[pos] != -1)
     {
-        new_sub_args[index.j] = cmd->sub_args[pos];
+        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
         index.j++;
         pos++;
     }
-    new_sub_args[index.j] = cmd->sub_args[pos];
-    return (free(cmd->is_expand), new_sub_args);
+    new_sub_args[index.j] = -1;
+    return (free(cmd->sub_args), new_sub_args);
 }
 
 int *adapt_quote_type(int pos, int len, t_cmd *cmd)
@@ -172,7 +172,7 @@ int *adapt_quote_type(int pos, int len, t_cmd *cmd)
         pos++;
     }
     new[index.j] = cmd->quote_type[pos];
-    return (free(cmd->is_expand), new);
+    return (free(cmd->quote_type), new);
 }
 
 int adapt_data(int pos, int len, t_cmd *cmd)
@@ -187,7 +187,7 @@ int adapt_data(int pos, int len, t_cmd *cmd)
     cmd->sub_args = adapt_sub_args(pos, len, cmd);
     if (!cmd->sub_args)
         return (1);
-    cmd->sub_args = adapt_quote_type(pos, len, cmd);
+    cmd->quote_type = adapt_quote_type(pos, len, cmd);
     if (!cmd->quote_type)
         return (1);
     return (0);
@@ -224,8 +224,8 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             if (!cmd->cmd)
                 return (1);
             index.i += index.k;
-            /*if (adapt_data(index.j, index.k, cmd) == 0)
-                return (1);*/
+            if (adapt_data(index.j, index.k, cmd) == 1)
+                return (1);
             continue ;
         }
         if (cmd->cmd[index.i] == NULL)

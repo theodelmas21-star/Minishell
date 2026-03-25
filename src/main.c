@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 13:25:17 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/25 09:18:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int	main(int argc, char **argv, char **envp)
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
 			cmd = parsed_cmds(tokens, &exc.exit_code);
-			//print_cmds(cmd);
+			print_cmds(cmd);
 			free_list(tokens);
 			exc.exit_code = call_exec(cmd, s_env, exc);
 			// free_cmds(cmd);
