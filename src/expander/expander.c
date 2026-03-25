@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 10:47:08 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/25 11:15:03 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
     len--;
     while (len > 1)
     {
-        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
+        new_sub_args[index.j] = new_sub_args[index.j - 1] - 11000;
         index.j++;
         len--;
     }
@@ -134,7 +134,7 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
     pos += 1;
     while (cmd->sub_args[pos] != -1)
     {
-        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
+        new_sub_args[index.j] = cmd->sub_args[pos];
         index.j++;
         pos++;
     }
