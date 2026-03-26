@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 16:03:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/26 14:08:00 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,6 @@ int *adapt_quote_type(int pos, int len, t_cmd *cmd)
 
 int adapt_data(int pos, int len, t_cmd *cmd)
 {
-    t_index index;
-
-    index = (t_index){0};
-
     cmd->is_expand = adapt_is_exp(pos, len, cmd);
     if (!cmd->is_expand)
         return (1);
