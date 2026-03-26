@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 09:40:53 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/26 14:19:24 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 	while (cur_cmd)
 	{
 		current = (t_cmd *)cur_cmd->content;
-		is_dir = (current->cmd[0] && is_directory(current->cmd[0]));
+		if (current->cmd[0] == NULL)
+		{
+			cur_cmd = cur_cmd->next;
+			continue ;
+		}
+		is_dir = is_directory(current->cmd[0]);
 		current->cmd[0] = find_cmd_path(env, current);
 		if (current->cmd[0] == NULL)
 		{
