@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/17 11:54:00 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/26 15:09:16 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_cmd
 	int				*is_expand;
 	int 			*sub_args;
 	int				*quote_type;
+	int				cmd_error;
 }					t_cmd;
 
 typedef struct s_env

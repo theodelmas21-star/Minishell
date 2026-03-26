@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:01:53 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/24 13:15:36 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/26 15:09:09 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	init_cmd_fields(t_cmd *cmd)
 	cmd->is_builtin = 0;
 	cmd->pipefd[0] = -1;
 	cmd->pipefd[1] = -1;
+	cmd->cmd_error = 0;
 }
 
 t_cmd	*init_cmd(void)

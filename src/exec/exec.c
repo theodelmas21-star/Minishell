@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/26 14:19:24 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/26 15:09:05 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 		if (current->cmd[0] == NULL)
 		{
 			if (is_dir)
-				return (126);
-			return (127);
+				current->cmd_error = 126;
+			else
+				current->cmd_error = 127;
 		}
 		cur_cmd = cur_cmd->next;
 	}
@@ -77,10 +78,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 	if (current->is_builtin == 1 &&  handle_builtins(current, s_env, 0) == 1)
 		return (exit(1));
 	if (current->cmd[0] == NULL)
-	{
-		exc.exit_code = 0;
-		exit(0);
-	}
+		exit(current->cmd_error);
 	execve(current->cmd[0], current->cmd, s_env->env);
 }
 
@@ -120,9 +118,9 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		return (exc.exit_code);
 	if (expander(cmds, s_env, exc.exit_code))
 		return (1);
-	status = find_all_cmd_path(cmds, s_env);
-	if (status)
-		return (status);
+	find_all_cmd_path(cmds, s_env);
+	if (!cmds->next && ((t_cmd *)cmds->content)->cmd_error)
+		return (((t_cmd *)cmds->content)->cmd_error);
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
