@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/25 11:41:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/26 14:42:08 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int				env(t_env *s_env);
 int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
-int				is_exit(t_list *cmd, t_env *s_env, int exit_code);
+int				is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env,
+					int exit_code, int in_pipe);
 char			*remove_concat_operator(char *cmd);
 int				parser_export(char *cmd);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);

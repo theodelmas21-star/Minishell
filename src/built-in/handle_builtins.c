@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:34:52 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 20:54:34 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/26 14:40:39 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,6 @@ int handle_builtins(t_cmd *cmd, t_env *s_env, int pid)
         return (env(s_env));
     }
     else if (ft_strncmp(cmd->cmd[0], "exit", 5) == 0 && pid == 0)
-        exit(0);
+        is_exit(cmd, NULL, NULL, 0, 1);
     return (handle_builtins_second(cmd, s_env, pid));
 }
-
-/*Builtin	            Seul	                            Dans un pipe
-
-cd	                    parent	                            enfant
-export	                parent	                            enfant
-unset	                parent	                            enfant
-exit	                parent	                            enfant
-echo	                enfant ou parent	                enfant
-pwd	                    enfant ou parent	                enfant
-
-1. echo
-2. pwd
-3. env
-4. export
-5. unset
-6. cd
-7. exit
-*/
