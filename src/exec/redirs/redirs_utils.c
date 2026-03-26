@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/14 10:43:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/26 17:11:42 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 		tmp = get_next_line(0);
 		if (!tmp)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
-		if (ft_strncmp(tmp, redir_R->delimiter, ft_strlen(redir_R->delimiter)) == 0
-			&& (tmp[ft_strlen(redir_R->delimiter)] == '\n' || tmp[ft_strlen(redir_R->delimiter)] == '\0'))
+		if (ft_strncmp(tmp, redir_R->delimiter,
+				ft_strlen(redir_R->delimiter)) == 0
+			&& (tmp[ft_strlen(redir_R->delimiter)] == '\n'
+				|| tmp[ft_strlen(redir_R->delimiter)] == '\0'))
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{
-            tmp = expand_hd(tmp, s_env, exc);
-            if (!tmp)
-                return (1);
-        }
+			tmp = expand_hd(tmp, s_env, exc);
+			if (!tmp)
+				return (1);
+		}
 		ft_putstr_fd(tmp, redir_R->fd);
 		free(tmp);
 	}
@@ -52,7 +54,7 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 	else
 		fd = open(redir_R->target, O_RDONLY);
 	if (fd < 0)
-		return (perror("Open Error"), 1);
+		return (ft_putstr_fd("minishell: ", 2), perror(redir_R->target), 1);
 	return (dup2(fd, STDIN_FILENO), close(fd), 0);
 }
 
@@ -78,22 +80,22 @@ int	handle_append_redir(t_redir *redir_R)
 	return (dup2(fd, STDOUT_FILENO), close(fd), 0);
 }
 
-int apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc)
+int	apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc)
 {
-    if (redir_R.type == REDIR_IN || redir_R.type == REDIR_HEREDOC)
-    {
-        if (handle_input_redir(&redir_R, s_env, exc) != 0)
-            return (1);
-    }
-    else if (redir_R.type == REDIR_OUT)
-    {
-        if (handle_output_redir(&redir_R) != 0)
-            return (1);
-    }
-    else if (redir_R.type == REDIR_APPEND)
-    {
-        if (handle_append_redir(&redir_R) != 0)
-            return (1);
-    }
-    return (0);
+	if (redir_R.type == REDIR_IN || redir_R.type == REDIR_HEREDOC)
+	{
+		if (handle_input_redir(&redir_R, s_env, exc) != 0)
+			return (1);
+	}
+	else if (redir_R.type == REDIR_OUT)
+	{
+		if (handle_output_redir(&redir_R) != 0)
+			return (1);
+	}
+	else if (redir_R.type == REDIR_APPEND)
+	{
+		if (handle_append_redir(&redir_R) != 0)
+			return (1);
+	}
+	return (0);
 }
