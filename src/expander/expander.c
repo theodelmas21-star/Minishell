@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 10:48:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/27 14:08:32 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,20 +189,41 @@ int adapt_data(int pos, int len, t_cmd *cmd)
     return (0);
 }
 
+void adapt_data_null(int pos, t_cmd *cmd)
+{
+    t_index index;
+
+    index = (t_index){pos, pos, pos};
+    while (cmd->sub_args[index.i] != -1)
+    {
+        cmd->sub_args[index.i] = cmd->sub_args[index.i + 1];
+        cmd->quote_type[index.i] = cmd->quote_type[index.i + 1];
+        cmd->is_expand[index.i] = cmd->is_expand[index.i + 1];
+        index.i++;
+    }
+}
+
 int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
 {
     t_index index;
-    int     x;
 
     index = (t_index){0};
     (void)exit_code;
     while (cmd->cmd[index.i])
     {
+        printf("i=%d | cmd[i]=%s | cmd[i+1]=%s | is_exp[i]=%d | is_exp[i+1]=%d | qt[i]=%d\n",
+            index.i,
+            cmd->cmd[index.i],
+            cmd->cmd[index.i + 1],
+            cmd->is_expand[index.i],
+            cmd->is_expand[index.i + 1],
+            cmd->quote_type[index.i]);
         if (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
         {
             if (cmd->cmd[index.i + 1] && ft_strncmp("$", cmd->cmd[index.i], ft_strlen(cmd->cmd[index.i])) == 0 
                 && cmd->sub_args[index.i] == cmd->sub_args[index.i + 1] && cmd->quote_type[index.i] != 2)
             {
+                printf("cmd[%d] :%s\n", index.i, cmd->cmd[index.i]);
                 free (cmd->cmd[index.i]);
                 cmd->cmd[index.i] = NULL;
             }
@@ -230,12 +251,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
             cmd->cmd = without_null(cmd->cmd, index.i);
             if (!cmd->cmd)
                 return (1);
-            x = index.i;
-            while (cmd->sub_args[x + 1] != -1)
-            {
-                cmd->sub_args[x] = cmd->sub_args[x + 1];
-                x++;
-            }
+            adapt_data_null(index.i, cmd);
         }
         else
             index.i++;
