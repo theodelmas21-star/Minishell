@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 16:51:54 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:56:18 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,10 @@ static void	add_subtokens(t_cmd *cmd, t_token *tok, int *is_new)
 	while (sub_tok)
 	{
 		sub_tok_content = (t_token *)sub_tok->content;
-		if (ft_strlen(sub_tok_content->arg) > 0)
-		{
-			cmd_add_arg(cmd, sub_tok_content->arg, sub_tok_content->quote_type, *is_new);
+		cmd_add_arg(cmd, sub_tok_content->arg, sub_tok_content->quote_type,
+			*is_new);
+		if (ft_strlen(tok->arg) < 1 && *is_new)
 			*is_new = 0;
-		}
 		sub_tok = sub_tok->next;
 	}
 }
