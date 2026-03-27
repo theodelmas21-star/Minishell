@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 16:00:11 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:10:46 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ int	main(int argc, char **argv, char **envp)
 			{
 			 	exc.exit_code = g_signal;
 			 	g_signal = 0;
-			 	free(buffer);
-				continue ;
 			}
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
