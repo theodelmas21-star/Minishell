@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/26 15:09:05 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/27 16:38:12 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 		return ;
 	reset_signals();
 	if (exc.prev_fd != -1)
-			{
+	{
 		dup2(exc.prev_fd, STDIN_FILENO);
 		close(exc.prev_fd);
-		}
+	}
 	if (cmds->next)
 	{
 		dup2(current->pipefd[1], STDOUT_FILENO);
@@ -75,7 +75,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 	}
 	if (apply_redirections(current, s_env, exc) != 0)
 		exit(1);
-	if (current->is_builtin == 1 &&  handle_builtins(current, s_env, 0) == 1)
+	if (current->is_builtin == 1 && handle_builtins(current, s_env, 0) == 1)
 		return (exit(1));
 	if (current->cmd[0] == NULL)
 		exit(current->cmd_error);
@@ -125,13 +125,13 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
 	waitpid(lastpid, &status, 0);
-	if (WIFEXITED(status))
+	if (WIFSIGNALED(status))
+		exc.exit_code = 128 + WTERMSIG(status);
+	else if (WIFEXITED(status))
 		exc.exit_code = WEXITSTATUS(status);
-	else
-		exc.exit_code = 1;
 	while (wait(&status) > 0)
 		;
 	g_signal = 0;
-	//free_cmds(cmds);
+	// free_cmds(cmds);
 	return (exc.exit_code);
 }
