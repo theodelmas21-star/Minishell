@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 09:43:17 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/27 15:59:06 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,15 +123,15 @@ int	main(int argc, char **argv, char **envp)
 			dup2(index.j, STDIN_FILENO);
 			dup2(index.i, STDOUT_FILENO);
 			buffer = readline("minishell> ");
-			if (g_signal)
-			{
-				exc.exit_code = g_signal;
-				g_signal = 0;
-				free(buffer);
-				continue ;
-			}
 			if (!buffer)
 				break ;
+			if (g_signal)
+			{
+			 	exc.exit_code = g_signal;
+			 	g_signal = 0;
+			 	free(buffer);
+				continue ;
+			}
 			tokens = lexer(buffer);
 			//print_tokens(tokens);
 			cmd = parsed_cmds(tokens, &exc.exit_code);
