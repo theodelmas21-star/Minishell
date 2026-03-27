@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 09:42:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/27 10:48:28 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
         {
             index.j = index.i;
             index.k = count_words(cmd->cmd[index.i], ' ');
-            cmd->cmd = join_split(cmd->cmd[index.j], cmd->cmd);
+            cmd->cmd = join_split(index.j, cmd);
             if (!cmd->cmd)
                 return (1);
             index.i += index.k;

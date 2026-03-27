@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/24 09:43:06 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/27 11:26:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,56 @@ char **join_tab(char **cmd, char **tmp, char **new, int pos)
     return (new);
 }
 
-char **join_split(char *str, char **cmd)
+char **tab_space(char **tmp)
+{
+    char **new;
+    t_index index;
+    
+    index = (t_index){0};
+    while (tmp[index.j])
+        index.j++;
+    new = malloc(sizeof(char *) * (index.j + 2));
+    if (!new)
+        return (free_tab(tmp), NULL);
+    new[0] = ft_strdup("\0");
+    while (tmp[index.i])
+    {
+        new[index.i + 1] = tmp[index.i];
+        index.i++;
+    }
+    new[index.i + 1] = NULL;
+    return (new);
+}
+
+char **join_split(int str, t_cmd *cmd)
 {
     char **tmp;
     t_index index;
     char **new;
 
     index = (t_index){0};
-    if (ft_strchr(str, ' ') == NULL)
-        return (cmd);
-    tmp = ft_split(str, ' ');
+    if (ft_strchr(cmd->cmd[str], ' ') == NULL)
+        return (cmd->cmd);
+    tmp = ft_split(cmd->cmd[str], ' ');
     if (!tmp)
         return (NULL);
-    while (cmd[index.i])
+    if (str != 0 && cmd->cmd[str][0] == ' ' && cmd->sub_args[str - 1] == cmd->sub_args[str])
+    {
+        tmp = tab_space(tmp);
+        if (!tmp)
+            return (NULL);
+    }
+    while (cmd->cmd[index.i])
         index.i++;
-    while(tmp[index.j])
+    while (tmp[index.j])
         index.j++;
-    while (cmd[index.k] != str)
+    while (cmd->cmd[index.k] != cmd->cmd[str])
         index.k++;
     new = malloc(sizeof(char *) * (index.i + index.j));
     if (!new)
         return (free_tab(tmp), NULL);
-    new = join_tab(cmd, tmp, new, index.k);
+    new = join_tab(cmd->cmd, tmp, new, index.k);
     if (!new)
         return (free_tab(tmp), NULL);
-    return (free_tab(tmp), free_tab(cmd), new);
+    return (free_tab(tmp), free_tab(cmd->cmd), new);
 }

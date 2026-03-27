@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/26 14:42:08 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/27 10:48:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char			*interrogation(char *cmd, int exit_code);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
 int				get_var_name_len(char *var);
 int				check_var_in_env(char *var, char **env, int var_len);
-char			**join_split(char *str, char **cmd);
+char			**join_split(int str, t_cmd *cmd);
 int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);
 char			*handle_number(char *new);
