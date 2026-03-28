@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/28 23:31:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/29 00:20:37 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 {
 	int	status;
 	int	lastpid;
+	int	stdout;
+	int	stdin;
 
 	if (!cmds)
 		return (exc.exit_code);
@@ -125,7 +127,16 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		return (1);
 	find_all_cmd_path(cmds, s_env);
 	if (!cmds->next && ((t_cmd *)cmds->content)->cmd_error)
+	{
+		stdout = dup(STDOUT_FILENO);
+		stdin = dup(STDIN_FILENO);
+		apply_redirections(((t_cmd *)cmds->content), s_env, exc);
+		dup2(stdin, STDIN_FILENO);
+		dup2(stdout, STDOUT_FILENO);
+		close(stdout);
+		close(stdin);
 		return (((t_cmd *)cmds->content)->cmd_error);
+	}
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
