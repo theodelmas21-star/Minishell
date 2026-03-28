@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 16:38:12 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/28 21:55:56 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 		{
 			if (is_dir)
 				current->cmd_error = 126;
-			else
+			else if (current->cmd_error == 0)
 				current->cmd_error = 127;
 		}
 		cur_cmd = cur_cmd->next;

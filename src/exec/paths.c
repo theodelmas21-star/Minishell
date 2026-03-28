@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/25 09:46:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/28 21:56:07 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,13 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		if (access(cmd->cmd[0], F_OK) == 0)
+		{
+			ft_putstr_fd(": Permission denied\n", 2);
+			cmd->cmd_error = 126;
+		}
+		else
+			ft_putstr_fd(": No such file or directory\n", 2);
 		return (NULL);
 	}
 	if (!envp->path_split)
