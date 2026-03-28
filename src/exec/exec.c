@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/28 21:55:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/28 23:31:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 	}
 	if (cmds->next)
 	{
+		close(current->pipefd[0]);
 		dup2(current->pipefd[1], STDOUT_FILENO);
 		close(current->pipefd[1]);
 	}
@@ -103,8 +104,12 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)
 		if (cmds->next)
 		{
 			close(current->pipefd[1]);
+			if (exc.prev_fd != -1)
+				close(exc.prev_fd);
 			exc.prev_fd = current->pipefd[0];
 		}
+		else if (exc.prev_fd != -1)
+			close(exc.prev_fd);
 		cmds = cmds->next;
 	}
 }
