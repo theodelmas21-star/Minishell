@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 00:20:37 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/29 12:21:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,12 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	pipe_exec(cmds, s_env, &lastpid);
 	waitpid(lastpid, &status, 0);
-	if (WIFSIGNALED(status))
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	{
+    	write(1, "Quit (core dumped)\n", 19);
+		exc.exit_code = 128 + WTERMSIG(status);
+	}
+	else if (WIFSIGNALED(status))
 		exc.exit_code = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))
 		exc.exit_code = WEXITSTATUS(status);
