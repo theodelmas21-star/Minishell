@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/29 15:24:19 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:36:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,18 @@ void	free_s_env(t_env *s_env)
 	if (s_env->env)
 		free_tab(s_env->env);
 	free(s_env);
+}
+
+void free_content_without_tab(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
 }
