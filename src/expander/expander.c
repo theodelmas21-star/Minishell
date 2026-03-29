@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 15:09:55 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 11:53:51 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,14 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
         index.j++;
         len--;
     }
-    if (cmd->sub_args[pos] == cmd->sub_args[pos + 1])
-        new_sub_args[index.j] = cmd->sub_args[pos + 1];
-    else
-        new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
-    index.j++;
+    if (len == 1)
+    {
+        if (cmd->sub_args[pos] == cmd->sub_args[pos + 1])
+            new_sub_args[index.j] = cmd->sub_args[pos + 1];
+        else
+            new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
+        index.j++;
+    }
     pos += 1;
     while (cmd->sub_args[pos] != -1)
     {
@@ -262,7 +265,7 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
         cur_cmd = ((t_cmd *)cur_list->content);
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
-        //print_cmds(cmds);
+        print_cmds(cmds);
         cur_cmd->cmd = join_sub_args(cur_cmd);
         cur_list = cur_list->next;
     }

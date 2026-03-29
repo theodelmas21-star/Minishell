@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_new.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 15:56:09 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/29 11:37:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 		}
 		index.i++;
 	}
-	if (index.k == 1 && cmd->cmd[str][0] == '\0' && cmd->quote_type[index.i] != 2)
+	if (index.k == 1 && cmd->cmd[str][0] == '\0' && cmd->quote_type[str] != 2)
 		return (free(cmd->cmd[str]), NULL);
 	return (cmd->cmd[str]);
 }
