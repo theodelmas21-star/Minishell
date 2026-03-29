@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:34:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/18 11:18:39 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:22:08 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,11 @@ char **rest_cmd(char **cmd, int len, char **new)
 {
 	char **rest;
 	t_index	index;
+	int m;
 	
 	index = (t_index){0};
 	index.i = len + 1;
+	m = 0;
 	while (cmd[index.i])
 		index.i++;
 	rest = malloc(sizeof(char *) * index.i);
@@ -106,15 +108,30 @@ char **rest_cmd(char **cmd, int len, char **new)
 	while (new[index.j])
 	{
 		rest[index.j] = ft_strdup(new[index.j]);
-		if (!new)
-			return NULL;
+		if (!rest[index.j])
+		{
+			while (m < index.j)
+			{
+				free(rest[m]);
+				m++;
+			}
+			return (free(rest), NULL);
+		}
 		index.j++;
 	}
 	while (cmd[index.k + len + 1])
 	{
 		rest[index.j] = ft_strdup(cmd[index.k + len + 1]);
-		if (!new)
-			return NULL;
+		if (!rest[index.j])
+		{
+			while (m < index.j)
+			{
+				free(rest[m]);
+				m++;
+			}
+			free(rest);
+			return (free(rest), NULL);
+		}
 		index.j++;
 		index.k++;
 	}
@@ -135,13 +152,27 @@ char	**without_null(char **cmd, int len)
 	while (cmd[index.j])
 	{
 		new[index.k] = ft_strdup(cmd[index.j]);
+		if (!new[index.k])
+		{
+			int m = 0;
+			while (m < index.k)
+			{
+				free(new[m]);
+				m++;
+			}
+			free(new);
+			return NULL;
+		}
 		index.j++;
 		index.k++;
 	}
 	new[index.k] = NULL;
 	res = rest_cmd(cmd, len, new);
 	if (!res)
+	{
+		free_tab(new);
 		return NULL;
+	}
 	free_tab(cmd);
 	free_tab(new);
 	return (res);

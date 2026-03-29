@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 12:40:56 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 13:19:22 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*s_env;
 	t_index	index;
 
-	// int		exit_code;
 	(void)argc;
 	(void)argv;
 	(void)envp;
@@ -137,11 +136,12 @@ int	main(int argc, char **argv, char **envp)
 			//printf("--------------------- Before Exec -------------------\n");
 			free_list(tokens);
 			exc.exit_code = call_exec(cmd, s_env, exc);
-			// free_cmds(cmd);
+			free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);
 			free(buffer);
 		}
+		free_s_env(s_env);
 	}
 	return (0);
 }

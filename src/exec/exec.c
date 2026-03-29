@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 12:21:23 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 13:20:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,6 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	while (wait(&status) > 0)
 		;
 	g_signal = 0;
-	// free_cmds(cmds);
+	//free_cmds(cmds);
 	return (exc.exit_code);
 }

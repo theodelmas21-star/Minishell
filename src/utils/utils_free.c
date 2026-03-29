@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/12 09:03:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/29 15:24:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void	free_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	free_tab(cmd->cmd);
+	free(cmd->is_expand);
+	free(cmd->sub_args);
+	free(cmd->quote_type);
 	cur_redir = cmd->redirs;
 	while (cur_redir)
 	{
@@ -79,7 +82,6 @@ void	free_cmd(t_cmd *cmd)
 		cur_redir = cur_redir->next;
 	}
 	ft_lstclear(&cmd->redirs, free_redir);
-	free(cmd->is_expand);
 	free(cmd);
 }
 
