@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 15:37:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/30 15:38:52 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	exc.exit_code = 0;
+	exc.error = 0;
 	index = (t_index){0};
 	index.j = dup(STDIN_FILENO);
 	index.i = dup(STDOUT_FILENO);
