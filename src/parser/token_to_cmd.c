@@ -6,11 +6,35 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 13:22:27 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/27 15:56:18 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/30 02:39:28 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static int	build_hd_delim(t_redir *new, t_token *target)
+{
+	t_list	*sub;
+	t_token	*stok;
+
+	new->delimiter = ft_strdup(target->arg);
+	if (!new->delimiter)
+		return (0);
+	new->exp_hd = target->quote_type == NO_QUOTE;
+	sub = target->subtokens;
+	while (sub)
+	{
+		stok = (t_token *)sub->content;
+		if (stok->quote_type != NO_QUOTE)
+			new->exp_hd = 0;
+		new->delimiter = ft_strjoin_free(new->delimiter, stok->arg,
+				new->delimiter);
+		if (!new->delimiter)
+			return (0);
+		sub = sub->next;
+	}
+	return (1);
+}
 
 static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 {
@@ -20,11 +44,12 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	if (!new)
 		return (0);
 	new->type = redir->type;
+	new->target = NULL;
+	new->delimiter = NULL;
+	new->fd = -1;
 	if (redir->type == REDIR_HEREDOC)
 	{
-		new->target = NULL;
-		new->delimiter = ft_strdup(target->arg);
-		if (!new->delimiter)
+		if (!build_hd_delim(new, target))
 			return (free(new), 0);
 	}
 	else
@@ -32,10 +57,8 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 		new->target = ft_strdup(target->arg);
 		if (!new->target)
 			return (free(new), 0);
-		new->delimiter = NULL;
+		new->exp_hd = target->quote_type == NO_QUOTE;
 	}
-	new->exp_hd = target->quote_type == NO_QUOTE;
-	new->fd = -1;
 	ft_lstadd_back(&cmd->redirs, ft_lstnew(new));
 	return (1);
 }
