@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 13:20:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/30 22:53:51 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,25 +123,34 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	int	lastpid;
 	int	stdout;
 	int	stdin;
+	int	redir_res;
 
 	if (!cmds)
 		return (exc.exit_code);
 	if (expander(cmds, s_env, exc.exit_code))
 		return (1);
-	find_all_cmd_path(cmds, s_env);
-	if (!cmds->next && ((t_cmd *)cmds->content)->cmd_error)
+	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
+	{
+		find_all_cmd_path(cmds, s_env);
+		return (exec_builtin_cmd(cmds, s_env, exc));
+	}
+	if (!cmds->next)
 	{
 		stdout = dup(STDOUT_FILENO);
 		stdin = dup(STDIN_FILENO);
-		apply_redirections(((t_cmd *)cmds->content), s_env, exc);
+		redir_res = apply_redirections(((t_cmd *)cmds->content), s_env, exc);
 		dup2(stdin, STDIN_FILENO);
 		dup2(stdout, STDOUT_FILENO);
 		close(stdout);
 		close(stdin);
-		return (((t_cmd *)cmds->content)->cmd_error);
+		if (redir_res != 0)
+			return (1);
+		find_all_cmd_path(cmds, s_env);
+		if (((t_cmd *)cmds->content)->cmd_error)
+			return (((t_cmd *)cmds->content)->cmd_error);
 	}
-	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
-		return (exec_builtin_cmd(cmds, s_env, exc));
+	else
+		find_all_cmd_path(cmds, s_env);
 	pipe_exec(cmds, s_env, &lastpid);
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
