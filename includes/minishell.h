@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/29 15:37:40 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/30 10:39:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,5 @@ int				is_space(char c);
 int				is_operator(char c);
 void			print_env(char **env);
 void			print_cmds(t_list *cmds);
-void			free_content_without_tab(char **tab);
 
 #endif

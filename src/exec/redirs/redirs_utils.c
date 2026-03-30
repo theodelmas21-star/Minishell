@@ -55,7 +55,11 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 		fd = open(redir_R->target, O_RDONLY);
 	if (fd < 0)
 		return (ft_putstr_fd("minishell: ", 2), perror(redir_R->target), 1);
-	return (dup2(fd, STDIN_FILENO), close(fd), 0);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	if (redir_R->type == REDIR_HEREDOC)
+		unlink("tmp");
+	return (0);
 }
 
 int	handle_output_redir(t_redir *redir_R)

@@ -67,4 +67,13 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+val: 
+	valgrind -s \
+	--leak-check=full \
+	--show-leak-kinds=all \
+	--suppressions=/home/tdelmas2/Desktop/Milestone_3/Minishell/github/readline.supp \
+	--trace-children=yes \
+	--track-fds=yes \
+	./minishell
+
+.PHONY: all clean fclean re val

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 15:37:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/30 10:40:14 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		return (free_content_without_tab(cmd->cmd), NULL);
+		return (NULL);
 	}
 	if (is_directory(cmd->cmd[0]))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": is a directory\n", 2);
-		return (free_content_without_tab(cmd->cmd),NULL);
+		return (NULL);
 	}
 	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
 		return (cmd->cmd[0]);
@@ -88,14 +88,14 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		}
 		else
 			ft_putstr_fd(": No such file or directory\n", 2);
-		return (free_content_without_tab(cmd->cmd), NULL);
+		return (NULL);
 	}
 	if (!envp->path_split)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (free_content_without_tab(cmd->cmd), NULL);
+		return (NULL);
 	}
 	while (envp->path_split[i])
 	{
@@ -107,12 +107,12 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		if (!test_path)
 			return (free_tab(cmd->cmd), NULL);
 		if (access(test_path, X_OK) == 0)
-			return (free_content_without_tab(cmd->cmd), test_path);
+			return (test_path);
 		free(test_path);
 		i++;
 	}
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd->cmd[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
-	return (free_content_without_tab(cmd->cmd), NULL);
+	return (NULL);
 }

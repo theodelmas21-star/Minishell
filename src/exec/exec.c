@@ -80,6 +80,9 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 		return (exit(1));
 	if (current->cmd[0] == NULL)
 		exit(current->cmd_error);
+	int max_fd = sysconf(_SC_OPEN_MAX);
+	for (int i = 3; i < max_fd; i++)
+		close(i);
 	execve(current->cmd[0], current->cmd, s_env->env);
 }
 
