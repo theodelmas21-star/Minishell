@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/29 15:36:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/30 02:57:26 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,12 @@ void	free_redir(void *content)
 
 void	free_cmd(t_cmd *cmd)
 {
-	t_list	*cur_redir;
-
 	if (!cmd)
 		return ;
 	free_tab(cmd->cmd);
 	free(cmd->is_expand);
 	free(cmd->sub_args);
 	free(cmd->quote_type);
-	cur_redir = cmd->redirs;
-	while (cur_redir)
-	{
-		if (cur_redir->content)
-			free_redir(cur_redir->content);
-		cur_redir = cur_redir->next;
-	}
 	ft_lstclear(&cmd->redirs, free_redir);
 	free(cmd);
 }
