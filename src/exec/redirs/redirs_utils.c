@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/26 17:11:42 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/30 03:28:23 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 		return (perror("Open error"), 1);
 	while (1)
 	{
-		ft_putstr_fd("heredoc> ", 1);
+		ft_putstr_fd("heredoc> ", 2);
 		tmp = get_next_line(0);
 		if (!tmp)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
