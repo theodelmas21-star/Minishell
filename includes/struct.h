@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/26 15:09:16 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:57:48 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ typedef struct s_exec
 {
 	int				prev_fd;
 	int				exit_code;
+	int				error;
 }					t_exec;
 #endif

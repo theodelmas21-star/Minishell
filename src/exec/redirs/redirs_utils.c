@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 03:28:23 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/30 15:26:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{
-			tmp = expand_hd(tmp, s_env, exc);
-			if (!tmp)
+			tmp = expand_hd(tmp, s_env, &exc);
+			if (!tmp && exc.error == 1)
 				return (1);
 		}
 		ft_putstr_fd(tmp, redir_R->fd);
