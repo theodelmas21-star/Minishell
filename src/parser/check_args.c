@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/23 14:42:06 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/30 02:08:06 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static int	check_char(t_token *tok)
 	return (0);
 }
 
-static int	check_token(t_token *tok, t_token *next)
+static int	check_token(t_token *tok, t_token *next, int is_cmd)
 {
-	if (check_char(tok) == 1)
+	if (is_cmd && check_char(tok) == 1)
 		return (0);
-	if (check_char(tok) == 2)
+	if (is_cmd && check_char(tok) == 2)
 		return (-1);
 	if (check_pipe(tok, next) || check_redir(tok, next))
 		return (-2);
@@ -74,6 +74,7 @@ int	check_args(t_list *tokens)
 	t_token	*tok;
 	t_token	*next;
 	int		ret;
+	int		is_cmd;
 
 	if (!tokens)
 		return (0);
@@ -81,6 +82,7 @@ int	check_args(t_list *tokens)
 	if (tok->type == PIPE)
 		return (ft_putstr_fd("minishell: syntax error near unexpected token"
 				" `|'\n", 2), -2);
+	is_cmd = 1;
 	while (tokens)
 	{
 		tok = tokens->content;
@@ -88,9 +90,13 @@ int	check_args(t_list *tokens)
 			next = tokens->next->content;
 		else
 			next = NULL;
-		ret = check_token(tok, next);
+		ret = check_token(tok, next, is_cmd);
 		if (ret != 2)
 			return (ret);
+		if (tok->type == PIPE)
+			is_cmd = 1;
+		else if (tok->type == WORD)
+			is_cmd = 0;
 		tokens = tokens->next;
 	}
 	return (1);
