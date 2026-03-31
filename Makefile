@@ -71,7 +71,7 @@ val:
 	valgrind -s \
 	--leak-check=full \
 	--show-leak-kinds=all \
-	--suppressions=/home/tdelmas2/Desktop/Milestone_3/Minishell/github/readline.supp \
+	--suppressions=/home/$(USER)/Documents/03-minishell/readline.supp \
 	--trace-children=yes \
 	--track-fds=yes \
 	./minishell

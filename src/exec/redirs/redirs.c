@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 17:17:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 09:17:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:49:07 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc)
+int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec *exc)
 {
 	t_list	*current;
 	t_redir	*redir_R;
@@ -29,8 +29,8 @@ int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc)
 			dup2(saved_stdin, STDIN_FILENO);
 		if (redir_R->target && ft_strchr(redir_R->target, '$'))
 		{
-			redir_R->target = expand_hd(redir_R->target, s_env, &exc, 0);
-			if (!redir_R->target && exc.error == 1)
+			redir_R->target = expand_hd(redir_R->target, s_env, exc, 0);
+			if (!redir_R->target && exc->error == 1)
 				return (close(saved_stdin), 1);
 		}
 		if (apply_all_redirs(*redir_R, s_env, exc) != 0)

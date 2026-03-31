@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 10:02:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:44:40 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,16 @@ static int	long_long_atoi(char *str)
 
 int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
 {
+	if (!cmd->cmd || !cmd->cmd[0])
+	{
+		exit_code = 127;
+		return (1);
+	}
 	if (ft_strncmp(cmd->cmd[0], "exit", 5) != 0)
 		return (0);
 	if (!in_pipe)
 		printf("exit\n");
-	if (cmd->cmd[1] && (!is_numeric(cmd->cmd[1])
-			|| is_overflow(cmd->cmd[1])))
+	if (cmd->cmd[1] && (!is_numeric(cmd->cmd[1]) || is_overflow(cmd->cmd[1])))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->cmd[1], 2);

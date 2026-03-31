@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/31 09:17:05 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:48:00 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
 int				is_directory(char *path);
 t_env			*find_path(t_env *envp);
-int				call_exec(t_list *cmds, t_env *s_env, t_exec exc);
-int				apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc);
-int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc);
+int				call_exec(t_list *cmds, t_env *s_env, t_exec *exc);
+int				apply_redirections(t_cmd *cmds, t_env *s_env, t_exec *exc);
+int				apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec *exc);
 int				env_init(t_env *s_env, char **envp);
-int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
+int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec *exc);
 int				find_all_cmd_path(t_list *cmds, t_env *env);
 char			**join_sub_args(t_cmd *cmd);
 

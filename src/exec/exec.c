@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 11:47:29 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:48:56 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
 		dup2(current->pipefd[1], STDOUT_FILENO);
 		close(current->pipefd[1]);
 	}
-	if (apply_redirections(current, s_env, *exc) != 0)
+	if (apply_redirections(current, s_env, exc) != 0)
 		exit(1);
 	if (current->is_builtin == 1)
 	{
@@ -131,7 +131,7 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 	}
 }
 
-int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
+int	call_exec(t_list *cmds, t_env *s_env, t_exec *exc)
 {
 	int	status;
 	int	lastpid;
@@ -140,8 +140,8 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	int	redir_res;
 
 	if (!cmds)
-		return (exc.exit_code);
-	if (expander(cmds, s_env, exc.exit_code))
+		return (exc->exit_code);
+	if (expander(cmds, s_env, exc->exit_code))
 		return (1);
 	if (!cmds->next && ((t_cmd *)cmds->content)->is_builtin == 1)
 	{
@@ -165,20 +165,20 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	}
 	else
 		find_all_cmd_path(cmds, s_env);
-	pipe_exec(cmds, s_env, &lastpid, &exc);
+	pipe_exec(cmds, s_env, &lastpid, exc);
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{
     	write(1, "Quit (core dumped)\n", 19);
-		exc.exit_code = 128 + WTERMSIG(status);
+		exc->exit_code = 128 + WTERMSIG(status);
 	}
 	else if (WIFSIGNALED(status))
-		exc.exit_code = 128 + WTERMSIG(status);
+		exc->exit_code = 128 + WTERMSIG(status);
 	else if (WIFEXITED(status))
-		exc.exit_code = WEXITSTATUS(status);
+		exc->exit_code = WEXITSTATUS(status);
 	while (wait(&status) > 0)
 		;
 	g_signal = 0;
 	//free_cmds(cmds);
-	return (exc.exit_code);
+	return (exc->exit_code);
 }

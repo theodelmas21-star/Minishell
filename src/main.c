@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 11:40:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:45:47 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,16 +127,18 @@ int	main(int argc, char **argv, char **envp)
 				break ;
 			if (g_signal)
 			{
-			 	exc.exit_code = g_signal;
-			 	g_signal = 0;
+				exc.exit_code = g_signal;
+				printf("exc.exit_code : %d  = %d : g_signal \n", exc.exit_code,
+					g_signal);
+				g_signal = 0;
 			}
 			tokens = lexer(buffer);
-			//print_tokens(tokens);
+			// print_tokens(tokens);
 			cmd = parsed_cmds(tokens, &exc.exit_code);
-			//print_cmds(cmd);
-			//printf("--------------------- Before Exec -------------------\n");
+			// print_cmds(cmd);
+			// printf("--------------------- Before Exec -------------------\n");
 			free_list(tokens);
-			exc.exit_code = call_exec(cmd, s_env, exc);
+			exc.exit_code = call_exec(cmd, s_env, &exc);
 			free_cmds(cmd);
 			if (*buffer)
 				add_history(buffer);

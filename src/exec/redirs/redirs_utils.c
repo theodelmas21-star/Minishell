@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 09:18:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:49:18 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
+int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec *exc)
 {
 	char	*tmp;
 
@@ -32,8 +32,8 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{
-			tmp = expand_hd(tmp, s_env, &exc, 1);
-			if (!tmp && exc.error == 1)
+			tmp = expand_hd(tmp, s_env, exc, 1);
+			if (!tmp && exc->error == 1)
 				return (1);
 		}
 		ft_putstr_fd(tmp, redir_R->fd);
@@ -41,7 +41,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 	}
 }
 
-int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
+int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec *exc)
 {
 	int	fd;
 
@@ -84,7 +84,7 @@ int	handle_append_redir(t_redir *redir_R)
 	return (dup2(fd, STDOUT_FILENO), close(fd), 0);
 }
 
-int	apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec exc)
+int	apply_all_redirs(t_redir redir_R, t_env *s_env, t_exec *exc)
 {
 	if (redir_R.type == REDIR_IN || redir_R.type == REDIR_HEREDOC)
 	{
