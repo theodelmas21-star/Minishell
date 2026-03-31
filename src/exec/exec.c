@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 11:47:29 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:14:55 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,13 @@ int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 	return (0);
 }
 
-void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
+void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 {
 	t_cmd	*current;
 	int res;
 
 	current = ((t_cmd *)cmds->content);
 	res = 0;
-	if (pid != 0)
-		return ;
 	reset_signals();
 	close(exc->saved_stdin);
 	close(exc->saved_stdout);
@@ -87,7 +85,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
 	if (current->is_builtin == 1)
 	{
 		res = handle_builtins(current, s_env, 0);
-		free_cmds(cmds);
+		free_cmds(head);
 		free_s_env(s_env);
 		exit(res);
 	}
@@ -95,7 +93,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
 		exit(current->cmd_error);
 	else
 		execve(current->cmd[0], current->cmd, s_env->env);
-	free_cmds(cmds);
+	free_cmds(head);
 	free_s_env(s_env);
 	perror("Execve error");
 	exit(1);
@@ -104,9 +102,11 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
 void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 {
 	t_cmd	*current;
+	t_list *head;
 
 	if (!cmds)
 		return ;
+	head = cmds;
 	exc->prev_fd = -1;
 	while (cmds)
 	{
@@ -117,7 +117,8 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 		*pid = fork();
 		if (secur_fork(cmds, current, *pid))
 			return ;
-		child_exec(cmds, s_env, exc, *pid);
+		if (*pid == 0)
+			child_exec(cmds, s_env, exc, head);
 		if (cmds->next)
 		{
 			close(current->pipefd[1]);
