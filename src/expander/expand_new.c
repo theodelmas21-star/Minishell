@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 09:20:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 12:34:14 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:29:52 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 		else if (cmd->cmd[str][index.i] == '$' && !cmd->cmd[str][index.i + 1]
 			 && cmd->quote_type[str + 1] == 2)
 		{
+			to_replace = 1;
 			new = ft_strdup("");
 			index.k = 1;
 			index.j = ft_strlen(new);
