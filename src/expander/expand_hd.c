@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:32:32 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 15:25:09 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:15:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_cmd	*init_tmp(char *res)
 	return (tmp);
 }
 
-char	*expand_hd(char *res, t_env *s_env, t_exec *exc)
+char	*expand_hd(char *res, t_env *s_env, t_exec *exc, int is_newline)
 {
 	t_cmd	*tmp;
 	char	*final;
@@ -100,7 +100,8 @@ char	*expand_hd(char *res, t_env *s_env, t_exec *exc)
 		exc->error = 1;
 		return (free(tmp), free_tab(tmp->cmd), NULL);
 	}
-	tmp->cmd[0] = add_newline(tmp->cmd[0]);
+	if (is_newline)
+		tmp->cmd[0] = add_newline(tmp->cmd[0]);
 	if (!tmp->cmd[0])
 	{
 		exc->error = 1;

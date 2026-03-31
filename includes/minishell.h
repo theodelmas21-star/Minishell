@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/30 15:19:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:17:05 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			reset_signals(void);
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
 char			*call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
-char			*expand_hd(char *res, t_env *s_env, t_exec *exc);
+char			*expand_hd(char *res, t_env *s_env, t_exec *exc,  int is_newline);
 int				is_expand(t_cmd *cmd, int ind_cmd);
 char			*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str);
 int				is_env(char *cmd, t_env *s_env);

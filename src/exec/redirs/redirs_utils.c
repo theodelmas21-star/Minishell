@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 15:26:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/31 09:18:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
 		{
-			tmp = expand_hd(tmp, s_env, &exc);
+			tmp = expand_hd(tmp, s_env, &exc, 1);
 			if (!tmp && exc.error == 1)
 				return (1);
 		}
