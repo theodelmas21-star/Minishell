@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 22:53:51 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:47:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 	t_cmd	*current;
 	t_list	*cur_cmd;
 	int		is_dir;
+	char *old;
 
 	cur_cmd = cmds;
 	while (cur_cmd)
@@ -28,7 +29,10 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 			continue ;
 		}
 		is_dir = is_directory(current->cmd[0]);
+		old = current->cmd[0];
 		current->cmd[0] = find_cmd_path(env, current);
+		if (current->cmd[0] != old)
+			free(old);
 		if (current->cmd[0] == NULL)
 		{
 			if (is_dir)
@@ -55,18 +59,22 @@ int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 	return (0);
 }
 
-void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
+void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, int pid)
 {
 	t_cmd	*current;
+	int res;
 
 	current = ((t_cmd *)cmds->content);
+	res = 0;
 	if (pid != 0)
 		return ;
 	reset_signals();
-	if (exc.prev_fd != -1)
+	close(exc->saved_stdin);
+	close(exc->saved_stdout);
+	if (exc->prev_fd != -1)
 	{
-		dup2(exc.prev_fd, STDIN_FILENO);
-		close(exc.prev_fd);
+		dup2(exc->prev_fd, STDIN_FILENO);
+		close(exc->prev_fd);
 	}
 	if (cmds->next)
 	{
@@ -74,26 +82,32 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec exc, int pid)
 		dup2(current->pipefd[1], STDOUT_FILENO);
 		close(current->pipefd[1]);
 	}
-	if (apply_redirections(current, s_env, exc) != 0)
+	if (apply_redirections(current, s_env, *exc) != 0)
 		exit(1);
-	if (current->is_builtin == 1 && handle_builtins(current, s_env, 0) == 1)
-		return (exit(1));
-	if (current->cmd[0] == NULL)
+	if (current->is_builtin == 1)
+	{
+		res = handle_builtins(current, s_env, 0);
+		free_cmds(cmds);
+		free_s_env(s_env);
+		exit(res);
+	}
+	else if (current->cmd[0] == NULL)
 		exit(current->cmd_error);
-	int max_fd = sysconf(_SC_OPEN_MAX);
-	for (int i = 3; i < max_fd; i++)
-		close(i);
-	execve(current->cmd[0], current->cmd, s_env->env);
+	else
+		execve(current->cmd[0], current->cmd, s_env->env);
+	free_cmds(cmds);
+	free_s_env(s_env);
+	perror("Execve error");
+	exit(1);
 }
 
-void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)
+void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 {
-	t_exec	exc;
 	t_cmd	*current;
 
 	if (!cmds)
 		return ;
-	exc.prev_fd = -1;
+	exc->prev_fd = -1;
 	while (cmds)
 	{
 		current = ((t_cmd *)cmds->content);
@@ -107,12 +121,12 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid)
 		if (cmds->next)
 		{
 			close(current->pipefd[1]);
-			if (exc.prev_fd != -1)
-				close(exc.prev_fd);
-			exc.prev_fd = current->pipefd[0];
+			if (exc->prev_fd != -1)
+				close(exc->prev_fd);
+			exc->prev_fd = current->pipefd[0];
 		}
-		else if (exc.prev_fd != -1)
-			close(exc.prev_fd);
+		else if (exc->prev_fd != -1)
+			close(exc->prev_fd);
 		cmds = cmds->next;
 	}
 }
@@ -151,7 +165,7 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	}
 	else
 		find_all_cmd_path(cmds, s_env);
-	pipe_exec(cmds, s_env, &lastpid);
+	pipe_exec(cmds, s_env, &lastpid, &exc);
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{

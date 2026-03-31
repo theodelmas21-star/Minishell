@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 10:40:14 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:25:50 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,11 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 	{
 		temp_path = ft_strjoin(envp->path_split[i], "/");
 		if (!temp_path)
-			return (free_tab(cmd->cmd), NULL);
+			return (NULL);
 		test_path = ft_strjoin(temp_path, cmd->cmd[0]);
 		free(temp_path);
 		if (!test_path)
-			return (free_tab(cmd->cmd), NULL);
+			return (NULL);
 		if (access(test_path, X_OK) == 0)
 			return (test_path);
 		free(test_path);

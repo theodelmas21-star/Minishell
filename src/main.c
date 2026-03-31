@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/30 21:32:42 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:40:54 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ int	main(int argc, char **argv, char **envp)
 	exc.exit_code = 0;
 	exc.error = 0;
 	index = (t_index){0};
-	index.j = dup(STDIN_FILENO);
-	index.i = dup(STDOUT_FILENO);
+	exc.saved_stdin = dup(STDIN_FILENO);
+	exc.saved_stdout = dup(STDOUT_FILENO);
 	if (isatty(STDIN_FILENO))
 	{
 		init_signal();
@@ -120,8 +120,8 @@ int	main(int argc, char **argv, char **envp)
 			return (free_s_env(s_env), 1);
 		while (1)
 		{
-			dup2(index.j, STDIN_FILENO);
-			dup2(index.i, STDOUT_FILENO);
+			dup2(exc.saved_stdin, STDIN_FILENO);
+			dup2(exc.saved_stdout, STDOUT_FILENO);
 			buffer = readline("minishell> ");
 			if (!buffer)
 				break ;
@@ -143,6 +143,8 @@ int	main(int argc, char **argv, char **envp)
 			free(buffer);
 		}
 		free_s_env(s_env);
+		close(exc.saved_stdin);
+		close(exc.saved_stdout);
 	}
 	return (0);
 }

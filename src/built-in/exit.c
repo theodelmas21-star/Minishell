@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 13:06:44 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:02:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,16 @@ int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		if (in_pipe)
+		{
+			free_cmds(cmds);
+			free_s_env(s_env);
 			exit(1);
+		}
 		return (1);
 	}
 	else if (cmd->cmd[1])
 		exit_code = long_long_atoi(cmd->cmd[1]);
-	if (!in_pipe)
-	{
-		free_cmds(cmds);
-		if (s_env)
-			free_s_env(s_env);
-	}
+	free_cmds(cmds);
+	free_s_env(s_env);
 	exit(exit_code);
 }
