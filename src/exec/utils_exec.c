@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 14:38:41 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/20 11:21:35 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:27:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	env_init(t_env *s_env, char **envp)
 		index.j++;
 	}
 	copy[index.j] = NULL;
+	free_tab(s_env->env);
+	free_tab(s_env->path_split);
 	s_env->env = copy;
     s_env = find_path(s_env);
 	return (0);

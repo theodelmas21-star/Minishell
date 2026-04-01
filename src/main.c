@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 11:40:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:25:53 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int	main(int argc, char **argv, char **envp)
 		s_env = malloc(sizeof(t_env));
 		if (!s_env)
 			return (1);
+		s_env->env = NULL;
+		s_env->path = NULL;
+		s_env->path_split = NULL;
 		if (env_init(s_env, envp) == 1)
 			return (free_s_env(s_env), 1);
 		while (1)

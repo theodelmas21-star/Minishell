@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 11:18:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:27:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,13 @@ int export_options(t_cmd *cmd, t_env *s_env)
 int export(t_cmd *cmd, t_env *s_env)
 {
     int error_code;
-    char **tmp;
     
     if (!cmd || !s_env)
         return (1);
     if (!cmd->cmd[1])
         return (simple_export(s_env));
     error_code = export_options(cmd, s_env);
-    tmp = s_env->env;
-    free_s_env(s_env);
-    if (env_init(s_env, tmp) != 0)
+    if (env_init(s_env, s_env->env) != 0)
         return (1);
     return (error_code);
 }
