@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 11:27:23 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:56:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int export_options(t_cmd *cmd, t_env *s_env)
     i = 1;
     while (cmd->cmd[i])
     {
-        if (handle_export_arg(cmd, s_env, i) == 1)
+        if (handle_export_arg(cmd, s_env, i) == 1 && cmd->cmd[i + 1] == NULL)
             return (1);
         i++;
     }
