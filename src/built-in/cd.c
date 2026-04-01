@@ -80,7 +80,7 @@ int	cd(t_cmd *cmd, t_env *s_env)
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd && find_env_value(s_env, "PWD"))
 		oldpwd = ft_strdup(find_env_value(s_env, "PWD"));
-	if (chdir(target) == -1)
+	if (!target && chdir(target) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(target, 2);
