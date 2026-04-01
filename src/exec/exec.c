@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 10:34:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 11:01:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,12 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 		exit(res);
 	}
 	else if (current->cmd[0] == NULL)
-		exit(current->cmd_error);
+	{
+		res = current->cmd_error;
+		free_cmds(head);
+		free_s_env(s_env);
+		exit(res);
+	}
 	else
 		execve(current->cmd[0], current->cmd, s_env->env);
 	free_cmds(head);
