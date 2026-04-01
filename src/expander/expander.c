@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 14:54:40 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 09:32:56 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,15 @@ int *adapt_sub_args(int pos, int len, t_cmd *cmd)
     new_sub_args[index.j] = cmd->sub_args[index.j];
     index.j++;
     len--;
+    if (len == 1 && cmd->sub_args[pos] == cmd->sub_args[pos + 1])
+    {
+        new_sub_args[index.j] = cmd->sub_args[pos + 1] + 1;
+        index.j++;
+        pos++;
+        new_sub_args[index.j] = cmd->sub_args[pos] + 1;
+        index.j++;
+        len--;
+    }
     while (len > 1)
     {
         new_sub_args[index.j] = new_sub_args[index.j - 1] - 11000;
@@ -265,6 +274,7 @@ int expander(t_list *cmds, t_env *s_env, int exit_code)
         cur_cmd = ((t_cmd *)cur_list->content);
         if (expand_cmd(cur_cmd, s_env, exit_code) == 1)
             return (1);
+        print_cmds(cmds);
         cur_cmd->cmd = join_sub_args(cur_cmd);
         if (!cur_cmd->cmd)
             return (1);
