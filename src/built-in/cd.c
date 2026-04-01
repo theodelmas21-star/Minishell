@@ -59,9 +59,10 @@ int	cd(t_cmd *cmd, t_env *s_env)
 	char	*newpwd;
 	char	*target;
 
-	if (cmd->cmd[1] && cmd->cmd[2])
+	target = cmd->cmd[1];
+	if (target && cmd->cmd[2])
 		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
-	if (!cmd->cmd[1])
+	if (!target)
 	{
 		target = find_env_value(s_env, "HOME");
 		if (!target)
