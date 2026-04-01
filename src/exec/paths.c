@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 10:30:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 15:12:09 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,25 @@ int	is_directory(char *path)
 	return (0);
 }
 
+int verif_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "cd", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "export", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "unset", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "env", ft_strlen(cmd)) == 0)
+		return (0);
+	if (ft_strncmp(cmd, "exit", ft_strlen(cmd)) == 0)
+		return (0);
+	return (1);
+}
+
 char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 {
 	char	*test_path;
@@ -75,7 +94,7 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		ft_putstr_fd(": is a directory\n", 2);
 		return (NULL);
 	}
-	if (access(cmd->cmd[0], X_OK) == 0 || cmd->is_builtin == 1)
+	if (access(cmd->cmd[0], X_OK) == 0 || (cmd->is_builtin == 1 && verif_builtin(cmd->cmd[0]) == 0))
 		return (cmd->cmd[0]);
 	if (ft_strchr(cmd->cmd[0], '/'))
 	{

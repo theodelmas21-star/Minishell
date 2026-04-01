@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 10:02:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 15:20:18 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static int	long_long_atoi(char *str)
 
 int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
 {
+	if (!cmd || !s_env || cmd->cmd[0] == NULL)
+		return (1);
 	if (ft_strncmp(cmd->cmd[0], "exit", 5) != 0)
 		return (0);
 	if (!in_pipe)

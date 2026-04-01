@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 11:25:53 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:59:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ int	main(int argc, char **argv, char **envp)
 			//print_tokens(tokens);
 			cmd = parsed_cmds(tokens, &exc.exit_code);
 			//print_cmds(cmd);
-			//printf("--------------------- Before Exec -------------------\n");
 			free_list(tokens);
 			exc.exit_code = call_exec(cmd, s_env, exc);
 			free_cmds(cmd);
