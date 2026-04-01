@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/22 16:06:20 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/01 10:30:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,14 @@ int export_options(t_cmd *cmd, t_env *s_env)
 
 int export(t_cmd *cmd, t_env *s_env)
 {
+    int error_code;
+    
     if (!cmd || !s_env)
         return (1);
     if (!cmd->cmd[1])
         return (simple_export(s_env));
-    return (export_options(cmd, s_env));
+    error_code = export_options(cmd, s_env);
+    if (env_init(s_env, s_env->env) != 0)
+        return (1);
+    return (error_code);
 }
