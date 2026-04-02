@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/31 11:33:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:41:46 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_cmd
 	int				is_builtin;
 	int				pipefd[2];
 	int				*is_expand;
-	int 			*sub_args;
+	int				*sub_args;
 	int				*quote_type;
 	int				cmd_error;
 }					t_cmd;
@@ -100,6 +100,14 @@ typedef struct s_exec
 	int				exit_code;
 	int				error;
 	int				saved_stdin;
-	int 			saved_stdout;
+	int				saved_stdout;
 }					t_exec;
+
+typedef struct s_exit_args
+{
+	t_exec			*exc;
+	int				exit_code;
+	int				in_pipe;
+}					t_exit_args;
+
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 09:25:07 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:32:32 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void			reset_signals(void);
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
 char			*call_exp_env(char *cmd, t_env *s_env);
 int				expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code);
-char			*expand_hd(char *res, t_env *s_env, t_exec *exc,  int is_newline);
+char			*expand_hd(char *res, t_env *s_env, t_exec *exc,
+					int is_newline);
 int				is_expand(t_cmd *cmd, int ind_cmd);
 char			*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str);
 int				is_env(char *cmd, t_env *s_env);
@@ -91,7 +92,7 @@ int				handle_builtins(t_cmd *cmd, t_env *s_env, int pid);
 int				unset(t_cmd *cmd, t_env *s_env);
 int				cd(t_cmd *cmd, t_env *s_env);
 int				is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env,
-					int exit_code, int in_pipe);
+					t_exit_args exit_args);
 char			*remove_concat_operator(char *cmd);
 int				parser_export(char *cmd);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
