@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 16:47:53 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 17:08:16 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 	t_cmd	*current;
 	t_list	*cur_cmd;
 	int		is_dir;
-	char *old;
-	int i;
+	char	*old;
+	int		i;
 
 	cur_cmd = cmds;
 	while (cur_cmd)
@@ -75,17 +75,15 @@ int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 
 void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 {
-	t_cmd	*current;
-	int res;
+	t_cmd		*current;
+	int			res;
+	t_exit_args	args;
 
 	current = ((t_cmd *)cmds->content);
 	res = 0;
 	reset_signals();
 	close(exc->saved_stdin);
 	close(exc->saved_stdout);
-	printf("child_exec: cmd[0]=%s cmd_error=%d\n", 
-    current->cmd[0] ? current->cmd[0] : "NULL", 
-    current->cmd_error);
 	if (exc->prev_fd != -1)
 	{
 		dup2(exc->prev_fd, STDIN_FILENO);
@@ -105,6 +103,13 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 	}
 	if (current->is_builtin == 1)
 	{
+		if (ft_strncmp(current->cmd[0], "exit", 5) == 0)
+		{
+			args.exc = exc;
+			args.exit_code = 0;
+			args.in_pipe = 1;
+			is_exit(current, head, s_env, args);
+		}
 		res = handle_builtins(current, s_env, 0);
 		free_cmds(head);
 		free_s_env(s_env);
@@ -130,7 +135,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 int	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 {
 	t_cmd	*current;
-	t_list *head;
+	t_list	*head;
 
 	if (!cmds)
 		return (0);
@@ -165,10 +170,10 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 {
 	int	status;
 	int	lastpid;
-	/*int	stdout;
-	int	stdin;
-	int	redir_res;*/
 
+	// int	stdin;
+	/*int	stdout;
+	int	redir_res;*/
 	if (!cmds)
 		return (exc.exit_code);
 	if (expander(cmds, s_env, exc.exit_code))
@@ -200,7 +205,7 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{
-    	write(1, "Quit (core dumped)\n", 19);
+		write(1, "Quit (core dumped)\n", 19);
 		exc.exit_code = 128 + WTERMSIG(status);
 	}
 	else if (WIFSIGNALED(status))
