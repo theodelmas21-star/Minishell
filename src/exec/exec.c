@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 17:08:16 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/02 17:35:33 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 		if (current->cmd[0] == NULL)
 		{
 			i = 1;
-			while (current->cmd[i])
+			/*while (current->cmd[i])
 			{
 				printf("On free : '%s'\n", current->cmd[i]);
 				free(current->cmd[i]);
 				current->cmd[i] = NULL;
 				i++;
 				printf("On s'arrete: '%s'\n", current->cmd[i]);
-			}
+			}*/
 			free(current->cmd[0]);
 			if (is_dir)
 				current->cmd_error = 126;
