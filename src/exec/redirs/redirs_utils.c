@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 09:18:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 11:59:15 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 		tmp = get_next_line(0);
 		if (!tmp)
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
-		if (ft_strncmp(tmp, redir_R->delimiter,
-				ft_strlen(redir_R->delimiter)) == 0
-			&& (tmp[ft_strlen(redir_R->delimiter)] == '\n'
+		if (ft_strncmp(tmp, redir_R->delimiter, ft_strlen(redir_R->delimiter)) == 0
+				&& (tmp[ft_strlen(redir_R->delimiter)] == '\n'
 				|| tmp[ft_strlen(redir_R->delimiter)] == '\0'))
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)

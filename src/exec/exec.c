@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 09:55:05 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 11:57:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,9 +149,9 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 {
 	int	status;
 	int	lastpid;
-	int	stdout;
+	/*int	stdout;
 	int	stdin;
-	int	redir_res;
+	int	redir_res;*/
 
 	if (!cmds)
 		return (exc.exit_code);
@@ -164,7 +164,7 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	}
 	if (!cmds->next)
 	{
-		stdout = dup(STDOUT_FILENO);
+		/*stdout = dup(STDOUT_FILENO);
 		stdin = dup(STDIN_FILENO);
 		redir_res = apply_redirections(((t_cmd *)cmds->content), s_env, exc);
 		dup2(stdin, STDIN_FILENO);
@@ -172,7 +172,7 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		close(stdout);
 		close(stdin);
 		if (redir_res != 0)
-			return (1);
+			return (1);*/
 		find_all_cmd_path(cmds, s_env);
 		if (((t_cmd *)cmds->content)->cmd_error)
 			return (((t_cmd *)cmds->content)->cmd_error);
