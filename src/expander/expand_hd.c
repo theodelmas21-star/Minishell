@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 09:32:32 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 09:15:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 12:05:04 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*r_newline(char *res)
 	char	*new;
 
 	index = (t_index){0};
-	new = malloc(sizeof(char) * ft_strlen(res));
+	new = malloc(sizeof(char) * (ft_strlen(res) + 1));
 	if (!new)
 		return (free(res), NULL);
 	while (res[index.i] && res[index.i] != '\n')
@@ -69,11 +69,11 @@ t_cmd	*init_tmp(char *res)
 		return (free(tmp), free_tab(tmp->cmd), NULL);
 	tmp->is_expand[0] = 1;
 	tmp->quote_type = malloc(sizeof(int) * 1);
-	if (!tmp->is_expand)
+	if (!tmp->quote_type)
 		return (free(tmp), free_tab(tmp->cmd), free(tmp->is_expand), NULL);
 	tmp->quote_type[0] = 2;
 	tmp->sub_args = malloc(sizeof(int) * 1);
-	if (!tmp->is_expand)
+	if (!tmp->sub_args)
 		return (free(tmp), free_tab(tmp->cmd), free(tmp->is_expand),
 			free(tmp->quote_type), NULL);
 	tmp->sub_args[0] = 1;
@@ -114,6 +114,9 @@ char	*expand_hd(char *res, t_env *s_env, t_exec *exc, int is_newline)
 		return (free_tab(tmp->cmd), free(tmp), NULL);
 	}
 	free_tab(tmp->cmd);
+	free(tmp->is_expand);
+	free(tmp->quote_type);
+	free(tmp->sub_args);
 	free(tmp);
 	return (final);
 }
