@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 09:25:07 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 15:56:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);
 char			*handle_number(char *new);
 char			**without_null(char **cmd, int i);
+void adapt_data_null(int pos, t_cmd *cmd);
 
 // exec
 int				size_cmd(t_list *cmds);

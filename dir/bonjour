@@ -1,0 +1,18 @@
+total 168
+drwxr-xr-x 8 tdelmas2 2025_paris    200 Apr  2 13:46 .
+drwxr-xr-x 8 tdelmas2 2025_paris    226 Mar 29 14:34 ..
+-rw-r--r-- 1 tdelmas2 2025_paris      0 Apr  2 13:46 a
+-rw-r--r-- 1 tdelmas2 2025_paris      0 Apr  2 13:46 b
+-rw-r--r-- 1 tdelmas2 2025_paris      5 Apr  2 13:46 c
+-rw-r--r-- 1 tdelmas2 2025_paris     64 Apr  2 13:45 d
+drwxr-xr-x 2 tdelmas2 2025_paris     21 Apr  2 13:47 dir
+-rw-r--r-- 1 tdelmas2 2025_paris     40 Jan 29 11:38 .env
+drwxr-xr-x 8 tdelmas2 2025_paris    239 Apr  2 13:43 .git
+-rw-r--r-- 1 tdelmas2 2025_paris     44 Jan 29 11:40 .gitignore
+drwxr-xr-x 2 tdelmas2 2025_paris     81 Feb 16 14:19 GNL
+drwxr-xr-x 2 tdelmas2 2025_paris     60 Apr  2 13:43 includes
+drwxr-xr-x 2 tdelmas2 2025_paris   4096 Mar 31 10:37 libft
+-rw-r--r-- 1 tdelmas2 2025_paris   1773 Mar 30 10:18 Makefile
+-rwxr-xr-x 1 tdelmas2 2025_paris 135440 Apr  2 12:05 minishell
+-rw-r--r-- 1 tdelmas2 2025_paris    369 Mar 31 09:26 readline.supp
+drwxr-xr-x 9 tdelmas2 2025_paris    165 Apr  2 11:58 src
