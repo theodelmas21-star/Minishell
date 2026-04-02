@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 15:20:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 13:34:31 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,18 @@ static int	long_long_atoi(char *str)
 	return ((unsigned char)(res * sign));
 }
 
-int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
+int	is_exit(t_list *cmds, t_env *s_env, t_exec exc, int exit_code, int in_pipe)
 {
+	t_cmd	*cmd;
+
+	cmd = ((t_cmd *)cmds->content);
 	if (!cmd || !s_env || cmd->cmd[0] == NULL)
 		return (1);
 	if (ft_strncmp(cmd->cmd[0], "exit", 5) != 0)
 		return (0);
 	if (!in_pipe)
 		printf("exit\n");
-	if (cmd->cmd[1] && (!is_numeric(cmd->cmd[1])
-			|| is_overflow(cmd->cmd[1])))
+	if (cmd->cmd[1] && (!is_numeric(cmd->cmd[1]) || is_overflow(cmd->cmd[1])))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(cmd->cmd[1], 2);
@@ -96,6 +98,8 @@ int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
 		{
 			free_cmds(cmds);
 			free_s_env(s_env);
+			close(exc.saved_stdin);
+			close(exc.saved_stdout);
 			exit(1);
 		}
 		return (1);
@@ -104,5 +108,7 @@ int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, int exit_code, int in_pipe)
 		exit_code = long_long_atoi(cmd->cmd[1]);
 	free_cmds(cmds);
 	free_s_env(s_env);
+	close(exc.saved_stdin);
+	close(exc.saved_stdout);
 	exit(exit_code);
 }
