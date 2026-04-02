@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/31 09:17:05 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 09:25:07 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char			*handle_number(char *new);
 char			**without_null(char **cmd, int i);
 
 // exec
-void			error(char *error_message);
 int				size_cmd(t_list *cmds);
 char			*find_cmd_path(t_env *envp, t_cmd *cmd);
 int				is_directory(char *path);

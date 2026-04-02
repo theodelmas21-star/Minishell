@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 11:01:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 09:55:05 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,12 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 		old = current->cmd[0];
 		current->cmd[0] = find_cmd_path(env, current);
 		if (current->cmd[0] != old)
+		{
 			free(old);
+		}
 		if (current->cmd[0] == NULL)
 		{
+			free(current->cmd[0]);
 			if (is_dir)
 				current->cmd_error = 126;
 			else if (current->cmd_error == 0)
@@ -54,7 +57,7 @@ int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 			close(current->pipefd[1]);
 			close(current->pipefd[0]);
 		}
-		return (free_cmds(cmds), error("Fork error"), 1);
+		return (perror("Fork error"), 1);
 	}
 	return (0);
 }
@@ -81,7 +84,11 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 		close(current->pipefd[1]);
 	}
 	if (apply_redirections(current, s_env, *exc) != 0)
+	{
+		free_cmds(head);
+		free_s_env(s_env);
 		exit(1);
+	}
 	if (current->is_builtin == 1)
 	{
 		res = handle_builtins(current, s_env, 0);
@@ -104,13 +111,13 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 	exit(1);
 }
 
-void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
+int	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 {
 	t_cmd	*current;
 	t_list *head;
 
 	if (!cmds)
-		return ;
+		return (0);
 	head = cmds;
 	exc->prev_fd = -1;
 	while (cmds)
@@ -121,7 +128,7 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 		g_signal = -1;
 		*pid = fork();
 		if (secur_fork(cmds, current, *pid))
-			return ;
+			return (1);
 		if (*pid == 0)
 			child_exec(cmds, s_env, exc, head);
 		if (cmds->next)
@@ -135,6 +142,7 @@ void	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc)
 			close(exc->prev_fd);
 		cmds = cmds->next;
 	}
+	return (0);
 }
 
 int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
@@ -171,7 +179,8 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 	}
 	else
 		find_all_cmd_path(cmds, s_env);
-	pipe_exec(cmds, s_env, &lastpid, &exc);
+	if (pipe_exec(cmds, s_env, &lastpid, &exc))
+		return (1);
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{

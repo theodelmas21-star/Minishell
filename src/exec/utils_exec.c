@@ -6,17 +6,11 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 14:38:41 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/01 11:27:26 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 09:24:47 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	error(char *error_message)
-{
-	perror(error_message);
-	exit(EXIT_FAILURE);
-}
 
 int size_cmd(t_list *cmds)
 {
