@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 17:35:33 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/02 17:38:19 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	find_all_cmd_path(t_list *cmds, t_env *env)
 	int		i;
 
 	cur_cmd = cmds;
+	print_cmds(cmds);
 	while (cur_cmd)
 	{
 		current = (t_cmd *)cur_cmd->content;
