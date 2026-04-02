@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 14:25:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 16:52:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_cmd
 	int				is_builtin;
 	int				pipefd[2];
 	int				*is_expand;
-	int 			*sub_args;
+	int				*sub_args;
 	int				*quote_type;
 	int				cmd_error;
 }					t_cmd;
@@ -100,6 +100,14 @@ typedef struct s_exec
 	int				exit_code;
 	int				error;
 	int				saved_stdin;
-	int 			saved_stdout;
+	int				saved_stdout;
 }					t_exec;
+
+typedef struct s_exit_args
+{
+	t_exec			*exc;
+	int				exit_code;
+	int				in_pipe;
+}					t_exit_args;
+
 #endif
