@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 16:52:41 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 18:00:11 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,7 @@ int				is_space(char c);
 int				is_operator(char c);
 void			print_env(char **env);
 void			print_cmds(t_list *cmds);
+void free_tab_cmd(t_cmd *cmd);
+void free_tab_rest_cmd(char **old, int len);
 
 #endif

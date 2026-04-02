@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 17:36:20 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/02 17:59:49 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,19 @@ void	free_s_env(t_env *s_env)
 	if (s_env->env)
 		free_tab(s_env->env);
 	free(s_env);
+}
+
+void free_tab_rest_cmd(char **old, int len)
+{
+	int i;
+
+	if (!old)
+		return ;
+	i = 0;
+	while (i < len)
+	{
+		free(old[i]);
+		i++;
+	}
+	free(old);
 }

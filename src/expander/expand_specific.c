@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_specific.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:34:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 09:55:20 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/02 18:00:21 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	**join_sub_args(t_cmd *cmd)
 	return (res);
 }
 
-char **rest_cmd(char **cmd, int len, char **new)
+char **rest_cmd(char **cmd, int len, char **new, char **old)
 {
 	char **rest;
 	t_index	index;
@@ -136,6 +136,7 @@ char **rest_cmd(char **cmd, int len, char **new)
 		index.k++;
 	}
 	rest[index.j] = NULL;
+	free_tab_rest_cmd(old, index.i);
 	return (rest);
 }
 
@@ -167,13 +168,12 @@ char	**without_null(char **cmd, int len)
 		index.k++;
 	}
 	new[index.k] = NULL;
-	res = rest_cmd(cmd, len, new);
+	res = rest_cmd(cmd, len, new, cmd);
 	if (!res)
 	{
 		free_tab(new);
 		return NULL;
 	}
-	free_tab(cmd);
 	free_tab(new);
 	return (res);
 }
