@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:01:53 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:50:05 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:29:58 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int	cmd_add_arg(t_cmd *cmd, char *arg, t_quote qt, int is_new)
 	else
 		cmd->sub_args[len] = cmd->sub_args[len - 1];
 	cmd->sub_args[len + 1] = -1;
-	cmd->is_builtin = is_builtin(cmd->cmd[0]) && !is_subarg(cmd->sub_args[0],
-			cmd->sub_args[1]);
+	cmd->is_builtin = (is_builtin(cmd->cmd[0]) && !is_subarg(cmd->sub_args[0],
+				cmd->sub_args[1]));
 	return (1);
 }

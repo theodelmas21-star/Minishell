@@ -6,11 +6,17 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:28:51 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:38:36 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:29:38 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+static void	redir_error(void)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
+		2);
+}
 
 int	check_pipe(t_token *tok, t_token *next)
 {
@@ -28,13 +34,13 @@ int	check_pipe(t_token *tok, t_token *next)
 	}
 	return (0);
 }
+
 int	check_redir(t_token *tok, t_token *next)
 {
 	if (is_redirection(tok->type))
 	{
 		if (!next)
-			return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
-					2), 1);
+			return (redir_error(), 1);
 		if (next->type != WORD)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
