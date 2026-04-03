@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:39:21 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 16:55:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 21:16:17 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_tab_cmd(t_cmd *cmd)
 	i = 0;
 	if (!cmd || !cmd->cmd)
 		return ;
-	while (cmd->is_expand[i] != -1)
+	while (cmd->sub_args[i] != -1)
 	{
 		free(cmd->cmd[i]);
 		i++;
