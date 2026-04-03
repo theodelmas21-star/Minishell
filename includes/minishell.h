@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:55:43 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:06:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int				env_init(t_env *s_env, char **envp);
 void			del_token(void *content);
 int				is_space(char c);
 int				is_operator(char c);
+void			print_tokens(t_list *tokens);
 void			print_env(char **env);
 void			print_cmds(t_list *cmds);
 void			free_tab_cmd(t_cmd *cmd);

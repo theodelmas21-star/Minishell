@@ -7,6 +7,7 @@ MY_SOURCES = src/main.c \
 	src/lexer/handle_states.c \
 	src/lexer/utils/lexer_utils.c \
 	src/lexer/utils/create_token.c \
+	src/utils/print_tests.c \
 	src/utils/utils_free.c \
 	src/utils/utils_free_cmds.c \
 	src/utils/utils_check_char.c \
