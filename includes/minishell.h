@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 15:06:10 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:09:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int				create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 // signals
 void			init_signal(void);
 void			reset_signals(void);
+void			signal_handler(int signum);
 
 // expand
 int				expander(t_list *cmds, t_env *s_env, int exit_code);

@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 10:00:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 13:14:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:08:49 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,10 @@ void	reset_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	signal_handler(int signum)
+{
+	(void)signum;
+	write(1, "\b\b  \b\b", 6);
 }

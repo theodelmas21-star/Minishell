@@ -6,17 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 17:27:03 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:09:16 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-void	signal_handler(int signum)
-{
-	(void)signum;
-	write(1, "\b\b  \b\b", 6);	
-}
 
 int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 {
