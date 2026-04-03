@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 18:00:11 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 09:23:17 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,12 @@ int				env_init(t_env *s_env, char **envp);
 int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
 int				find_all_cmd_path(t_list *cmds, t_env *env);
 char			**join_sub_args(t_cmd *cmd);
+int	secur_fork(t_list *cmds, t_cmd *current, int pid);
+int	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc);
+void close_fds(t_list *cmds, t_exec *exc, t_cmd *current);
+void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head);
+void start_child(t_exec *exc);
+void builtins_in_child(t_cmd *current, t_list *head, t_env *s_env, t_exec *exc);
 
 // built-in
 int				simple_export(t_env *s_env);
@@ -120,5 +126,6 @@ void			print_env(char **env);
 void			print_cmds(t_list *cmds);
 void free_tab_cmd(t_cmd *cmd);
 void free_tab_rest_cmd(char **old, int len);
+void free_all_exit(t_list *head, t_env *s_env, int res);
 
 #endif

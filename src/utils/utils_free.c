@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 17:59:49 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 09:01:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,4 +132,11 @@ void free_tab_rest_cmd(char **old, int len)
 		i++;
 	}
 	free(old);
+}
+
+void free_all_exit(t_list *head, t_env *s_env, int res)
+{
+	free_cmds(head);
+	free_s_env(s_env);
+	exit(res);
 }

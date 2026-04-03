@@ -17,6 +17,7 @@ MY_SOURCES = src/main.c \
 	src/exec/exec.c \
 	src/exec/exec_prep.c \
 	src/exec/paths.c \
+	src/exec/pipe_exec.c \
 	src/exec/redirs/redirs.c \
 	src/exec/redirs/redirs_utils.c \
 	src/exec/utils_exec.c \
@@ -71,7 +72,7 @@ val:
 	valgrind -s \
 	--leak-check=full \
 	--show-leak-kinds=all \
-	--suppressions=/home/ssivilay/Documents/03-minishell/readline.supp \
+	--suppressions=/home/tdelmas2/Desktop/Milestone_3/Minishell/github/readline.supp \
 	--trace-children=yes \
 	--track-fds=yes \
 	./minishell
