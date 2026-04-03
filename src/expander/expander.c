@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:02:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:09:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,39 +99,6 @@ int *adapt_is_exp(int pos, int len, t_cmd *cmd)
     }
     new_is_expand[index.j] = cmd->is_expand[pos];
     return (free(cmd->is_expand), new_is_expand);
-}
-
-int *adapt_quote_type(int pos, int len, t_cmd *cmd)
-{
-    int *new;
-    t_index index;
-    
-    index = (t_index){0};
-    while (cmd->quote_type[index.i] != -1)
-        index.i++;
-    new = malloc(sizeof(int) * (index.i + len));
-    if (!new)
-        return NULL;
-    while(index.j < pos)
-    {
-        new[index.j] = cmd->quote_type[index.j];
-        index.j++;
-    }
-    while (len > 0)
-    {
-        new[index.j] = 1;
-        index.j++;
-        len--;
-    }
-    pos += 1;
-    while (cmd->quote_type[pos] != -1)
-    {
-        new[index.j] = cmd->quote_type[pos];
-        index.j++;
-        pos++;
-    }
-    new[index.j] = cmd->quote_type[pos];
-    return (free(cmd->quote_type), new);
 }
 
 int adapt_data(int pos, int len, t_cmd *cmd)

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:04:25 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:09:52 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ char			*replace_old(char *old, char *new);
 char			*create_new(char *str, int ind_str);
 char			**rest_cmd(char **cmd, int len, char **new, char **old);
 int adapt_data(int pos, int len, t_cmd *cmd);
+int	*adapt_sub_args(int pos, int len, t_cmd *cmd);
+int	*adapt_quote_type(int pos, int len, t_cmd *cmd);
 
 // exec
 int				size_cmd(t_list *cmds);
