@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:48:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:54:17 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	check_args(t_list *tokens)
 		return (0);
 	tok = tokens->content;
 	if (tok->type == PIPE)
-		return (ft_putstr_fd("minishell: syntax error near unexpected token `|'\n",
+		return (ft_putstr_fd(
+				"minishell: syntax error near unexpected token `|'\n",
 				2), -2);
 	return (check_tokens(tokens, tok));
 }
