@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:34:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:44:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,6 @@ void			close_fds(t_list *cmds, t_exec *exc, t_cmd *current);
 void			child_exec(t_list *cmds, t_env *s_env, t_exec *exc,
 					t_list *head);
 void			start_child(t_exec *exc);
-void			builtins_in_child(t_cmd *current, t_list *head, t_env *s_env,
-					t_exec *exc);
 int				verif_builtin(char *cmd);
 // built-in
 int				simple_export(t_env *s_env);

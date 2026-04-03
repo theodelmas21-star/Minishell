@@ -6,24 +6,24 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 14:38:41 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 09:24:47 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:39:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int size_cmd(t_list *cmds)
+int	size_cmd(t_list *cmds)
 {
-    t_list *s_list;
+	t_list	*s_list;
 	int		size;
-	
+
 	size = 0;
-    s_list = cmds;
+	s_list = cmds;
 	if (!cmds)
 		return (0);
 	while (s_list)
 	{
-        size++;
+		size++;
 		s_list = s_list->next;
 	}
 	return (size);
@@ -31,9 +31,9 @@ int size_cmd(t_list *cmds)
 
 int	env_init(t_env *s_env, char **envp)
 {
-	char **copy;
+	char	**copy;
 	t_index	index;
-	
+
 	index = (t_index){0};
 	while (envp[index.i])
 		index.i++;
@@ -43,7 +43,6 @@ int	env_init(t_env *s_env, char **envp)
 	while (envp[index.j])
 	{
 		copy[index.j] = ft_strdup(envp[index.j]);
-		//copy[index.j + 1] = NULL;
 		if (!copy[index.j])
 			return (free_tab(copy), 1);
 		index.j++;
@@ -52,6 +51,6 @@ int	env_init(t_env *s_env, char **envp)
 	free_tab(s_env->env);
 	free_tab(s_env->path_split);
 	s_env->env = copy;
-    s_env = find_path(s_env);
+	s_env = find_path(s_env);
 	return (0);
 }

@@ -6,17 +6,17 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 09:20:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 09:21:42 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:44:41 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void builtins_in_child(t_cmd *current, t_list *head, t_env *s_env, t_exec *exc)
+void	builtin_child(t_cmd *current, t_list *head, t_env *s_env, t_exec *exc)
 {
-	int			res;
 	t_exit_args	args;
-	
+	int			res;
+
 	if (current->is_builtin == 1)
 	{
 		if (ft_strncmp(current->cmd[0], "exit", 5) == 0)
@@ -31,7 +31,7 @@ void builtins_in_child(t_cmd *current, t_list *head, t_env *s_env, t_exec *exc)
 	}
 }
 
-void start_child(t_exec *exc)
+void	start_child(t_exec *exc)
 {
 	reset_signals();
 	close(exc->saved_stdin);
@@ -40,7 +40,7 @@ void start_child(t_exec *exc)
 
 void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 {
-	t_cmd		*current;
+	t_cmd	*current;
 
 	current = ((t_cmd *)cmds->content);
 	start_child(exc);
@@ -57,7 +57,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 	}
 	if (apply_redirections(current, s_env, *exc) != 0)
 		free_all_exit(head, s_env, 1);
-	builtins_in_child(current, head, s_env, exc);
+	builtin_child(current, head, s_env, exc);
 	if (current->cmd[0] == NULL)
 		free_all_exit(head, s_env, current->cmd_error);
 	else
@@ -66,7 +66,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 	free_all_exit(head, s_env, 1);
 }
 
-void close_fds(t_list *cmds, t_exec *exc, t_cmd *current)
+void	close_fds(t_list *cmds, t_exec *exc, t_cmd *current)
 {
 	if (cmds->next)
 	{

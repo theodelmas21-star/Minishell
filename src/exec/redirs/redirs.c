@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 17:17:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 10:08:30 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:45:17 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc)
 {
 	t_list	*current;
-	t_redir	*redir_R;
+	t_redir	*redir_r;
 	int		saved_stdin;
 
 	if (!cmds || !cmds->redirs)
@@ -24,16 +24,16 @@ int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc)
 	current = cmds->redirs;
 	while (current)
 	{
-		redir_R = (t_redir *)current->content;
-		if (redir_R->type == REDIR_HEREDOC)
+		redir_r = (t_redir *)current->content;
+		if (redir_r->type == REDIR_HEREDOC)
 			dup2(saved_stdin, STDIN_FILENO);
-		if (redir_R->target && ft_strchr(redir_R->target, '$'))
+		if (redir_r->target && ft_strchr(redir_r->target, '$'))
 		{
-			redir_R->target = expand_hd(redir_R->target, s_env, &exc, 0);
-			if (!redir_R->target && exc.error == 1)
+			redir_r->target = expand_hd(redir_r->target, s_env, &exc, 0);
+			if (!redir_r->target && exc.error == 1)
 				return (close(saved_stdin), 1);
 		}
-		if (apply_all_redirs(*redir_R, s_env, exc) != 0)
+		if (apply_all_redirs(*redir_r, s_env, exc) != 0)
 			return (close(saved_stdin), 1);
 		current = current->next;
 	}
