@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/23 10:44:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/01/27 11:15:43 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:01:54 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void free_str(char **str)
+void	free_str(char **str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < 1024)
 	{
