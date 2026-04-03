@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 09:23:17 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 09:31:54 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int				process_var_exists(t_cmd *cmd, t_env *s_env, int arg_idx,
 int				check_var_in_env(char *var, char **env, int var_len);
 int				get_var_name_len(char *var);
 int				create_var(char *var, t_env *s_env);
+int stop_hd(char *tmp, t_redir *redir_R);
 
 // utils
 void			free_tab(char **tab);
