@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 11:01:47 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 11:03:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 16:57:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,22 @@ char	*r_newline(char *res)
 
 int	init_tmp_arrays(t_cmd *tmp)
 {
-	tmp->is_expand = malloc(sizeof(int) * 1);
+	tmp->is_expand = malloc(sizeof(int) * 2);
 	if (!tmp->is_expand)
 		return (free(tmp), free_tab(tmp->cmd), 0);
 	tmp->is_expand[0] = 1;
-	tmp->quote_type = malloc(sizeof(int) * 1);
+	tmp->is_expand[1] = -1;
+	tmp->quote_type = malloc(sizeof(int) * 2);
 	if (!tmp->quote_type)
 		return (free(tmp), free_tab(tmp->cmd), free(tmp->is_expand), 0);
 	tmp->quote_type[0] = 2;
-	tmp->sub_args = malloc(sizeof(int) * 1);
+	tmp->quote_type[1] = -1;
+	tmp->sub_args = malloc(sizeof(int) * 2);
 	if (!tmp->sub_args)
 		return (free(tmp), free_tab(tmp->cmd), free(tmp->is_expand),
 			free(tmp->quote_type), 0);
 	tmp->sub_args[0] = 1;
+	tmp->sub_args[1] = -1;
 	return (1);
 }
 
@@ -63,6 +66,7 @@ t_cmd	*init_tmp(char *res)
 		return (free(tmp), NULL);
 	tmp->cmd[0] = res;
 	tmp->cmd[1] = NULL;
+	tmp->redirs = NULL;
 	if (!init_tmp_arrays(tmp))
 		return (NULL);
 	return (tmp);
