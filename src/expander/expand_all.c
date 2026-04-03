@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_all.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 11:36:03 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:34:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 22:07:44 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 			if (!expand_dollar(&h, &index))
 				return (NULL);
 		}
-		else if (cmd->cmd[str][index.i] == '$'
-			&& !cmd->cmd[str][index.i + 1]
+		else if (cmd->cmd[str][index.i] == '$' && cmd->cmd[str][index.i + 1]
 			&& cmd->quote_type[str + 1] == 2)
 		{
 			if (!expand_lone_dollar(&h, &index))
@@ -102,8 +101,7 @@ char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 		}
 		index.i++;
 	}
-	if (index.k == 1 && cmd->cmd[str][0] == '\0'
-		&& cmd->quote_type[str] != 2)
+	if (index.k == 1 && cmd->cmd[str][0] == '\0' && cmd->quote_type[str] != 2)
 		return (free(cmd->cmd[str]), NULL);
 	return (cmd->cmd[str]);
 }
