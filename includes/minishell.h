@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 20:09:10 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 22:25:00 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ void			child_exec(t_list *cmds, t_env *s_env, t_exec *exc,
 					t_list *head);
 void			start_child(t_exec *exc);
 int				verif_builtin(char *cmd);
+int				handle_heredocs(t_list *cmds, t_env *s_env, t_exec *exc);
+int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc);
+
 // built-in
 int				simple_export(t_env *s_env);
 int				concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env);

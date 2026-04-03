@@ -20,6 +20,7 @@ MY_SOURCES = src/main.c \
 	src/parser/utils/check_args_utils.c \
 	src/parser/utils/parser_utils.c \
 	src/exec/exec.c \
+	src/exec/heredoc.c \
 	src/exec/exec_prep.c \
 	src/exec/paths.c \
 	src/exec/paths_utils.c \

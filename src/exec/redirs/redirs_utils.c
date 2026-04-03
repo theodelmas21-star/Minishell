@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 20:09:16 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 22:21:56 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,14 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 
 	if (redir_R->type == REDIR_HEREDOC)
 	{
-		if (hd_manage(redir_R, s_env, exc) != 0)
-			return (1);
-		fd = open("tmp", O_RDONLY);
+        if (redir_R->fd != -1)
+            fd = redir_R->fd;
+        else
+        {
+            if (hd_manage(redir_R, s_env, exc) != 0)
+                return (1);
+            fd = open("tmp", O_RDONLY);
+        }
 	}
 	else
 		fd = open(redir_R->target, O_RDONLY);
