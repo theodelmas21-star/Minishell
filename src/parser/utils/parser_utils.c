@@ -6,11 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:35:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/31 15:42:31 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:49:55 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 int	is_redirection(t_token_type type)
 {

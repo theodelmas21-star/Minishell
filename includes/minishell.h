@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:45:12 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:04:25 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ int				cmd_add_arg(t_cmd *cmd, char *arg, t_quote qt, int is_new);
 int				is_redirection(t_token_type type);
 int				is_builtin(char *cmd);
 int				is_subarg(int curr_subarg, int next_subarg);
+int				check_pipe(t_token *tok, t_token *next);
+int				check_redir(t_token *tok, t_token *next);
+int				check_char(t_token *tok);
+int				check_token(t_token *tok, t_token *next, int is_cmd);
+int				create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
+					t_list **cmd_list);
 
 // signals
 void			init_signal(void);

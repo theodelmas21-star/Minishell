@@ -6,82 +6,18 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/30 02:08:06 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:54:17 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	check_pipe(t_token *tok, t_token *next)
+static int	check_tokens(t_list *tokens, t_token *tok)
 {
-	if (tok->type == PIPE)
-	{
-		if (!next)
-			return (ft_putstr_fd(">\n", 2), 1);
-		if (next->type == PIPE)
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(next->arg, 2);
-			ft_putstr_fd("'\n", 2);
-			return (1);
-		}
-	}
-	return (0);
-}
-static int	check_redir(t_token *tok, t_token *next)
-{
-	if (is_redirection(tok->type))
-	{
-		if (!next)
-			return (ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2),
-				1);
-		if (next->type != WORD)
-		{
-			ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-			ft_putstr_fd(next->arg, 2);
-			ft_putstr_fd("'\n", 2);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-static int	check_char(t_token *tok)
-{
-	if (ft_strlen(tok->arg) > 0)
-	{
-		if (ft_strncmp(tok->arg, ":", ft_strlen(tok->arg)) == 0)
-			return (1);
-		if (ft_strncmp(tok->arg, "!", ft_strlen(tok->arg)) == 0)
-			return (2);
-	}
-	return (0);
-}
-
-static int	check_token(t_token *tok, t_token *next, int is_cmd)
-{
-	if (is_cmd && check_char(tok) == 1)
-		return (0);
-	if (is_cmd && check_char(tok) == 2)
-		return (-1);
-	if (check_pipe(tok, next) || check_redir(tok, next))
-		return (-2);
-	return (2);
-}
-
-int	check_args(t_list *tokens)
-{
-	t_token	*tok;
 	t_token	*next;
 	int		ret;
 	int		is_cmd;
 
-	if (!tokens)
-		return (0);
-	tok = tokens->content;
-	if (tok->type == PIPE)
-		return (ft_putstr_fd("minishell: syntax error near unexpected token"
-				" `|'\n", 2), -2);
 	is_cmd = 1;
 	while (tokens)
 	{
@@ -100,4 +36,18 @@ int	check_args(t_list *tokens)
 		tokens = tokens->next;
 	}
 	return (1);
+}
+
+int	check_args(t_list *tokens)
+{
+	t_token	*tok;
+
+	if (!tokens)
+		return (0);
+	tok = tokens->content;
+	if (tok->type == PIPE)
+		return (ft_putstr_fd(
+				"minishell: syntax error near unexpected token `|'\n",
+				2), -2);
+	return (check_tokens(tokens, tok));
 }
