@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_specific_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:31:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:37:27 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 21:41:45 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ char	*handle_number(char *new)
 	index = (t_index){0};
 	while (new[index.i] && new[index.i] != ' ')
 		index.i++;
-	res = malloc(sizeof(char) * (index.i - 1));
+	res = malloc(sizeof(char) * (index.i + 1));
 	if (!res)
 		return (NULL);
 	while (new[index.j])
 	{
-		if (is_dollar_digit(new, index.j))
+		if (!is_dollar_digit(new, index.j))
 			index.j += 2;
 		res[index.k] = new[index.j];
 		index.j++;
