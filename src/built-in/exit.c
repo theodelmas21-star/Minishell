@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 15:43:15 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:07:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,15 @@ static int	long_long_atoi(char *str)
 	return ((unsigned char)(res * sign));
 }
 
+void	exit_cleanup(t_list *cmds, t_env *s_env, t_exit_args *exc, int code)
+{
+	free_cmds(cmds);
+	free_s_env(s_env);
+	close(exc->exc->saved_stdin);
+	close(exc->exc->saved_stdout);
+	exit(code);
+}
+
 int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, t_exit_args exit_args)
 {
 	if (!cmd || !s_env || cmd->cmd[0] == NULL)
@@ -92,20 +101,11 @@ int	is_exit(t_cmd *cmd, t_list *cmds, t_env *s_env, t_exit_args exit_args)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		if (exit_args.in_pipe)
-		{
-			free_cmds(cmds);
-			free_s_env(s_env);
-			close(exit_args.exc->saved_stdin);
-			close(exit_args.exc->saved_stdout);
-			exit(1);
-		}
+			exit_cleanup(cmds, s_env, &exit_args, 1);
 		return (1);
 	}
 	else if (cmd->cmd[1])
 		exit_args.exit_code = long_long_atoi(cmd->cmd[1]);
-	free_cmds(cmds);
-	free_s_env(s_env);
-	close(exit_args.exc->saved_stdin);
-	close(exit_args.exc->saved_stdout);
-	exit(exit_args.exit_code);
+	exit_cleanup(cmds, s_env, &exit_args, exit_args.exit_code);
+	return (1);
 }
