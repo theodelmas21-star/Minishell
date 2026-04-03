@@ -6,14 +6,12 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:13:05 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/24 00:00:55 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:00:32 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBRARIES_H
 # define LIBRARIES_H
-
-extern volatile __sig_atomic_t g_signal;
 
 # include <dirent.h>
 # include <errno.h>
@@ -32,4 +30,5 @@ extern volatile __sig_atomic_t g_signal;
 # include <termios.h>
 # include <unistd.h>
 
+extern volatile __sig_atomic_t	g_signal;
 #endif

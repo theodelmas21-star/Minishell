@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:37:24 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:00:03 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ typedef enum e_token_type
 {
 	WORD,
 	PIPE,
-	REDIR_HEREDOC, //<<
-	REDIR_APPEND,  //>>
-	REDIR_IN,      // <
-	REDIR_OUT      // >
+	REDIR_HEREDOC,
+	REDIR_APPEND,
+	REDIR_IN,
+	REDIR_OUT
 }					t_token_type;
 
 typedef enum e_state
@@ -43,16 +43,16 @@ typedef enum e_quote
 typedef struct s_redir
 {
 	t_token_type	type;
-	char *target; // fichier ou delimiter
+	char			*target;
 	char			*delimiter;
 	int				exp_hd;
-	int fd; // STDIN ou STDOUT
+	int				fd;
 }					t_redir;
 
 typedef struct s_cmd
 {
-	char **cmd;     // {"echo" "hello" "$USER" "here" "$PATH", NULL}
-	t_list *redirs; // < > >> <<
+	char			**cmd;
+	t_list			*redirs;
 	int				is_builtin;
 	int				pipefd[2];
 	int				*is_expand;
@@ -112,18 +112,18 @@ typedef struct s_exit_args
 
 typedef struct s_sub_args_helper
 {
-	int		*new;
-	t_index	*index;
-	int		len;
-	int		pos;
-}	t_sub_args_helper;
+	int				*new;
+	t_index			*index;
+	int				len;
+	int				pos;
+}					t_sub_args_helper;
 
 typedef struct s_expand_helper
 {
-	t_cmd	*cmd;
-	t_env	*s_env;
-	int		exit_code;
-	int		str;
-}	t_expand_helper;
+	t_cmd			*cmd;
+	t_env			*s_env;
+	int				exit_code;
+	int				str;
+}					t_expand_helper;
 
 #endif
