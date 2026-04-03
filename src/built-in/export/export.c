@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:34:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:50:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 00:55:00 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,17 @@ int	create_var(char *var, t_env *s_env)
 int	export_options(t_cmd *cmd, t_env *s_env)
 {
 	int	i;
+	int	error;
 
 	i = 1;
+	error = 0;
 	while (cmd->cmd[i])
 	{
-		if (handle_export_arg(cmd, s_env, i) == 1 && cmd->cmd[i + 1] == NULL)
-			return (1);
+		if (handle_export_arg(cmd, s_env, i) == 1)
+			error = 1;
 		i++;
 	}
-	return (0);
+	return (error);
 }
 
 int	export(t_cmd *cmd, t_env *s_env)
