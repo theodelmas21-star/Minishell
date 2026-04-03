@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   redirs_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 09:36:13 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:27:03 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	signal_handler(int signum)
+{
+	(void)signum;
+	write(1, "\b\b  \b\b", 6);	
+}
 
 int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 {
@@ -19,6 +25,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 	redir_R->fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (redir_R->fd < 0)
 		return (perror("Open error"), 1);
+	signal(SIGQUIT, signal_handler);
 	while (1)
 	{
 		ft_putstr_fd("heredoc> ", 2);
