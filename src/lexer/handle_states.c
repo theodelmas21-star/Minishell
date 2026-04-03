@@ -6,28 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:19:15 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/30 02:39:30 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:17:56 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	remove_dollar(t_lexer *lexer)
-{
-	int	len;
-
-	len = ft_strlen(lexer->tmp);
-	if (len > 0 && lexer->tmp[len - 1] == '$'
-		&& (len < 2 || lexer->tmp[len - 2] != '$'))
-		lexer->tmp[--len] = '\0';
-	if (lexer->tmp[0])
-		on_create_token(lexer, NO_QUOTE, 1);
-	else
-	{
-		free(lexer->tmp);
-		lexer->tmp = NULL;
-	}
-}
 
 static void	handle_quotes_in_word(t_lexer *lexer, char c)
 {
