@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:57:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:19:29 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,13 @@ typedef struct s_sub_args_helper
 	int		len;
 	int		pos;
 }	t_sub_args_helper;
+
+typedef struct s_expand_helper
+{
+	t_cmd	*cmd;
+	t_env	*s_env;
+	int		exit_code;
+	int		str;
+}	t_expand_helper;
 
 #endif

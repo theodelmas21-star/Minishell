@@ -6,29 +6,27 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 16:34:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 13:35:09 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:20:53 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int size_sub_args(t_cmd *cmd)
+int	size_sub_args(t_cmd *cmd)
 {
-    int i;
-    int count;
+	int	i;
+	int	count;
 
 	count = 0;
 	i = 0;
-    while (cmd->cmd[i])
-    {
-        count++;
-
-        while (cmd->cmd[i + 1] &&
-               cmd->sub_args[i] == cmd->sub_args[i + 1])
-            i++;
-        i++;
-    }
-    return (count);
+	while (cmd->cmd[i])
+	{
+		count++;
+		while (cmd->cmd[i + 1] && cmd->sub_args[i] == cmd->sub_args[i + 1])
+			i++;
+		i++;
+	}
+	return (count);
 }
 
 static char	*join_sub_args_new(t_cmd *cmd, t_index *index)
