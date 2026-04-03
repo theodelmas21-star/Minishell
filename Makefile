@@ -50,7 +50,7 @@ MY_SOURCES = src/main.c \
 	src/expander/expand_specific.c \
 	src/expander/expand_specific_utils.c \
 	src/expander/adapt_data_sub_args.c \
-	src/expander/adapt_quote_exp.c \
+	src/expander/adapt_data.c \
 
 MY_OBJECTS = $(MY_SOURCES:.c=.o) 
 CFLAGS = -Wall -Wextra -Werror -g3

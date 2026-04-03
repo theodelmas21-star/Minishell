@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:09:29 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:16:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,53 +66,6 @@ char *interrogation(char *cmd, int exit_code)
         free(tmp);
     }
     return (cmd);
-}
-
-int *adapt_is_exp(int pos, int len, t_cmd *cmd)
-{
-    int *new_is_expand;
-    t_index index;
-    
-    index = (t_index){0};
-    while (cmd->is_expand[index.i] != -1)
-        index.i++;
-    new_is_expand = malloc(sizeof(int) * (index.i + len));
-    if (!new_is_expand)
-        return NULL;
-    while(index.j < pos)
-    {
-        new_is_expand[index.j] = cmd->is_expand[index.j];
-        index.j++;
-    }
-    while (len > 0)
-    {
-        new_is_expand[index.j] = 0;
-        index.j++;
-        len--;
-    }
-    pos += 1;
-    while (cmd->is_expand[pos] != -1)
-    {
-        new_is_expand[index.j] = cmd->is_expand[pos];
-        index.j++;
-        pos++;
-    }
-    new_is_expand[index.j] = cmd->is_expand[pos];
-    return (free(cmd->is_expand), new_is_expand);
-}
-
-int adapt_data(int pos, int len, t_cmd *cmd)
-{
-    cmd->is_expand = adapt_is_exp(pos, len, cmd);
-    if (!cmd->is_expand)
-        return (1);
-    cmd->sub_args = adapt_sub_args(pos, len, cmd);
-    if (!cmd->sub_args)
-        return (1);
-    cmd->quote_type = adapt_quote_type(pos, len, cmd);
-    if (!cmd->quote_type)
-        return (1);
-    return (0);
 }
 
 void adapt_data_null(int pos, t_cmd *cmd)
