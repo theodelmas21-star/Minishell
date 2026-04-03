@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 22:21:56 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 00:42:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,19 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 		ft_putstr_fd("heredoc> ", 2);
 		tmp = get_next_line(0);
 		if (!tmp)
-			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
+		{
+			free(tmp);
+			get_next_line(-1);
+			close(redir_R->fd);
+			if (g_signal)
+				return (1);
+			write(2, "\n", 1);
+			ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `",
+				2);
+			ft_putstr_fd(redir_R->delimiter, 2);
+			ft_putstr_fd("')\n", 2);
+			return (0);
+		}
 		if (stop_hd(tmp, redir_R))
 			return (free(tmp), get_next_line(-1), close(redir_R->fd), 0);
 		if (redir_R->exp_hd)
@@ -45,14 +57,14 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 
 	if (redir_R->type == REDIR_HEREDOC)
 	{
-        if (redir_R->fd != -1)
-            fd = redir_R->fd;
-        else
-        {
-            if (hd_manage(redir_R, s_env, exc) != 0)
-                return (1);
-            fd = open("tmp", O_RDONLY);
-        }
+		if (redir_R->fd != -1)
+			fd = redir_R->fd;
+		else
+		{
+			if (hd_manage(redir_R, s_env, exc) != 0)
+				return (1);
+			fd = open("tmp", O_RDONLY);
+		}
 	}
 	else
 		fd = open(redir_R->target, O_RDONLY);

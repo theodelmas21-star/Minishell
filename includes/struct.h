@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 15:00:03 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/04 00:39:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,13 @@ typedef struct s_expand_helper
 	int				exit_code;
 	int				str;
 }					t_expand_helper;
+
+typedef struct s_heredoc_helper
+{
+	t_list	*cur_cmd;
+	t_list	*cur_redir;
+	t_cmd	*cmd;
+	t_redir	*redir;
+}					t_hd_helper;
 
 #endif

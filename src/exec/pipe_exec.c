@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 09:20:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 17:03:18 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 23:43:31 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head)
 
 	current = ((t_cmd *)cmds->content);
 	start_child(exc);
+	close_heredoc_fds(head, cmds);
 	if (exc->prev_fd != -1)
 	{
 		dup2(exc->prev_fd, STDIN_FILENO);

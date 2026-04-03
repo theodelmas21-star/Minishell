@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 22:25:00 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 00:31:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int				create_cmd_list(t_token *tok, t_cmd **cmd, t_list *tokens,
 void			init_signal(void);
 void			reset_signals(void);
 void			signal_handler(int signum);
+void			signal_hd(int signum);
+void			sigint_handler(int sig);
 
 // expand
 int				expander(t_list *cmds, t_env *s_env, int exit_code);
@@ -109,7 +111,9 @@ void			child_exec(t_list *cmds, t_env *s_env, t_exec *exc,
 void			start_child(t_exec *exc);
 int				verif_builtin(char *cmd);
 int				handle_heredocs(t_list *cmds, t_env *s_env, t_exec *exc);
-int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc);
+int				hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc);
+void    close_heredoc_fds(t_list *head, t_list *current_cmd);
+void    close_all_heredoc_fds(t_list *cmds);
 
 // built-in
 int				simple_export(t_env *s_env);

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 22:12:58 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 00:32:28 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ int	exec(t_list *cmds, t_env *s_env, t_exec exc)
 	int	status;
 	int	lastpid;
 
-	handle_heredocs(cmds, s_env, &exc);
+	if (handle_heredocs(cmds, s_env, &exc))
+    	return (exc.exit_code = 130, 130);
 	if (pipe_exec(cmds, s_env, &lastpid, &exc))
 		return (1);
+	close_all_heredoc_fds(cmds);
 	waitpid(lastpid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 	{
