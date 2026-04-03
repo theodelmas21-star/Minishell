@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:35:19 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:36:07 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_list			*lexer(char *input);
 void			lexer_states(t_lexer *lexer, char c);
 void			add_char_to_tmp(t_lexer *lexer, char c);
 t_token_type	get_token_type(char *arg);
+void			remove_dollar(t_lexer *lexer);
 void			handle_operator(t_lexer *lexer, char c);
 void			handle_squotes(t_lexer *lexer, char c);
 void			handle_dquotes(t_lexer *lexer, char c);
