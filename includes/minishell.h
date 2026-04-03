@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:36:07 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:45:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ int				is_expandable(char *str);
 char			*handle_number(char *new);
 char			**without_null(char **cmd, int i);
 void			adapt_data_null(int pos, t_cmd *cmd);
-int				len_new(char *str, int ind_str);
-int				is_expandable(char *str);
 char			*r_newline(char *res);
 t_cmd			*init_tmp(char *res);
 int				is_expandable_dollar(char *str, int i);
@@ -81,7 +79,7 @@ char			*return_new(char *old, char *new, int to_replace, int dollar);
 char			*replace_old(char *old, char *new);
 char			*create_new(char *str, int ind_str);
 char			**rest_cmd(char **cmd, int len, char **new, char **old);
-char	*handle_number(char *new);
+int adapt_data(int pos, int len, t_cmd *cmd);
 
 // exec
 int				size_cmd(t_list *cmds);
@@ -103,7 +101,6 @@ void			child_exec(t_list *cmds, t_env *s_env, t_exec *exc,
 void			start_child(t_exec *exc);
 void			builtins_in_child(t_cmd *current, t_list *head, t_env *s_env,
 					t_exec *exc);
-int				is_directory(char *path);
 int				verif_builtin(char *cmd);
 // built-in
 int				simple_export(t_env *s_env);

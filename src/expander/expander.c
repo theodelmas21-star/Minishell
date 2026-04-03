@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 11:16:10 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/02 14:34:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:02:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,59 +101,6 @@ int *adapt_is_exp(int pos, int len, t_cmd *cmd)
     return (free(cmd->is_expand), new_is_expand);
 }
 
-int *adapt_sub_args(int pos, int len, t_cmd *cmd)
-{
-    int *new_sub_args;
-    t_index index;
-    
-    index = (t_index){0};
-    while (cmd->sub_args[index.i] != -1)
-        index.i++;
-    new_sub_args = malloc(sizeof(int) * (index.i + len + 1));
-    if (!new_sub_args)
-        return NULL;
-    while(index.j < pos)
-    {
-        new_sub_args[index.j] = cmd->sub_args[index.j];
-        index.j++;
-    }
-    new_sub_args[index.j] = cmd->sub_args[index.j];
-    index.j++;
-    len--;
-    if (len == 1 && cmd->sub_args[pos] == cmd->sub_args[pos + 1])
-    {
-        new_sub_args[index.j] = cmd->sub_args[pos + 1] + 1;
-        index.j++;
-        pos++;
-        new_sub_args[index.j] = cmd->sub_args[pos] + 1;
-        index.j++;
-        len--;
-    }
-    while (len > 1)
-    {
-        new_sub_args[index.j] = new_sub_args[index.j - 1] - 11000;
-        index.j++;
-        len--;
-    }
-    if (len == 1)
-    {
-        if (cmd->sub_args[pos] == cmd->sub_args[pos + 1])
-            new_sub_args[index.j] = cmd->sub_args[pos + 1];
-        else
-            new_sub_args[index.j] = new_sub_args[index.j - 1] + 1;
-        index.j++;
-    }
-    pos += 1;
-    while (cmd->sub_args[pos] != -1)
-    {
-        new_sub_args[index.j] = cmd->sub_args[pos];
-        index.j++;
-        pos++;
-    }
-    new_sub_args[index.j] = -1;
-    return (free(cmd->sub_args), new_sub_args);
-}
-
 int *adapt_quote_type(int pos, int len, t_cmd *cmd)
 {
     int *new;
@@ -213,54 +160,6 @@ void adapt_data_null(int pos, t_cmd *cmd)
         cmd->is_expand[index.i] = cmd->is_expand[index.i + 1];
         index.i++;
     }
-}
-
-int expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
-{
-    t_index index;
-
-    index = (t_index){0};
-    (void)exit_code;
-    while (cmd->cmd[index.i])
-    {
-        if (is_expandable(cmd->cmd[index.i]) && cmd->is_expand[index.i] > 0)
-        {
-            if (cmd->cmd[index.i + 1] && ft_strncmp("$", cmd->cmd[index.i], ft_strlen(cmd->cmd[index.i])) == 0 
-                && cmd->sub_args[index.i] == cmd->sub_args[index.i + 1] && cmd->quote_type[index.i] != 2)
-            {
-                free (cmd->cmd[index.i]);
-                cmd->cmd[index.i] = NULL;
-            }
-            else
-            {
-                cmd->cmd[index.i] = expand_all(cmd, s_env, exit_code, index.i);
-                if (!cmd->cmd[index.i] && cmd->quote_type[index.i] == 2)
-                    return (1);
-            }
-        }
-        if (cmd->cmd[index.i] && cmd->cmd[index.i][0] != '\0' && cmd->is_expand[index.i] == 2)
-        {
-            index.j = index.i;
-            index.k = count_words(cmd->cmd[index.i], ' ');
-            cmd->cmd = join_split(index.j, cmd);
-            if (!cmd->cmd)
-                return (1);
-            index.i += index.k;
-            if (adapt_data(index.j, index.k, cmd) == 1)
-                return (1);
-            continue ;
-        }
-        if (cmd->cmd[index.i] == NULL)
-        {
-            cmd->cmd = without_null(cmd->cmd, index.i);
-            if (!cmd->cmd)
-                return (1);
-            adapt_data_null(index.i, cmd);
-        }
-        else
-            index.i++;
-    }
-    return (0);
 }
 
 int expander(t_list *cmds, t_env *s_env, int exit_code)

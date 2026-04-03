@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/02 16:52:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:57:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,13 @@ typedef struct s_exit_args
 	int				exit_code;
 	int				in_pipe;
 }					t_exit_args;
+
+typedef struct s_sub_args_helper
+{
+	int		*new;
+	t_index	*index;
+	int		len;
+	int		pos;
+}	t_sub_args_helper;
 
 #endif
