@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/15 17:17:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 09:35:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 10:08:30 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	apply_redirections(t_cmd *cmds, t_env *s_env, t_exec exc)
 	return (0);
 }
 
-int stop_hd(char *tmp, t_redir *redir_R)
+int	stop_hd(char *tmp, t_redir *redir_R)
 {
-    int len;
+	int	len;
 
-    len = ft_strlen(redir_R->delimiter);
-    if (ft_strncmp(tmp, redir_R->delimiter, len) != 0)
-        return (0);
-    if (tmp[len] == '\n' || tmp[len] == '\0')
-        return (1);
-    return (0);
+	len = ft_strlen(redir_R->delimiter);
+	if (ft_strncmp(tmp, redir_R->delimiter, len) != 0)
+		return (0);
+	if (tmp[len] == '\n' || tmp[len] == '\0')
+		return (1);
+	return (0);
 }

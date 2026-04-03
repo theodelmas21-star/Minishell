@@ -6,17 +6,17 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 09:23:37 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 10:08:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void check_path(t_cmd *current, t_env *env)
+void	check_path(t_cmd *current, t_env *env)
 {
 	int		is_dir;
 	char	*old;
-	
+
 	is_dir = is_directory(current->cmd[0]);
 	old = current->cmd[0];
 	current->cmd[0] = find_cmd_path(env, current);
@@ -66,11 +66,11 @@ int	secur_fork(t_list *cmds, t_cmd *current, int pid)
 	return (0);
 }
 
-int exec(t_list *cmds, t_env *s_env, t_exec exc)
+int	exec(t_list *cmds, t_env *s_env, t_exec exc)
 {
-	int status;
-	int lastpid;
-	
+	int	status;
+	int	lastpid;
+
 	if (pipe_exec(cmds, s_env, &lastpid, &exc))
 		return (1);
 	waitpid(lastpid, &status, 0);

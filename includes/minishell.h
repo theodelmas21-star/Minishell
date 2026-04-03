@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 09:31:54 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 10:10:40 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);
 char			*handle_number(char *new);
 char			**without_null(char **cmd, int i);
-void adapt_data_null(int pos, t_cmd *cmd);
+void			adapt_data_null(int pos, t_cmd *cmd);
 
 // exec
 int				size_cmd(t_list *cmds);
@@ -80,13 +80,16 @@ int				env_init(t_env *s_env, char **envp);
 int				exec_builtin_cmd(t_list *cmds, t_env *s_env, t_exec exc);
 int				find_all_cmd_path(t_list *cmds, t_env *env);
 char			**join_sub_args(t_cmd *cmd);
-int	secur_fork(t_list *cmds, t_cmd *current, int pid);
-int	pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc);
-void close_fds(t_list *cmds, t_exec *exc, t_cmd *current);
-void	child_exec(t_list *cmds, t_env *s_env, t_exec *exc, t_list *head);
-void start_child(t_exec *exc);
-void builtins_in_child(t_cmd *current, t_list *head, t_env *s_env, t_exec *exc);
-
+int				secur_fork(t_list *cmds, t_cmd *current, int pid);
+int				pipe_exec(t_list *cmds, t_env *s_env, int *pid, t_exec *exc);
+void			close_fds(t_list *cmds, t_exec *exc, t_cmd *current);
+void			child_exec(t_list *cmds, t_env *s_env, t_exec *exc,
+					t_list *head);
+void			start_child(t_exec *exc);
+void			builtins_in_child(t_cmd *current, t_list *head, t_env *s_env,
+					t_exec *exc);
+int				is_directory(char *path);
+int				verif_builtin(char *cmd);
 // built-in
 int				simple_export(t_env *s_env);
 int				concat_or_replace(t_index index, t_cmd *cmd, t_env *s_env);
@@ -109,7 +112,7 @@ int				process_var_exists(t_cmd *cmd, t_env *s_env, int arg_idx,
 int				check_var_in_env(char *var, char **env, int var_len);
 int				get_var_name_len(char *var);
 int				create_var(char *var, t_env *s_env);
-int stop_hd(char *tmp, t_redir *redir_R);
+int				stop_hd(char *tmp, t_redir *redir_R);
 
 // utils
 void			free_tab(char **tab);
@@ -125,8 +128,8 @@ int				is_space(char c);
 int				is_operator(char c);
 void			print_env(char **env);
 void			print_cmds(t_list *cmds);
-void free_tab_cmd(t_cmd *cmd);
-void free_tab_rest_cmd(char **old, int len);
-void free_all_exit(t_list *head, t_env *s_env, int res);
+void			free_tab_cmd(t_cmd *cmd);
+void			free_tab_rest_cmd(char **old, int len);
+void			free_all_exit(t_list *head, t_env *s_env, int res);
 
 #endif

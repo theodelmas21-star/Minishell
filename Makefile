@@ -17,6 +17,7 @@ MY_SOURCES = src/main.c \
 	src/exec/exec.c \
 	src/exec/exec_prep.c \
 	src/exec/paths.c \
+	src/exec/paths_utils.c \
 	src/exec/pipe_exec.c \
 	src/exec/redirs/redirs.c \
 	src/exec/redirs/redirs_utils.c \
