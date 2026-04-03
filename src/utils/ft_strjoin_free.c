@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:31:31 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/29 13:15:57 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:34:25 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,26 @@
 char	*ft_strjoin_free(char *str, char *str2, char *str_to_free)
 {
 	char	*new;
-	int		i;
-	int		j;
+	t_index	idx;
 
 	new = malloc(ft_strlen(str) + ft_strlen(str2) + 1);
 	if (!new)
 		return (free(str_to_free), NULL);
-	i = 0;
-	j = 0;
+	idx = (t_index){0};
 	if (str != NULL)
 	{
-		while (str[i])
+		while (str[idx.i])
 		{
-			new[i] = str[i];
-			i++;
+			new[idx.i] = str[idx.i];
+			idx.i++;
 		}
 	}
-	while (str2[j])
+	while (str2[idx.j])
 	{
-		new[i + j] = str2[j];
-		j++;
+		new[idx.i + idx.j] = str2[idx.j];
+		idx.j++;
 	}
-	new[i + j] = '\0';
+	new[idx.i + idx.j] = '\0';
 	if (str_to_free)
 		free(str_to_free);
 	return (new);
@@ -45,28 +43,26 @@ char	*ft_strjoin_free(char *str, char *str2, char *str_to_free)
 char	*ft_strjoin_free_both(char *str, char *str2)
 {
 	char	*new;
-	int		i;
-	int		j;
+	t_index	idx;
 
 	new = malloc(ft_strlen(str) + ft_strlen(str2) + 1);
 	if (!new)
 		return (free(str2), free(str), NULL);
-	i = 0;
-	j = 0;
+	idx = (t_index){0};
 	if (str != NULL && str[0] != '\0')
 	{
-		while (str[i])
+		while (str[idx.i])
 		{
-			new[i] = str[i];
-			i++;
+			new[idx.i] = str[idx.i];
+			idx.i++;
 		}
 	}
-	while (str2[j])
+	while (str2[idx.j])
 	{
-		new[i + j] = str2[j];
-		j++;
+		new[idx.i + idx.j] = str2[idx.j];
+		idx.j++;
 	}
-	new[i + j] = '\0';
+	new[idx.i + idx.j] = '\0';
 	if (str)
 		free(str);
 	return (free(str2), new);
