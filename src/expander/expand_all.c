@@ -6,11 +6,25 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 11:36:03 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:20:03 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:34:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_expandable_dollar(char *str, int i)
+{
+	char	next;
+
+	if (str[i] != '$')
+		return (0);
+	next = str[i + 1];
+	if (!next || next == ' ' || next == '=' || next == ':')
+		return (0);
+	if (next == '%' || next == '\'')
+		return (0);
+	return (1);
+}
 
 char	*expand_dollar_type(char *new, t_expand_helper *h, t_index *index)
 {
