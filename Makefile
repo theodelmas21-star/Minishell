@@ -8,7 +8,9 @@ MY_SOURCES = src/main.c \
 	src/lexer/utils/lexer_utils.c \
 	src/lexer/utils/create_token.c \
 	src/utils/utils_free.c \
+	src/utils/utils_free_cmds.c \
 	src/utils/utils_check_char.c \
+	src/utils/ft_strjoin_free.c \
 	src/parser/parsed_cmds.c \
 	src/parser/check_args.c \
 	src/parser/token_to_cmd.c \
@@ -24,7 +26,6 @@ MY_SOURCES = src/main.c \
 	src/exec/redirs/redirs.c \
 	src/exec/redirs/redirs_utils.c \
 	src/exec/utils_exec.c \
-	src/utils/ft_strjoin_free.c \
 	src/built-in/env.c \
 	src/built-in/echo.c \
 	src/built-in/export/export.c \
