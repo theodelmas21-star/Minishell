@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:36:07 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:48:30 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int				cmd_add_arg(t_cmd *cmd, char *arg, t_quote qt, int is_new);
 int				is_redirection(t_token_type type);
 int				is_builtin(char *cmd);
 int				is_subarg(int curr_subarg, int next_subarg);
+int				check_pipe(t_token *tok, t_token *next);
+int				check_redir(t_token *tok, t_token *next);
+int				check_char(t_token *tok);
+int				check_token(t_token *tok, t_token *next, int is_cmd);
 
 // signals
 void			init_signal(void);
@@ -81,7 +85,7 @@ char			*return_new(char *old, char *new, int to_replace, int dollar);
 char			*replace_old(char *old, char *new);
 char			*create_new(char *str, int ind_str);
 char			**rest_cmd(char **cmd, int len, char **new, char **old);
-char	*handle_number(char *new);
+char			*handle_number(char *new);
 
 // exec
 int				size_cmd(t_list *cmds);

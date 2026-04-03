@@ -6,11 +6,11 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:01:53 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/26 15:09:09 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:50:05 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 static void	init_cmd_fields(t_cmd *cmd)
 {
