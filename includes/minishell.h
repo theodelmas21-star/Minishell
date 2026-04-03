@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 10:48:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 11:03:00 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ char			**without_null(char **cmd, int i);
 void			adapt_data_null(int pos, t_cmd *cmd);
 int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);
+char			*r_newline(char *res);
+t_cmd			*init_tmp(char *res);
 
 // exec
 int				size_cmd(t_list *cmds);

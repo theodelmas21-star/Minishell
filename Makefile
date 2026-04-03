@@ -36,6 +36,7 @@ MY_SOURCES = src/main.c \
 	src/built-in/exit.c \
 	src/expander/expander.c \
 	src/expander/expand_utils.c \
+	src/expander/init_tmp.c \
 	src/expander/expand_env.c \
 	src/expander/expand_hd.c \
 	src/expander/expand_new.c \
