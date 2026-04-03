@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 11:45:28 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 13:35:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ char			*expand_dollar(t_cmd *cmd, t_env *s_env, int exit_code,
 char			*return_new(char *old, char *new, int to_replace, int dollar);
 char			*replace_old(char *old, char *new);
 char			*create_new(char *str, int ind_str);
+char			**rest_cmd(char **cmd, int len, char **new, char **old);
+char	*handle_number(char *new);
 
 // exec
 int				size_cmd(t_list *cmds);
