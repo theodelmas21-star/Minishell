@@ -1,106 +1,53 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 09:38:04 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/03/23 12:50:20 by ssivilay         ###   ########.fr       */
+/*   Created: 2026/04/03 14:52:55 by tdelmas2          #+#    #+#             */
+/*   Updated: 2026/04/03 14:54:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	update_env(t_env *s_env, char *target, char *new)
+char	*get_cd_target(t_cmd *cmd, t_env *s_env)
 {
-	t_index	index;
-	char	*tmp;
-	int		len;
-
-	index = (t_index){0};
-	len = ft_strlen(target);
-	while (s_env->env[index.i])
-	{
-		if (ft_strncmp(s_env->env[index.i], target, len) == 0)
-		{
-			tmp = s_env->env[index.i];
-			s_env->env[index.i] = ft_strjoin(target, new);
-			if (!s_env->env[index.i])
-				return (1);
-			free(tmp);
-		}
-		index.i++;
-	}
-	return (0);
-}
-
-static char	*find_env_value(t_env *s_env, char *key)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(key);
-	while (s_env->env[i])
-	{
-		if (ft_strncmp(s_env->env[i], key, len) == 0
-			&& s_env->env[i][len] == '=')
-			return (s_env->env[i] + len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
-int	cd(t_cmd *cmd, t_env *s_env)
-{
-	char	*oldpwd;
-	char	*newpwd;
 	char	*target;
-	int		chdir_res;
 
 	target = cmd->cmd[1];
 	if (target && cmd->cmd[2])
-		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 1);
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), NULL);
 	if (!target)
 	{
 		target = find_env_value(s_env, "HOME");
 		if (!target)
-			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), 1);
+			return (ft_putstr_fd("minishell: cd: HOME not set\n", 2), NULL);
 	}
 	if (ft_strncmp(target, "-", 2) == 0)
 	{
 		target = find_env_value(s_env, "OLDPWD");
 		if (!target)
-			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), 1);
-		target = find_env_value(s_env, "OLDPWD");
+			return (ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2), NULL);
 		ft_putstr_fd(target, 1);
 		ft_putstr_fd("\n", 1);
 	}
-	oldpwd = getcwd(NULL, 0);
-	if (!oldpwd && find_env_value(s_env, "PWD"))
-		oldpwd = ft_strdup(find_env_value(s_env, "PWD"));
-	chdir_res = chdir(target);
-	if (!target && chdir_res == -1)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target, 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		free(oldpwd);
-		return (1);
-	}
-	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
-	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(target, 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		free(oldpwd);
-		return (1);
-	}
+	return (target);
+}
+
+int	cd_error(char *target, char *oldpwd)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(target, 2);
+	ft_putstr_fd(": ", 2);
+	perror("");
+	free(oldpwd);
+	return (1);
+}
+
+int	update_pwd(t_env *s_env, char *oldpwd, char *newpwd)
+{
 	if (oldpwd && update_env(s_env, "OLDPWD=", oldpwd) == 1)
 		return (free(oldpwd), free(newpwd), 1);
 	if (update_env(s_env, "PWD=", newpwd) == 1)
@@ -108,4 +55,24 @@ int	cd(t_cmd *cmd, t_env *s_env)
 	free(newpwd);
 	free(oldpwd);
 	return (0);
+}
+
+int	cd(t_cmd *cmd, t_env *s_env)
+{
+	char	*oldpwd;
+	char	*newpwd;
+	char	*target;
+
+	target = get_cd_target(cmd, s_env);
+	if (!target)
+		return (1);
+	oldpwd = getcwd(NULL, 0);
+	if (!oldpwd && find_env_value(s_env, "PWD"))
+		oldpwd = ft_strdup(find_env_value(s_env, "PWD"));
+	if (chdir(target) == -1)
+		return (cd_error(target, oldpwd));
+	newpwd = getcwd(NULL, 0);
+	if (!newpwd)
+		return (cd_error(target, oldpwd));
+	return (update_pwd(s_env, oldpwd, newpwd));
 }

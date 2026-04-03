@@ -36,6 +36,7 @@ MY_SOURCES = src/main.c \
 	src/built-in/handle_builtins.c \
 	src/built-in/unset.c \
 	src/built-in/cd.c \
+	src/built-in/cd_utils.c \
 	src/built-in/exit.c \
 	src/expander/expander.c \
 	src/expander/expand_all.c \
