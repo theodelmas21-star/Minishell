@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 11:36:03 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 11:39:29 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:34:38 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	is_expandable_dollar(char *str, int i)
 	return (1);
 }
 
-char	*expand_dollar_type(char *new, t_env *s_env, int exit_code,
-		t_index *index)
+char	*expand_dollar_type(char *new, t_expand_helper *h, t_index *index)
 {
 	if (new[1] == '?' && new[2] == '\0')
-		new = interrogation(new, exit_code);
-	else if (is_env(new, s_env) >= 0)
-		new = call_exp_env(new, s_env);
+		new = interrogation(new, h->exit_code);
+	else if (is_env(new, h->s_env) >= 0)
+		new = call_exp_env(new, h->s_env);
 	else if (new[1] >= '0' && new[1] <= '9')
 		new = handle_number(new);
 	else
@@ -44,64 +43,67 @@ char	*expand_dollar_type(char *new, t_env *s_env, int exit_code,
 	return (new);
 }
 
-char	*expand_dollar(t_cmd *cmd, t_env *s_env, int exit_code,
-		t_index *index, int str)
+char	*expand_dollar(t_expand_helper *h, t_index *index)
 {
 	char	*new;
 	int		to_replace;
 
-	new = create_new(cmd->cmd[str], index->i);
+	new = create_new(h->cmd->cmd[h->str], index->i);
 	if (!new)
 		return (NULL);
 	to_replace = ft_strlen(new);
-	new = expand_dollar_type(new, s_env, exit_code, index);
+	new = expand_dollar_type(new, h, index);
 	if (!new)
 		return (NULL);
 	index->j = ft_strlen(new);
-	new = return_new(cmd->cmd[str], new, to_replace, index->i);
+	new = return_new(h->cmd->cmd[h->str], new, to_replace, index->i);
 	if (!new)
 		return (NULL);
-	cmd->cmd[str] = new;
+	h->cmd->cmd[h->str] = new;
 	index->i += index->j - 1;
 	return (new);
 }
 
-char	*expand_lone_dollar(t_cmd *cmd, t_index *index, int str)
+char	*expand_lone_dollar(t_expand_helper *h, t_index *index)
 {
 	char	*new;
 
 	new = ft_strdup("");
 	index->k = 1;
 	index->j = ft_strlen(new);
-	new = return_new(cmd->cmd[str], new, 1, index->i);
+	new = return_new(h->cmd->cmd[h->str], new, 1, index->i);
 	if (!new)
 		return (NULL);
-	cmd->cmd[str] = new;
+	h->cmd->cmd[h->str] = new;
 	index->i += index->j - 1;
 	return (new);
 }
 
 char	*expand_all(t_cmd *cmd, t_env *s_env, int exit_code, int str)
 {
-	t_index	index;
+	t_index			index;
+	t_expand_helper	h;
 
 	index = (t_index){0};
+	h = (t_expand_helper){cmd, s_env, exit_code, str};
 	while (cmd->cmd[str][index.i])
 	{
 		if (is_expandable_dollar(cmd->cmd[str], index.i))
 		{
-			if (!expand_dollar(cmd, s_env, exit_code, &index, str))
+			if (!expand_dollar(&h, &index))
 				return (NULL);
 		}
-		else if (cmd->cmd[str][index.i] == '$' && !cmd->cmd[str][index.i + 1]
+		else if (cmd->cmd[str][index.i] == '$'
+			&& !cmd->cmd[str][index.i + 1]
 			&& cmd->quote_type[str + 1] == 2)
 		{
-			if (!expand_lone_dollar(cmd, &index, str))
+			if (!expand_lone_dollar(&h, &index))
 				return (NULL);
 		}
 		index.i++;
 	}
-	if (index.k == 1 && cmd->cmd[str][0] == '\0' && cmd->quote_type[str] != 2)
+	if (index.k == 1 && cmd->cmd[str][0] == '\0'
+		&& cmd->quote_type[str] != 2)
 		return (free(cmd->cmd[str]), NULL);
 	return (cmd->cmd[str]);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   adapt_quote_exp.c                                  :+:      :+:    :+:   */
+/*   adapt_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:07:39 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:16:00 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:21:34 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,16 @@ int	*adapt_is_exp(int pos, int len, t_cmd *cmd)
 	return (free(cmd->is_expand), new_is_expand);
 }
 
-int adapt_data(int pos, int len, t_cmd *cmd)
+int	adapt_data(int pos, int len, t_cmd *cmd)
 {
-    cmd->is_expand = adapt_is_exp(pos, len, cmd);
-    if (!cmd->is_expand)
-        return (1);
-    cmd->sub_args = adapt_sub_args(pos, len, cmd);
-    if (!cmd->sub_args)
-        return (1);
-    cmd->quote_type = adapt_quote_type(pos, len, cmd);
-    if (!cmd->quote_type)
-        return (1);
-    return (0);
+	cmd->is_expand = adapt_is_exp(pos, len, cmd);
+	if (!cmd->is_expand)
+		return (1);
+	cmd->sub_args = adapt_sub_args(pos, len, cmd);
+	if (!cmd->sub_args)
+		return (1);
+	cmd->quote_type = adapt_quote_type(pos, len, cmd);
+	if (!cmd->quote_type)
+		return (1);
+	return (0);
 }

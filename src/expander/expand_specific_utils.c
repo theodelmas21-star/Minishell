@@ -6,11 +6,18 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:31:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 13:34:11 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:29:56 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	is_dollar_digit(char *str, int i)
+{
+    if (str[i] == '$' && str[i + 1] >= '0' && str[i + 1] <= '9')
+	    return (0);
+    return (1);
+}
 
 char	*handle_number(char *new)
 {
@@ -25,8 +32,7 @@ char	*handle_number(char *new)
 		return (NULL);
 	while (new[index.j])
 	{
-		if (new[index.j] == '$' && new[index.j + 1] >= '0' && new[index.j
-			+ 1] <= '9')
+		if (is_dollar_digit(new, index.j))
 			index.j += 2;
 		res[index.k] = new[index.j];
 		index.j++;

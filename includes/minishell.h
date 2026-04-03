@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:09:52 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:34:36 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ void			adapt_data_null(int pos, t_cmd *cmd);
 char			*r_newline(char *res);
 t_cmd			*init_tmp(char *res);
 int				is_expandable_dollar(char *str, int i);
-char			*expand_dollar_type(char *new, t_env *s_env, int exit_code,
-					t_index *index);
-char			*expand_dollar(t_cmd *cmd, t_env *s_env, int exit_code,
-					t_index *index, int str);
+char	*expand_dollar_type(char *new, t_expand_helper *h, t_index *index);
+char	*expand_dollar(t_expand_helper *h, t_index *index);
 char			*return_new(char *old, char *new, int to_replace, int dollar);
 char			*replace_old(char *old, char *new);
 char			*create_new(char *str, int ind_str);

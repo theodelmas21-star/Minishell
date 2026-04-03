@@ -6,16 +6,16 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:41:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 13:42:22 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:22:06 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code, t_index *index)
+static int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code,
+		t_index *index)
 {
-	if (cmd->cmd[index->i + 1]
-		&& ft_strncmp("$", cmd->cmd[index->i],
+	if (cmd->cmd[index->i + 1] && ft_strncmp("$", cmd->cmd[index->i],
 			ft_strlen(cmd->cmd[index->i])) == 0
 		&& cmd->sub_args[index->i] == cmd->sub_args[index->i + 1]
 		&& cmd->quote_type[index->i] != 2)
