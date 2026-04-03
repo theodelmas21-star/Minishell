@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_to_cmd_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:01:53 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:29:58 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:35 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	init_cmd_fields(t_cmd *cmd)
+void	init_cmd_fields(t_cmd *cmd)
 {
 	cmd->cmd[0] = NULL;
 	cmd->is_expand[0] = 0;
@@ -48,7 +48,7 @@ t_cmd	*init_cmd(void)
 	return (cmd);
 }
 
-static int	get_expand_type(char *arg, t_quote quote_type)
+int	get_expand_type(char *arg, t_quote quote_type)
 {
 	if (is_expandable(arg) && quote_type == DQUOTE)
 		return (1);
@@ -57,7 +57,7 @@ static int	get_expand_type(char *arg, t_quote quote_type)
 	return (0);
 }
 
-static int	cmd_grow_malloc(t_cmd *cmd, int len)
+int	cmd_grow_malloc(t_cmd *cmd, int len)
 {
 	char	**new_cmd;
 	int		*new_exp;

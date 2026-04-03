@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:48:33 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 15:07:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:17:24 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	is_numeric(char *str)
+int	is_numeric(char *str)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ static int	is_numeric(char *str)
 	return (1);
 }
 
-static int	is_overflow(char *str)
+int	is_overflow(char *str)
 {
 	int	len;
 	int	i;
@@ -50,7 +50,7 @@ static int	is_overflow(char *str)
 	return (ft_strncmp(str + i, "9223372036854775807", 19) > 0);
 }
 
-static int	long_long_atoi(char *str)
+int	long_long_atoi(char *str)
 {
 	int			i;
 	int			sign;

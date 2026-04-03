@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 11:54:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 11:57:13 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:18:21 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	free_rest(char **rest, int count)
+void	free_rest(char **rest, int count)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ static void	free_rest(char **rest, int count)
 	free(rest);
 }
 
-static char	**fill_rest_new(char **rest, char **new, t_index *index)
+char	**fill_rest_new(char **rest, char **new, t_index *index)
 {
 	while (new[index->j])
 	{
@@ -34,7 +34,7 @@ static char	**fill_rest_new(char **rest, char **new, t_index *index)
 	return (rest);
 }
 
-static char	**fill_rest_cmd(char **rest, char **cmd, t_index *index, int len)
+char	**fill_rest_cmd(char **rest, char **cmd, t_index *index, int len)
 {
 	while (cmd[index->k + len + 1])
 	{

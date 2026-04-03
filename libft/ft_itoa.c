@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 21:02:46 by ssivilay          #+#    #+#             */
-/*   Updated: 2025/11/18 11:39:33 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:20:23 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_nlen(int n)
+int	ft_nlen(int n)
 {
 	size_t	len;
 	long	nb;

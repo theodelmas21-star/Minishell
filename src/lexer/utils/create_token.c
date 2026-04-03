@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   create_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 17:29:48 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/02/23 14:12:28 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:53 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	check_empty_quotes(t_lexer *lexer, t_quote quote_type)
+void	check_empty_quotes(t_lexer *lexer, t_quote quote_type)
 {
 	if (!lexer->tmp)
 	{
@@ -33,7 +33,7 @@ static void	check_empty_quotes(t_lexer *lexer, t_quote quote_type)
 	}
 }
 
-static void	add_subtoken(t_list *last_token, t_lexer *lexer, t_list *node)
+void	add_subtoken(t_list *last_token, t_lexer *lexer, t_list *node)
 {
 	t_token	*last_tok_content;
 

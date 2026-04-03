@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 14:08:01 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:54:17 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	check_tokens(t_list *tokens, t_token *tok)
+int	check_tokens(t_list *tokens, t_token *tok)
 {
 	t_token	*next;
 	int		ret;

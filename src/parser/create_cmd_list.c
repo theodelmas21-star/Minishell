@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   create_cmd_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:57:10 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:59:42 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:45 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	build_hd_delim(t_redir *new, t_token *target)
+int	build_hd_delim(t_redir *new, t_token *target)
 {
 	t_list	*sub;
 	t_token	*stok;
@@ -36,7 +36,7 @@ static int	build_hd_delim(t_redir *new, t_token *target)
 	return (1);
 }
 
-static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
+int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 {
 	t_redir	*new;
 
@@ -63,7 +63,7 @@ static int	add_redirection(t_cmd *cmd, t_token *redir, t_token *target)
 	return (1);
 }
 
-static void	add_subtokens(t_cmd *cmd, t_token *tok, int *is_new)
+void	add_subtokens(t_cmd *cmd, t_token *tok, int *is_new)
 {
 	t_list	*sub_tok;
 	t_token	*sub_tok_content;
@@ -80,7 +80,7 @@ static void	add_subtokens(t_cmd *cmd, t_token *tok, int *is_new)
 	}
 }
 
-static int	handle_word_tok(t_cmd *cmd, t_token *tok)
+int	handle_word_tok(t_cmd *cmd, t_token *tok)
 {
 	int		is_new;
 	char	*arg;

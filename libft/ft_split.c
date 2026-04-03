@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 16:31:48 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/24 09:53:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:20:19 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	count_words(const char *s, char c)
 	return (count);
 }
 
-static char	*alloc_word(const char *s, char c)
+char	*alloc_word(const char *s, char c)
 {
 	int		len;
 	char	*word;
@@ -43,7 +43,7 @@ static char	*alloc_word(const char *s, char c)
 	return (word);
 }
 
-static void	free_array(char **array, int last)
+void	free_array(char **array, int last)
 {
 	while (last >= 0)
 		free(array[last--]);

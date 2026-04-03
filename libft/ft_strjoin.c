@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 13:32:13 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/01/21 14:43:40 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:20:12 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*check_strs(char const *s1, char const *s2)
+char	*check_strs(char const *s1, char const *s2)
 {
 	if (!s1 && !s2)
 		return (NULL);

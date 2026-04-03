@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 10:48:53 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:18:49 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	join_tab_first(char **cmd, char **new, int pos)
+int	join_tab_first(char **cmd, char **new, int pos)
 {
 	t_index	index;
 

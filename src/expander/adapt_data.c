@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 14:07:39 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:21:34 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:17:39 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	fill_quote_type(t_sub_args_helper *h, t_cmd *cmd)
+void	fill_quote_type(t_sub_args_helper *h, t_cmd *cmd)
 {
 	while (h->index->j < h->pos)
 	{
@@ -52,7 +52,7 @@ int	*adapt_quote_type(int pos, int len, t_cmd *cmd)
 	return (free(cmd->quote_type), new);
 }
 
-static void	fill_is_exp(t_sub_args_helper *h, t_cmd *cmd)
+void	fill_is_exp(t_sub_args_helper *h, t_cmd *cmd)
 {
 	while (h->index->j < h->pos)
 	{

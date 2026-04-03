@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_args_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:28:51 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 14:29:38 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:26 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	redir_error(void)
+void	redir_error(void)
 {
 	ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n",
 		2);

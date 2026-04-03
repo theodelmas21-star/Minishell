@@ -6,13 +6,13 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:41:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:22:06 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:18:05 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code,
+int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code,
 		t_index *index)
 {
 	if (cmd->cmd[index->i + 1] && ft_strncmp("$", cmd->cmd[index->i],
@@ -32,7 +32,7 @@ static int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code,
 	return (0);
 }
 
-static int	handle_split(t_cmd *cmd, t_index *index)
+int	handle_split(t_cmd *cmd, t_index *index)
 {
 	index->j = index->i;
 	index->k = count_words(cmd->cmd[index->i], ' ');
@@ -45,7 +45,7 @@ static int	handle_split(t_cmd *cmd, t_index *index)
 	return (0);
 }
 
-static int	handle_null(t_cmd *cmd, t_index *index)
+int	handle_null(t_cmd *cmd, t_index *index)
 {
 	cmd->cmd = without_null(cmd->cmd, index->i);
 	if (!cmd->cmd)

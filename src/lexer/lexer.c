@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:55:36 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/03/09 16:39:41 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:19:59 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	init_lexer(t_lexer *lexer, char *input)
+void	init_lexer(t_lexer *lexer, char *input)
 {
 	lexer->input = input;
 	lexer->i = 0;

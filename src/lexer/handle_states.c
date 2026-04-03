@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   handle_states.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 15:19:15 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 13:17:56 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:20:03 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	handle_quotes_in_word(t_lexer *lexer, char c)
+void	handle_quotes_in_word(t_lexer *lexer, char c)
 {
 	if (c == '\'' || c == '\"')
 	{
