@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 09:42:48 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/02/27 11:07:55 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:50:05 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	size_env_export(char **env)
 char	*mid_core(char *env)
 {
 	char	*tmp;
-	t_index index;
+	t_index	index;
 
 	index = (t_index){0};
 	tmp = malloc(sizeof(char) * (ft_strlen(env) + 3));
@@ -81,11 +81,11 @@ char	**make_it_dquote(t_env *s_env)
 	return (env_exp);
 }
 
-int simple_export_loop(char **env_exp)
+int	simple_export_loop(char **env_exp)
 {
-	int i;
-	char *tmp;
-	char *tmp2;
+	int		i;
+	char	*tmp;
+	char	*tmp2;
 
 	tmp2 = NULL;
 	i = 0;
@@ -111,8 +111,8 @@ int simple_export_loop(char **env_exp)
 
 int	simple_export(t_env *s_env)
 {
-	char **env_exp;
-	
+	char	**env_exp;
+
 	env_exp = make_it_dquote(s_env);
 	if (!env_exp)
 		return (1);
