@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 15:03:42 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/03 15:04:16 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:17:10 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ void	print_tokens(t_list *tokens)
 	}
 }
 
+void	print_cmd_content(int i, t_cmd *cur_cmd)
+{
+	printf("%s\n", cur_cmd->cmd[i]);
+	printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
+	printf("subarg[%d] = %d\n", i, cur_cmd->sub_args[i]);
+	printf("quote_type[%d] = %d\n", i, cur_cmd->quote_type[i]);
+	printf("----\n");
+}
+
+void	print_redir_content(t_redir *redir)
+{
+	printf("redir target = %s \n", redir->target);
+	printf("tok type = %u \n", redir->type);
+	printf("delimiter = %s \n", redir->delimiter);
+	printf("exp hd = %d \n", redir->exp_hd);
+	printf("fd = %d \n", redir->fd);
+}
+
 void	print_cmds(t_list *cmds)
 {
 	t_list	*current;
@@ -47,7 +65,6 @@ void	print_cmds(t_list *cmds)
 	t_redir	*redir;
 	int		i;
 
-	printf("CMDS:\n");
 	while (cmds)
 	{
 		i = 0;
@@ -55,26 +72,16 @@ void	print_cmds(t_list *cmds)
 		cur_cmd = (t_cmd *)current->content;
 		while (cur_cmd->cmd[i])
 		{
-			printf("%s\n", cur_cmd->cmd[i]);
-			printf("is_expand[%d] = %d\n", i, cur_cmd->is_expand[i]);
-			printf("subarg[%d] = %d\n", i, cur_cmd->sub_args[i]);
-			printf("quote_type[%d] = %d\n", i, cur_cmd->quote_type[i]);
-			printf("----\n");
+			print_cmd_content(i, cur_cmd);
 			i++;
 		}
-		printf("isbuiltin = %d\n", cur_cmd->is_builtin);
 		cur_redir = cur_cmd->redirs;
 		while (cur_redir)
 		{
 			redir = (t_redir *)cur_redir->content;
-			printf("redir target = %s \n", redir->target);
-			printf("tok type = %u \n", redir->type);
-			printf("delimiter = %s \n", redir->delimiter);
-			printf("exp hd = %d \n", redir->exp_hd);
-			printf("fd = %d \n", redir->fd);
+			print_redir_content(redir);
 			cur_redir = cur_redir->next;
 		}
-		printf("\n");
 		cmds = cmds->next;
 	}
 }
