@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:31:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:29:56 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:37:27 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	is_dollar_digit(char *str, int i)
 {
-    if (str[i] == '$' && str[i + 1] >= '0' && str[i + 1] <= '9')
-	    return (0);
-    return (1);
+	if (str[i] == '$' && str[i + 1] >= '0' && str[i + 1] <= '9')
+		return (0);
+	return (1);
 }
 
 char	*handle_number(char *new)
