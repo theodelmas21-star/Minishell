@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 09:35:12 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 10:20:22 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 13:55:24 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ int	call_exec(t_list *cmds, t_env *s_env, t_exec exc)
 		find_all_cmd_path(cmds, s_env);
 		return (exec_builtin_cmd(cmds, s_env, exc));
 	}
-	if (!cmds->next)
+	/*if (!cmds->next)
 	{
 		find_all_cmd_path(cmds, s_env);
 		if (((t_cmd *)cmds->content)->cmd_error)
 			return (close_all_heredoc_fds(cmds), ((t_cmd *)cmds->content)->cmd_error);
-	}
+	}*/
 	else
 		find_all_cmd_path(cmds, s_env);
 	return (exec(cmds, s_env, exc));
