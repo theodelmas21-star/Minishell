@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 15:32:44 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 00:42:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:44:58 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	hd_manage(t_redir *redir_R, t_env *s_env, t_exec exc)
 {
 	char	*tmp;
 
-	redir_R->fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	redir_R->fd = open("/tmp/minishell_hd", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (redir_R->fd < 0)
 		return (perror("Open error"), 1);
 	signal(SIGQUIT, signal_handler);
@@ -63,7 +63,7 @@ int	handle_input_redir(t_redir *redir_R, t_env *s_env, t_exec exc)
 		{
 			if (hd_manage(redir_R, s_env, exc) != 0)
 				return (1);
-			fd = open("tmp", O_RDONLY);
+			fd = open("/tmp/minishell_hd", O_RDONLY);
 		}
 	}
 	else
