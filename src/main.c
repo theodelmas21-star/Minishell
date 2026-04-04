@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 17:14:02 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 19:12:39 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ t_env	*init_s_env(char **envp)
 	return (s_env);
 }
 
+void	handle_g_signal(t_exec *exc)
+{
+	exc->exit_code = g_signal;
+	g_signal = 0;
+}
+
 void	main_loop(t_env *s_env, t_exec *exc)
 {
 	char	*buffer;
@@ -41,10 +47,7 @@ void	main_loop(t_env *s_env, t_exec *exc)
 		if (!buffer)
 			break ;
 		if (g_signal)
-		{
-			exc->exit_code = g_signal;
-			g_signal = 0;
-		}
+			handle_g_signal(exc);
 		tokens = lexer(buffer);
 		cmd = parsed_cmds(tokens, &exc->exit_code);
 		free_list(tokens);
