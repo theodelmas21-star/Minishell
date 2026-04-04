@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 08:13:58 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 15:18:49 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 18:07:13 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	**join_split(int str, t_cmd *cmd)
 	char	**tmp;
 	t_index	index;
 	char	**new;
+	char	**old;
 
 	index = (t_index){0};
 	if (ft_strchr(cmd->cmd[str], ' ') == NULL)
@@ -106,7 +107,9 @@ char	**join_split(int str, t_cmd *cmd)
 	if (str != 0 && cmd->cmd[str][0] == ' ' && cmd->sub_args[str
 		- 1] == cmd->sub_args[str])
 	{
+		old = tmp;
 		tmp = tab_space(tmp);
+		free(old);
 		if (!tmp)
 			return (NULL);
 	}
