@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 10:09:50 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 14:23:40 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 19:40:48 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ int	is_directory(char *path)
 
 int	verif_builtin(char *cmd)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0)
+	if (ft_strncmp(cmd, "echo", 5) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "cd", 2) == 0)
+	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "pwd", 3) == 0)
+	if (ft_strncmp(cmd, "pwd", 4) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "export", 7) == 0)
+	if (ft_strncmp(cmd, "export", 8) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "unset", 6) == 0)
+	if (ft_strncmp(cmd, "unset", 7) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "env", 3) == 0)
+	if (ft_strncmp(cmd, "env", 4) == 0)
 		return (0);
-	if (ft_strncmp(cmd, "exit", 4) == 0)
+	if (ft_strncmp(cmd, "exit", 5) == 0)
 		return (0);
 	return (1);
 }
