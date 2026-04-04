@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 10:12:17 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 14:25:42 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ char	*find_cmd_path(t_env *envp, t_cmd *cmd)
 		return (NULL);
 	if (access(cmd->cmd[0], X_OK) == 0 || (cmd->is_builtin == 1
 			&& verif_builtin(cmd->cmd[0]) == 0))
-		return (cmd->cmd[0]);
+			return (cmd->cmd[0]);
 	if (double_check_find_cmd_path(cmd, envp) == 1)
 		return (NULL);
 	return (path_found(cmd, envp));
