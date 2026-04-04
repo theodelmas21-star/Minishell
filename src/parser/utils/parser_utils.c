@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:35:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 17:18:13 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/04 20:05:31 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	is_redirection(t_token_type type)
 
 int	is_builtin(char *cmd)
 {
-	if (ft_strncmp(cmd, "echo", 4) == 0 || ft_strncmp(cmd, "cd", 2) == 0
-		|| ft_strncmp(cmd, "pwd", 3) == 0 || ft_strncmp(cmd, "export", 7) == 0
-		|| ft_strncmp(cmd, "unset", 6) == 0 || ft_strncmp(cmd, "env", 3) == 0
-		|| ft_strncmp(cmd, "exit", 4) == 0)
+	if (ft_strncmp(cmd, "echo", 5) == 0 || ft_strncmp(cmd, "cd", 3) == 0
+		|| ft_strncmp(cmd, "pwd", 4) == 0 || ft_strncmp(cmd, "export", 8) == 0
+		|| ft_strncmp(cmd, "unset", 7) == 0 || ft_strncmp(cmd, "env", 4) == 0
+		|| ft_strncmp(cmd, "exit", 5) == 0)
 		return (1);
 	return (0);
 }

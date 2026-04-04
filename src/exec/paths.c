@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:00:01 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 17:18:00 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/04 21:01:42 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	find_cmd_path_check(t_cmd *cmd)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd->cmd[0], 2);
-		ft_putstr_fd(": is a directory\n", 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 		return (1);
 	}
 	return (0);
