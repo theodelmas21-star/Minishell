@@ -27,6 +27,7 @@ MY_SOURCES = src/main.c \
 	src/exec/pipe_exec.c \
 	src/exec/redirs/redirs.c \
 	src/exec/redirs/redirs_utils.c \
+	src/exec/redirs/hd_manage.c \
 	src/exec/utils_exec.c \
 	src/built-in/env.c \
 	src/built-in/echo.c \
