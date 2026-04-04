@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 22:10:23 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 00:41:36 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 10:30:01 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ int	handle_heredocs(t_list *cmds, t_env *s_env, t_exec *exc)
 			if (h.redir->type == REDIR_HEREDOC)
 			{
 				if (hd_manage(h.redir, s_env, *exc) != 0)
-					return (1);
+				{
+					close_all_heredoc_fds(cmds);
+					return (signal(SIGINT, sigint_handler), 1);	
+				}
 				h.redir->fd = open("tmp", O_RDONLY);
 			}
 			h.cur_redir = h.cur_redir->next;
