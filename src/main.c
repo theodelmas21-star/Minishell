@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 15:50:00 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 15:17:01 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 17:14:02 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	main_loop(t_env *s_env, t_exec *exc)
 		if (*buffer)
 			add_history(buffer);
 		free(buffer);
+		restore_term(exc);
 	}
 }
 
@@ -67,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	exc.error = 0;
 	exc.saved_stdin = dup(STDIN_FILENO);
 	exc.saved_stdout = dup(STDOUT_FILENO);
+	save_term(&exc);
 	if (isatty(STDIN_FILENO))
 	{
 		init_signal();

@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:00:56 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/04 00:39:21 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:59:43 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_exec
 	int				error;
 	int				saved_stdin;
 	int				saved_stdout;
+	struct termios  term_backup;
 }					t_exec;
 
 typedef struct s_exit_args

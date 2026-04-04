@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/04 00:31:38 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 17:06:17 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,7 @@ void			print_cmds(t_list *cmds);
 void			free_tab_cmd(t_cmd *cmd);
 void			free_tab_rest_cmd(char **old, int len);
 void			free_all_exit(t_list *head, t_env *s_env, int res);
+void			save_term(t_exec *exc);
+void			restore_term(t_exec *exc);
 
 #endif
