@@ -6,7 +6,7 @@
 /*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 14:49:35 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/04 17:05:16 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 21:04:16 by tdelmas2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	free_s_env(t_env *s_env)
 
 void	free_all_exit(t_list *head, t_env *s_env, int res)
 {
+	close_all_heredoc_fds(head);
 	free_cmds(head);
 	free_s_env(s_env);
 	exit(res);
