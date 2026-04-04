@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 09:42:37 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/03 14:54:28 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/04 18:14:58 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	pwd(t_cmd *cmd)
 	if (!result)
 	{
 		ft_putstr_fd("pwd: error retrieving current directory: "
-			"getcwd: cannot access parent directories: "
-			"No such file or directory\n",
-			2);
+						"getcwd: cannot access parent directories: "
+						"No such file or directory\n",
+						2);
 		return (1);
 	}
 	else if (cmd->cmd[1])
-		return (printf("%s\n", result), 0);
+		return (printf("%s\n", result), free(result), 0);
 	printf("%s\n", result);
 	free(result);
 	return (0);
