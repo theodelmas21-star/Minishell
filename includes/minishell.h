@@ -6,7 +6,7 @@
 /*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 13:59:14 by ssivilay          #+#    #+#             */
-/*   Updated: 2026/04/04 17:17:24 by ssivilay         ###   ########.fr       */
+/*   Updated: 2026/04/04 19:26:55 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ char			*interrogation(char *cmd, int exit_code);
 int				handle_export_arg(t_cmd *cmd, t_env *s_env, int arg_idx);
 int				get_var_name_len(char *var);
 int				check_var_in_env(char *var, char **env, int var_len);
+char			**tab_space(char **tmp);
+t_index			size_index(char **cmd, char **tmp, int str);
+char			**join_tab(char **cmd, char **tmp, char **new, int pos);
 char			**join_split(int str, t_cmd *cmd);
 int				len_new(char *str, int ind_str);
 int				is_expandable(char *str);

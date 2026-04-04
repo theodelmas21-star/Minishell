@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdelmas2 <tdelmas2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ssivilay <ssivilay@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 13:41:43 by tdelmas2          #+#    #+#             */
-/*   Updated: 2026/04/04 19:15:59 by tdelmas2         ###   ########.fr       */
+/*   Updated: 2026/04/04 19:19:02 by ssivilay         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code,
-		t_index *index)
+int	handle_expand(t_cmd *cmd, t_env *s_env, int exit_code, t_index *index)
 {
 	if (cmd->cmd[index->i + 1] && ft_strncmp("$", cmd->cmd[index->i],
 			ft_strlen(cmd->cmd[index->i])) == 0
@@ -65,7 +64,8 @@ int	expand_cmd(t_cmd *cmd, t_env *s_env, int exit_code)
 			if (handle_expand(cmd, s_env, exit_code, &index))
 				return (1);
 		if (cmd->cmd[index.i] && cmd->cmd[index.i][0] != '\0'
-			&& cmd->is_expand[index.i] == 2 && ft_strncmp(cmd->cmd[0], "export", 8))
+			&& cmd->is_expand[index.i] == 2 && ft_strncmp(cmd->cmd[0], "export",
+				8))
 		{
 			if (handle_split(cmd, &index))
 				return (1);

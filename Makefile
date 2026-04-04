@@ -51,6 +51,7 @@ MY_SOURCES = src/main.c \
 	src/expander/expand_rest_cmd.c \
 	src/expander/expand_cmd.c \
 	src/expander/expand_new_norm.c \
+	src/expander/expand_continue_utils.c \
 	src/expander/expand_continue.c \
 	src/expander/expand_specific.c \
 	src/expander/expand_specific_utils.c \
